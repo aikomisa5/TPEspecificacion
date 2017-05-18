@@ -10,12 +10,12 @@ public class Tag
 	
 	private List<AccionGeneral> accionesGenerales;
 
-	public Tag getPadres()
+	public Tag getPadre()
 	{
 		return padre;
 	}
 
-	public void setPadres(Tag padres)
+	public void setPadre(Tag padres)
 	{
 		this.padre = padres;
 	}

@@ -46,6 +46,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+		</dependency>
+		<dependency>
 			<groupId>org.neodatis.odb</groupId>
 			<artifactId>neodatis-odb</artifactId>
 			<version>1.9.30.689</version>
