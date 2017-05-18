@@ -29,6 +29,7 @@ public class MyUI extends UI
 	@Override
 	protected void init(VaadinRequest vaadinRequest)
 	{
+		//sarasa
 		final VerticalLayout layout = new VerticalLayout();
 		layout.setMargin(true);
 		setContent(layout);
