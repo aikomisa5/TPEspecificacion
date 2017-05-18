@@ -6,7 +6,7 @@ import java.util.Properties;
 
 import org.neodatis.odb.ODB;
 
-import com.EyVdeSW.TP.services.MiListener;
+//import com.EyVdeSW.TP.services.MiListener;
 
 public class Cliente {
 	private String nombre;
@@ -62,11 +62,11 @@ public class Cliente {
 		e.printStackTrace();
 		}
 		
-		if (!MiListener.isOk())
-			throw new RuntimeException("El server no est� habilitado");
-			ODB odb = MiListener.getServer().openClient(p.getProperty("dbPath"));
-			odb.store(new Cliente ("pepe", 123456));
-			odb.close();
+//		if (!MiListener.isOk())
+//			throw new RuntimeException("El server no est� habilitado");
+//			ODB odb = MiListener.getServer().openClient(p.getProperty("dbPath"));
+//			odb.store(new Cliente ("pepe", 123456));
+//			odb.close();
 	}
 
 }
