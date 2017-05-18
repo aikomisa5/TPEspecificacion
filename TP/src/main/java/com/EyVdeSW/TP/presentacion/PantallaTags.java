@@ -19,7 +19,7 @@ public class PantallaTags extends VerticalLayout implements View
 		TextField textFieldTag = new TextField("Nuevo Tag:");
 		
 		BeanItemContainer<Tag> grupos =new BeanItemContainer<Tag>(Tag.class);
-	    ComboBox comboBoxTag = new ComboBox("Tag Padre:", grupos);
+	    ComboBox comboBoxTag = new ComboBox("Seleccionar Tag Padre:", grupos);
 	    
 	    Button btnAgregar = new Button("Agregar tag");
 	    btnAgregar.setStyleName(ValoTheme.BUTTON_PRIMARY);
