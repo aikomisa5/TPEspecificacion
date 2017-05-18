@@ -20,7 +20,7 @@ public class MiListener implements ServletContextListener {
 	/**
 	 * Default constructor.
 	 */
-	public MiListener() {
+	private MiListener() {
 		// TODO Auto-generated constructor stub
 	}
 
