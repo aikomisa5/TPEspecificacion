@@ -1,6 +1,6 @@
 package com.EyVdeSW.TP.presentacion.domainModel;
 
-public class AccionPersonalizada
+public class AccionPersonalizada extends AccionPublicitaria
 {
 
 }

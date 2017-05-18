@@ -1,6 +1,6 @@
 package com.EyVdeSW.TP.presentacion.domainModel;
 
-public class AccionGeneral
+public class AccionGeneral extends AccionPublicitaria
 {
 
 }
