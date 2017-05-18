@@ -1,5 +1,9 @@
 package com.EyVdeSW.TP.services;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Properties;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -12,16 +16,17 @@ import org.neodatis.odb.ODBServer;
  *
  */
 @WebListener
-public class WebbAppListener implements ServletContextListener
+public class WebAppListener implements ServletContextListener
 {
 	private static final int	NEODATIS_SERVER_PORT	= 10001;
 	private static ODBServer	server;
 	private static boolean		isOk;
+//	private static Properties	properties;
 
 	/**
 	 * Default constructor.
 	 */
-	public WebbAppListener()
+	public WebAppListener()
 	{
 		// TODO Auto-generated constructor stub
 	}
@@ -69,6 +74,16 @@ public class WebbAppListener implements ServletContextListener
 		finally
 		{
 		}
+	}
+
+	public static boolean isOk()
+	{		
+		return isOk;
+	}
+
+	public static ODBServer getServer()
+	{		
+		return server;
 	}
 
 }

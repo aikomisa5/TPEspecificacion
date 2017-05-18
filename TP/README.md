@@ -4,6 +4,14 @@ TP
 Template for a simple Vaadin application that only requires a Servlet 3.0 container to run.
 
 
+Importante!
+==============
+
+1. copiar el archivo TP.properties en C:\TP\
+2. en launch configuration de Tomcat agregar el siguiente argumento:
+
+-Dext.config="C:\TP\TP.properties"
+
 Workflow
 ========
 

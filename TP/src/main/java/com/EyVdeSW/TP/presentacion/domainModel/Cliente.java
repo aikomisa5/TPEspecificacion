@@ -6,6 +6,8 @@ import java.util.Properties;
 
 import org.neodatis.odb.ODB;
 
+import com.EyVdeSW.TP.services.WebAppListener;
+
 //import com.EyVdeSW.TP.services.MiListener;
 
 public class Cliente {
@@ -53,20 +55,19 @@ public class Cliente {
 		
 		final Properties p = new Properties();
 		try {
-		//p.load(new FileInputStream(new File(System.getProperty("ext.config"))));
+		p.load(new FileInputStream(new File(System.getProperty("ext.config"))));
 		//TODO modificar el LaunchConfiguration para cargar properties externas.
-		p.setProperty("dbPath", "NeodatisDB_TP");
 		System.out.println(p.toString());
-		System.out.println(p.getProperty("dbPath").toString());
+		System.out.println(p.getProperty("ubicacion.bd").toString());
 		} catch (Exception e) {
 		e.printStackTrace();
 		}
 		
-//		if (!MiListener.isOk())
-//			throw new RuntimeException("El server no est� habilitado");
-//			ODB odb = MiListener.getServer().openClient(p.getProperty("dbPath"));
-//			odb.store(new Cliente ("pepe", 123456));
-//			odb.close();
+		if (!WebAppListener.isOk())
+			throw new RuntimeException("El server no est� habilitado");
+			ODB odb = WebAppListener.getServer().openClient(p.getProperty("ubicacion.bd"));
+			odb.store(new Cliente ("pepe", 123456));
+			odb.close();
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.EyVdeSW.TP.presentacion;
 
+import com.EyVdeSW.TP.presentacion.domainModel.Cliente;
 import com.EyVdeSW.TP.presentacion.domainModel.Tag;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.ShortcutAction;
@@ -7,8 +8,10 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.ValoTheme;
 
 public class PantallaTags extends VerticalLayout implements View
@@ -24,6 +27,11 @@ public class PantallaTags extends VerticalLayout implements View
 	    Button btnAgregar = new Button("Agregar tag");
 	    btnAgregar.setStyleName(ValoTheme.BUTTON_PRIMARY);
 	    btnAgregar.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+	    btnAgregar.addClickListener(e ->{ 
+	    	Cliente.guardarCliente();
+	    	Notification.show("Cliente Guardado", Type.TRAY_NOTIFICATION);
+	    });
+	    
 	    
 	    VerticalLayout vl = new VerticalLayout(textFieldTag, comboBoxTag, btnAgregar);
 	    vl.setSpacing(true);
