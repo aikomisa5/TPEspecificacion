@@ -5,6 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import com.EyVdeSW.TP.presentacion.domainModel.Cliente;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
@@ -22,13 +23,27 @@ import com.vaadin.ui.VerticalLayout;
  * intended to be overridden to add component to the user interface and
  * initialize non-component functionality.
  */
-@Theme("mytheme")
+@SuppressWarnings("serial")
+@Theme("valo")
 public class MyUI extends UI
 {
-
+	private Navigator navigator;
 	@Override
 	protected void init(VaadinRequest vaadinRequest)
 	{
+		
+		final VerticalLayout layout = new VerticalLayout();		
+		setContent(layout);
+		getPage().setTitle("TP Especificaciónes y verificación de Software");
+		// Creamos el navegador
+		navigator = new Navigator(this, this);
+		// Y creamos y registramos las views (pantallas)		
+		navigator.addView("", new PantallaTags());	
+		
+		
+		
+		
+		/*
 		//sarasa
 		final VerticalLayout layout = new VerticalLayout();
 		layout.setMargin(true);
@@ -41,6 +56,7 @@ public class MyUI extends UI
 			}
 		);
 		layout.addComponent(button);
+		*/
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
