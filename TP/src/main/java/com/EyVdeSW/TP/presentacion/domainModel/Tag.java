@@ -9,6 +9,10 @@ public class Tag
 	private String nombre;
 	
 	private List<AccionGeneral> accionesGenerales;
+	
+	public Tag(String nombre){
+		this.nombre=nombre;
+	}
 
 	public Tag getPadre()
 	{
