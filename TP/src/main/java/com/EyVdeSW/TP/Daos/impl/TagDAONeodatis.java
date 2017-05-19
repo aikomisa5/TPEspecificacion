@@ -17,37 +17,23 @@ import properties.Parametros;
 public class TagDAONeodatis extends DAONeodatis<Tag> implements TagDAO{
 	
 	@Override
-	public void modificar(Tag original, Tag modificacion)
-	{
+	public void modificar(Tag original, Tag modificacion){
 		ODB odb = null;
-		Objects<Tag> resultadoQuery = null;
-		try
-		{
+		try{
 			odb = ODBFactory.open(Parametros.getProperties().getProperty(Parametros.dbPath));
 			IQuery query = new CriteriaQuery(Tag.class, Where.like("nombre", original.getNombre()));	
-			resultadoQuery=odb.getObjects(query);
+			Objects<Tag>resultadoQuery=odb.getObjects(query);
+			
 			Tag t=(Tag)resultadoQuery.getFirst();
 			t.setHijos(modificacion.getHijos());
 			t.setAccionesGenerales(modificacion.getAccionesGenerales());
 			t.setNombre(modificacion.getNombre());
 			odb.store(t);
-			odb.commit();
-			
-			//esto me tira error por el scope, perdon por no usar lambda 
-//			resultadoQuery.forEach(
-//					 t -> {
-//						t.setHijos(modificacion.getHijos());
-//						t.setAccionesGenerales(modificacion.getAccionesGenerales());
-//						t.setNombre(modificacion.getNombre());
-//						odb.store(t);
-//					}
-//			);
-			
-			
-			
 		}
-		finally
-		{
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
 			if (odb != null)
 				odb.close();
 		}

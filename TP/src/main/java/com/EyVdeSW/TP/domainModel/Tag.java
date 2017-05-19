@@ -4,14 +4,22 @@ import java.util.List;
 
 public class Tag
 {
-	private List<Tag>			hijos;
-	private String				nombre;
-
+	private List<Tag> hijos;
+	private String nombre;
 	private List<AccionGeneral>	accionesGenerales;
 
-	public Tag(String nombre)
-	{
+	public Tag(List<Tag> hijos, String nombre, List<AccionGeneral> accionesGenerales) {
+		super();
+		this.hijos = hijos;
 		this.nombre = nombre;
+		this.accionesGenerales = accionesGenerales;
+	}
+	
+	public Tag(String nombre) {
+		super();
+		this.nombre = nombre;
+		this.hijos=null;
+		this.accionesGenerales=null;
 	}
 
 	public List<Tag> getHijos()
@@ -24,13 +32,11 @@ public class Tag
 		this.hijos = hijos;
 	}
 
-	public String getNombre()
-	{
+	public String getNombre() {
 		return nombre;
 	}
 
-	public void setNombre(String nombre)
-	{
+	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
@@ -42,17 +48,6 @@ public class Tag
 	public void setAccionesGenerales(List<AccionGeneral> accionesGenerales)
 	{
 		this.accionesGenerales = accionesGenerales;
-	}
-
-	@Override
-	public int hashCode()
-	{
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((accionesGenerales == null) ? 0 : accionesGenerales.hashCode());
-		result = prime * result + ((hijos == null) ? 0 : hijos.hashCode());
-		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		return result;
 	}
 
 	@Override

@@ -80,14 +80,10 @@ public class TestTagDAONeodatis {
 	    	limpiarBD();
 	    	agregarDatosDePrueba();
 	    	IQuery query = new CriteriaQuery(Tag.class);
-	    	ArrayList<Tag>tags=null;
-	    	tags = (ArrayList<Tag>) tagDAO.consultar(query);	
-	        Tag viejo=tags.get(0);
-	        tagDAO.modificar(new Tag("Padre2"), new Tag("sarasa"));
-	        tags = (ArrayList<Tag>) tagDAO.consultar(query);
-	        assertEquals(viejo, tags.get(0));
+	        tagDAO.modificar(new Tag(null,"Padre1", null), new Tag(null,"sarasa",null));
+	        ArrayList<Tag>tags = (ArrayList<Tag>) tagDAO.consultar(query);
 	        tags.forEach(e -> System.out.println(e.getNombre()));
-	    	
+	        assertEquals(new Tag(null,"sarasa", null), tags.get(0));
 	    }
 	 
 	    private void agregarDatosDePrueba() {
