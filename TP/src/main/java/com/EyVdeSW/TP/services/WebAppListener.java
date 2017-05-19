@@ -21,7 +21,7 @@ public class WebAppListener implements ServletContextListener
 	private static final int	NEODATIS_SERVER_PORT	= 10001;
 	private static ODBServer	server;
 	private static boolean		isOk;
-//	private static Properties	properties;
+	private static Properties	properties;
 
 	/**
 	 * Default constructor.
@@ -55,6 +55,20 @@ public class WebAppListener implements ServletContextListener
 	public void contextInitialized(ServletContextEvent sce)
 	{
 		levantarServerNeodatis();
+		cargarProperties();
+	}
+
+	private void cargarProperties()
+	{
+		final Properties p = new Properties();
+		System.out.println("Cargando Properties");
+		try {
+		p.load(new FileInputStream(new File(System.getProperty("ext.config"))));		
+		properties = p;
+		System.out.println("Properties cargadas OK.");
+		} catch (Exception e) {
+		e.printStackTrace();
+		}
 	}
 
 	private void levantarServerNeodatis()
