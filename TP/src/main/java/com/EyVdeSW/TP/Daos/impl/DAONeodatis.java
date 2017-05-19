@@ -5,9 +5,11 @@ import org.neodatis.odb.ODBFactory;
 
 import org.neodatis.odb.Objects;
 import org.neodatis.odb.core.query.IQuery;
+import org.neodatis.odb.impl.core.query.criteria.CriteriaQuery;
 
 import com.EyVdeSW.TP.Daos.DAO;
 import com.EyVdeSW.TP.domainModel.Cliente;
+import com.EyVdeSW.TP.domainModel.Tag;
 import com.EyVdeSW.TP.services.WebAppListener;
 
 import properties.Parametros;
@@ -86,7 +88,7 @@ public class DAONeodatis<T> implements DAO<T>
 	@Override
 	public void modificar(T actual, T nuevo)
 	{
-		// TODO Auto-generated method stub
+		
 		
 	}
 

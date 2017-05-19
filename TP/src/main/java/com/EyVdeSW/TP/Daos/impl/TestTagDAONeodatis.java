@@ -54,7 +54,6 @@ public class TestTagDAONeodatis {
 	        Collection<Tag> tags = tagDAO.consultar(query);	        
 	        tags.forEach(t -> tagDAO.borrar(t));
 	        tags = tagDAO.consultar(query);
-	        assertEquals(0, tags.size());
 	    }
 	 
 	    // @After
@@ -68,15 +67,26 @@ public class TestTagDAONeodatis {
 	    public void testBorrarTags() {
 	    	IQuery query = new CriteriaQuery(Tag.class);
 	        Collection<Tag> tags = tagDAO.consultar(query);	
-	        tags.forEach(t -> System.out.println(t));
+	        //tags.forEach(t -> System.out.println(t));
 	        assertEquals(tags.size(), 5);
 	        tags.forEach(t -> tagDAO.borrar(t));
 	        tags = tagDAO.consultar(query);	        
 	        assertEquals(0, tags.size());
 	    }
 	 
-	    @Test
+	    @SuppressWarnings("unchecked")
+		@Test
 	    public void modificarTag(){
+	    	limpiarBD();
+	    	agregarDatosDePrueba();
+	    	IQuery query = new CriteriaQuery(Tag.class);
+	    	ArrayList<Tag>tags=null;
+	    	tags = (ArrayList<Tag>) tagDAO.consultar(query);	
+	        Tag viejo=tags.get(0);
+	        tagDAO.modificar(new Tag("Padre2"), new Tag("sarasa"));
+	        tags = (ArrayList<Tag>) tagDAO.consultar(query);
+	        assertEquals(viejo, tags.get(0));
+	        tags.forEach(e -> System.out.println(e.getNombre()));
 	    	
 	    }
 	 
