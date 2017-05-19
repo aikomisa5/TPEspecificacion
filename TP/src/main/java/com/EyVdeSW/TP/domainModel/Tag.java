@@ -4,7 +4,6 @@ import java.util.List;
 
 public class Tag
 {
-	private Tag					padre;
 	private List<Tag>			hijos;
 	private String				nombre;
 
@@ -13,16 +12,6 @@ public class Tag
 	public Tag(String nombre)
 	{
 		this.nombre = nombre;
-	}
-
-	public Tag getPadre()
-	{
-		return padre;
-	}
-
-	public void setPadre(Tag padres)
-	{
-		this.padre = padres;
 	}
 
 	public List<Tag> getHijos()
@@ -63,7 +52,6 @@ public class Tag
 		result = prime * result + ((accionesGenerales == null) ? 0 : accionesGenerales.hashCode());
 		result = prime * result + ((hijos == null) ? 0 : hijos.hashCode());
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result + ((padre == null) ? 0 : padre.hashCode());
 		return result;
 	}
 
@@ -97,13 +85,6 @@ public class Tag
 				return false;
 		}
 		else if (!nombre.equals(other.nombre))
-			return false;
-		if (padre == null)
-		{
-			if (other.padre != null)
-				return false;
-		}
-		else if (!padre.equals(other.padre))
 			return false;
 		return true;
 	}

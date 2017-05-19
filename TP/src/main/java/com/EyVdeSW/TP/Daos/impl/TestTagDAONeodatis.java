@@ -65,7 +65,7 @@ public class TestTagDAONeodatis {
 	    }
 	 
 	    @Test
-	    public void testBorrarPersonas() {
+	    public void testBorrarTags() {
 	    	IQuery query = new CriteriaQuery(Tag.class);
 	        Collection<Tag> tags = tagDAO.consultar(query);	
 	        tags.forEach(t -> System.out.println(t));
@@ -88,9 +88,10 @@ public class TestTagDAONeodatis {
 	    private ArrayList<Tag> instanciaTags() {
 	     Tag padre1 = new Tag("Padre1");
 	     Tag padre2 = new Tag("Padre2");
-	     Tag hijo11 = new Tag("Hijo11");
+	     Tag hijo11 = new Tag("Hijo11");	     
 	     Tag hijo12 = new Tag("Hijo12");
 	     Tag hijo21 = new Tag("Hijo21");
+	     
 	   
 	     List<Tag> hijos= new ArrayList<Tag>();
 	     hijos.add(hijo11);
