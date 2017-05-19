@@ -47,12 +47,11 @@ public class TestTagDAONeodatis {
 	        agregarDatosDePrueba();
 	    }
 	    
-	    @After
+	   @After
 	    public void limpiarBD()
 	    {
 	    	IQuery query = new CriteriaQuery(Tag.class);
-	        Collection<Tag> tags = tagDAO.consultar(query);
-	        assertEquals(tags.size(), 5);
+	        Collection<Tag> tags = tagDAO.consultar(query);	        
 	        tags.forEach(t -> tagDAO.borrar(t));
 	        tags = tagDAO.consultar(query);
 	        assertEquals(0, tags.size());
@@ -68,12 +67,11 @@ public class TestTagDAONeodatis {
 	    @Test
 	    public void testBorrarPersonas() {
 	    	IQuery query = new CriteriaQuery(Tag.class);
-	        Collection<Tag> tags = tagDAO.consultar(query);
-	        System.out.println(tags.size());
+	        Collection<Tag> tags = tagDAO.consultar(query);	
+	        tags.forEach(t -> System.out.println(t));
 	        assertEquals(tags.size(), 5);
 	        tags.forEach(t -> tagDAO.borrar(t));
-	        tags = tagDAO.consultar(query);
-	        System.out.println(tags.size());
+	        tags = tagDAO.consultar(query);	        
 	        assertEquals(0, tags.size());
 	    }
 	 
@@ -91,7 +89,7 @@ public class TestTagDAONeodatis {
 	     Tag padre1 = new Tag("Padre1");
 	     Tag padre2 = new Tag("Padre2");
 	     Tag hijo11 = new Tag("Hijo11");
-	     Tag hijo12 = new Tag("Hijo11");
+	     Tag hijo12 = new Tag("Hijo12");
 	     Tag hijo21 = new Tag("Hijo21");
 	   
 	     List<Tag> hijos= new ArrayList<Tag>();

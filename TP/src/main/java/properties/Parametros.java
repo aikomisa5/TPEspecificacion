@@ -11,7 +11,7 @@ public class Parametros {
 	
 	//Parametros a guardar.
 	public static final String dbPath = "dbPath";
-	private static final String dbPathValue = "neodatisDB";
+	private static final String dbPathValue = "C:\\TP\\neodatisDB";
 	
 
 	public static void SetearParametros() {

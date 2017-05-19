@@ -66,6 +66,7 @@ public class WebAppListener implements ServletContextListener
 		p.load(new FileInputStream(new File(System.getProperty("ext.config"))));		
 		properties = p;
 		System.out.println("Properties cargadas OK.");
+		System.out.println(properties);
 		} catch (Exception e) {
 		e.printStackTrace();
 		}
@@ -98,6 +99,10 @@ public class WebAppListener implements ServletContextListener
 	public static ODBServer getServer()
 	{		
 		return server;
+	}
+	
+	public static String getProperty(String key){
+		return properties.getProperty(key);
 	}
 
 }

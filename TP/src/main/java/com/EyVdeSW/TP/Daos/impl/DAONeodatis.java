@@ -7,6 +7,8 @@ import org.neodatis.odb.Objects;
 import org.neodatis.odb.core.query.IQuery;
 
 import com.EyVdeSW.TP.Daos.DAO;
+import com.EyVdeSW.TP.domainModel.Cliente;
+import com.EyVdeSW.TP.services.WebAppListener;
 
 import properties.Parametros;
 
@@ -20,6 +22,9 @@ public class DAONeodatis<T> implements DAO<T>
 		odb = null;
 		try
 		{
+			//Para usar en server
+			//odb = WebAppListener.getServer().openClient(WebAppListener.getProperty("ubicacion.bd"));			
+			
 			odb = ODBFactory.open(Parametros.getProperties().getProperty(Parametros.dbPath));
 			odb.store(t);
 		}

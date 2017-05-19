@@ -4,14 +4,15 @@ import java.util.List;
 
 public class Tag
 {
-	private Tag padre;
-	private List<Tag> hijos;
-	private String nombre;
-	
-	private List<AccionGeneral> accionesGenerales;
-	
-	public Tag(String nombre){
-		this.nombre=nombre;
+	private Tag					padre;
+	private List<Tag>			hijos;
+	private String				nombre;
+
+	private List<AccionGeneral>	accionesGenerales;
+
+	public Tag(String nombre)
+	{
+		this.nombre = nombre;
 	}
 
 	public Tag getPadre()
@@ -55,7 +56,8 @@ public class Tag
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((accionesGenerales == null) ? 0 : accionesGenerales.hashCode());
@@ -66,7 +68,8 @@ public class Tag
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -74,29 +77,41 @@ public class Tag
 		if (getClass() != obj.getClass())
 			return false;
 		Tag other = (Tag) obj;
-		if (accionesGenerales == null) {
+		if (accionesGenerales == null)
+		{
 			if (other.accionesGenerales != null)
 				return false;
-		} else if (!accionesGenerales.equals(other.accionesGenerales))
+		}
+		else if (!accionesGenerales.equals(other.accionesGenerales))
 			return false;
-		if (hijos == null) {
+		if (hijos == null)
+		{
 			if (other.hijos != null)
 				return false;
-		} else if (!hijos.equals(other.hijos))
+		}
+		else if (!hijos.equals(other.hijos))
 			return false;
-		if (nombre == null) {
+		if (nombre == null)
+		{
 			if (other.nombre != null)
 				return false;
-		} else if (!nombre.equals(other.nombre))
+		}
+		else if (!nombre.equals(other.nombre))
 			return false;
-		if (padre == null) {
+		if (padre == null)
+		{
 			if (other.padre != null)
 				return false;
-		} else if (!padre.equals(other.padre))
+		}
+		else if (!padre.equals(other.padre))
 			return false;
 		return true;
 	}
-	
-	
+
+	@Override
+	public String toString()
+	{
+		return "Tag: " + nombre;
+	}
 
 }
