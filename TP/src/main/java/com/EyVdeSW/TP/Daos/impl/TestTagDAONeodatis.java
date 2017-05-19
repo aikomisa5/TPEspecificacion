@@ -50,10 +50,9 @@ public class TestTagDAONeodatis {
 	   @After
 	    public void limpiarBD()
 	    {
-	    	IQuery query = new CriteriaQuery(Tag.class);
-	        Collection<Tag> tags = tagDAO.consultar(query);	        
+	        Collection<Tag> tags = tagDAO.traerTodos();        
 	        tags.forEach(t -> tagDAO.borrar(t));
-	        tags = tagDAO.consultar(query);
+	        tags = tagDAO.traerTodos();
 	    }
 	 
 	    // @After
@@ -65,26 +64,38 @@ public class TestTagDAONeodatis {
 	 
 	    @Test
 	    public void testBorrarTags() {
-	    	IQuery query = new CriteriaQuery(Tag.class);
-	        Collection<Tag> tags = tagDAO.consultar(query);	
+	        Collection<Tag> tags = tagDAO.traerTodos();
 	        //tags.forEach(t -> System.out.println(t));
 	        assertEquals(tags.size(), 5);
 	        tags.forEach(t -> tagDAO.borrar(t));
-	        tags = tagDAO.consultar(query);	        
+	        tags = tagDAO.traerTodos();	        
 	        assertEquals(0, tags.size());
 	    }
 	 
-	    @SuppressWarnings("unchecked")
-		@Test
+	    @Test
 	    public void modificarTag(){
 	    	limpiarBD();
 	    	agregarDatosDePrueba();
-	    	IQuery query = new CriteriaQuery(Tag.class);
+	    	
 	        tagDAO.modificar(new Tag(null,"Padre1", null), new Tag(null,"sarasa",null));
-	        ArrayList<Tag>tags = (ArrayList<Tag>) tagDAO.consultar(query);
+	        ArrayList<Tag>tags = (ArrayList<Tag>) tagDAO.traerTodos();
 	        tags.forEach(e -> System.out.println(e.getNombre()));
 	        assertEquals(new Tag(null,"sarasa", null), tags.get(0));
 	    }
+	    
+	    @Test
+	    public void consultarPorNombre()
+	    {
+	    	limpiarBD();
+	    	agregarDatosDePrueba();
+	    	
+	    	ArrayList<Tag>tags=(ArrayList<Tag>) tagDAO.consultarPorNombre("adre");
+	    	assertEquals(tags.size(), 2);
+	    	assertEquals(tags.get(0).getNombre(), "Padre1");
+	    	assertEquals(tags.get(1).getNombre(), "Padre2");
+	    }
+	    
+	    
 	 
 	    private void agregarDatosDePrueba() {
 	        ArrayList<Tag> tags = instanciaTags();

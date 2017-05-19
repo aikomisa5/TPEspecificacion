@@ -39,5 +39,43 @@ public class TagDAONeodatis extends DAONeodatis<Tag> implements TagDAO{
 		}
 	}
 
+	@Override
+	public Collection<Tag> traerTodos() {
+		ODB odb = null;
+		Objects<Tag>resultadoQuery=null;
+		try{
+			odb = ODBFactory.open(Parametros.getProperties().getProperty(Parametros.dbPath));
+			IQuery query = new CriteriaQuery(Tag.class);	
+			resultadoQuery=odb.getObjects(query);	//TODO ver super.consultar(query)
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			if (odb != null)
+				odb.close();
+		}
+		return resultadoQuery;
+	}
+
+	@Override
+	public Collection<Tag> consultarPorNombre(String nombre) {
+		ODB odb = null;
+		Objects<Tag>resultadoQuery=null;
+		try{
+			odb = ODBFactory.open(Parametros.getProperties().getProperty(Parametros.dbPath));
+			IQuery query = new CriteriaQuery(Tag.class, Where.like("nombre", "%"+nombre+"%"));	
+			resultadoQuery=odb.getObjects(query); //TODO ver super.consultar(query)
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			if (odb != null)
+				odb.close();
+		}
+		return resultadoQuery;
+	}
+
 	
 }
