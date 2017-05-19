@@ -2,7 +2,7 @@ package com.EyVdeSW.TP.presentacion;
 
 import javax.servlet.annotation.WebServlet;
 
-import com.EyVdeSW.TP.presentacion.domainModel.Cliente;
+import com.EyVdeSW.TP.domainModel.Cliente;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;

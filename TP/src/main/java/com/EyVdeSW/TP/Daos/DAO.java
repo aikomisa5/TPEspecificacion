@@ -1,4 +1,4 @@
-package com.EyVdeSW.TP.presentacion.domainModel.Daos;
+package com.EyVdeSW.TP.Daos;
 
 import java.util.List;
 

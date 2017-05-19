@@ -1,4 +1,4 @@
-package com.EyVdeSW.TP.presentacion.domainModel.Daos.impl;
+package com.EyVdeSW.TP.Daos.impl;
 
 import static org.junit.Assert.*;
 
@@ -10,7 +10,7 @@ import org.neodatis.odb.core.query.IQuery;
 import org.neodatis.odb.core.query.criteria.Where;
 import org.neodatis.odb.impl.core.query.criteria.CriteriaQuery;
 
-import com.EyVdeSW.TP.presentacion.domainModel.Tag;
+import com.EyVdeSW.TP.domainModel.Tag;
 
 import static org.junit.Assert.*;
 

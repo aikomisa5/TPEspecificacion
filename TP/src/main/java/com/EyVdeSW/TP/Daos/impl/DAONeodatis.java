@@ -1,4 +1,4 @@
-package com.EyVdeSW.TP.presentacion.domainModel.Daos.impl;
+package com.EyVdeSW.TP.Daos.impl;
 
 import org.neodatis.odb.ODB;
 import org.neodatis.odb.ODBFactory;
@@ -6,7 +6,7 @@ import org.neodatis.odb.ODBFactory;
 import org.neodatis.odb.Objects;
 import org.neodatis.odb.core.query.IQuery;
 
-import com.EyVdeSW.TP.presentacion.domainModel.Daos.DAO;
+import com.EyVdeSW.TP.Daos.DAO;
 
 import properties.Parametros;
 

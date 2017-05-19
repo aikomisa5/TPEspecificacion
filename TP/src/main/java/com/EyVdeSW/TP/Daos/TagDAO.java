@@ -1,8 +1,8 @@
-package com.EyVdeSW.TP.presentacion.domainModel.Daos;
+package com.EyVdeSW.TP.Daos;
 
 import java.util.Collection;
 
-import com.EyVdeSW.TP.presentacion.domainModel.Tag;
+import com.EyVdeSW.TP.domainModel.Tag;
 
 public interface TagDAO extends DAO<Tag>
 {

@@ -1,4 +1,4 @@
-package com.EyVdeSW.TP.presentacion.domainModel;
+package com.EyVdeSW.TP.domainModel;
 
 public abstract class AccionPublicitaria 
 {

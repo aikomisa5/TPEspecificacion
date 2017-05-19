@@ -1,7 +1,7 @@
 package com.EyVdeSW.TP.presentacion;
 
-import com.EyVdeSW.TP.presentacion.domainModel.Cliente;
-import com.EyVdeSW.TP.presentacion.domainModel.Tag;
+import com.EyVdeSW.TP.domainModel.Cliente;
+import com.EyVdeSW.TP.domainModel.Tag;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
