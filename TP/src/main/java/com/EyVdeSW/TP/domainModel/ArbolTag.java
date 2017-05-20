@@ -15,6 +15,8 @@ public class ArbolTag
 	public void setRaiz(Tag raiz) {
 		this.raiz = raiz;
 	}
+	
+	
 
 	@Override
 	public int hashCode() {

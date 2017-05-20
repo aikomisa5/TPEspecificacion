@@ -1,10 +1,15 @@
 package com.EyVdeSW.TP.domainModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tag
+public class Tag implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3734241005474909743L;
 	private List<Tag> hijos;
 	private String nombre;
 	private List<AccionGeneral>	accionesGenerales;
@@ -96,7 +101,7 @@ public class Tag
 	@Override
 	public String toString()
 	{
-		return "Tag: " + nombre;
+		return nombre;
 	}
 
 }

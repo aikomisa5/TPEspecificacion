@@ -2,6 +2,7 @@ package com.EyVdeSW.TP.presentacion;
 
 import com.EyVdeSW.TP.domainModel.Tag;
 import com.EyVdeSW.TP.services.TagService;
+
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
@@ -10,7 +11,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.Tree;
+
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.ValoTheme;
@@ -18,35 +19,34 @@ import com.vaadin.ui.themes.ValoTheme;
 @SuppressWarnings("serial")
 public class PantallaTags extends VerticalLayout implements View
 {
-	protected static final String Name = "";
-	
-	
-	TagService tagService = TagService.getTagService();
-	
-	
-	public PantallaTags(){
+	protected static final String	Name		= "";
+
+	TagService						tagService	= TagService.getTagService();
+
+	public PantallaTags()
+	{
 		TextField textFieldTag = new TextField("Nuevo Tag:");
-		Tree treeTags = new Tree("Un arbol");		
-		
-		
-		BeanItemContainer<Tag> grupos =new BeanItemContainer<Tag>(Tag.class);
-	    ComboBox comboBoxTag = new ComboBox("Seleccionar Tag Padre:", grupos);
-	    
-	    Button btnAgregar = new Button("Agregar tag");
-	    btnAgregar.setStyleName(ValoTheme.BUTTON_PRIMARY);
-	    btnAgregar.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-	    btnAgregar.addClickListener(e ->{ 
-	    	tagService.guardar(new Tag(textFieldTag.getValue()));
-	    	Notification.show("Tag Guardado", Type.TRAY_NOTIFICATION);
-	    });
-	    
-	    
-	    VerticalLayout vl = new VerticalLayout(textFieldTag, comboBoxTag, btnAgregar, treeTags);
-	    vl.setSpacing(true);
-	    
-	    addComponent(vl);	    
+
+		BeanItemContainer<Tag> tags = new BeanItemContainer<Tag>(Tag.class);
+
+		tagService.traerTodos().forEach(tag -> tags.addBean(tag));
+
+		ComboBox comboBoxTag = new ComboBox("Seleccionar Tag Padre:", tags);
+
+		Button btnAgregar = new Button("Agregar tag");
+		btnAgregar.setStyleName(ValoTheme.BUTTON_PRIMARY);
+		btnAgregar.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+		btnAgregar.addClickListener(e -> {
+			tagService.guardar(new Tag(textFieldTag.getValue()));
+			Notification.show("Tag Guardado", Type.TRAY_NOTIFICATION);
+		});
+
+		VerticalLayout vl = new VerticalLayout(textFieldTag, comboBoxTag, btnAgregar);
+		vl.setSpacing(true);
+
+		addComponent(vl);
 	}
-	
+
 	@Override
 	public void enter(ViewChangeEvent event)
 	{
