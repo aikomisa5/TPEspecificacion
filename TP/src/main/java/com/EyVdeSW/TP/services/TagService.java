@@ -30,6 +30,11 @@ public class TagService
 		tagDAO.borrar(t);
 	}
 	
+	public void modificar (Tag original, Tag modificacion)
+	{
+		tagDAO.modificar(original, modificacion);
+	}
+	
 	public Collection<Tag>traerTodos(){
 		return tagDAO.traerTodos();
 	}
