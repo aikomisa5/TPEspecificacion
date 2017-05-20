@@ -1,5 +1,6 @@
 package com.EyVdeSW.TP.domainModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Tag
@@ -13,13 +14,13 @@ public class Tag
 		this.hijos = hijos;
 		this.nombre = nombre;
 		this.accionesGenerales = accionesGenerales;
-	}
+	}	
 	
 	public Tag(String nombre) {
 		super();
 		this.nombre = nombre;
-		this.hijos=null;
-		this.accionesGenerales=null;
+		this.hijos=new ArrayList<>();
+		this.accionesGenerales=new ArrayList<>();
 	}
 
 	public List<Tag> getHijos()
@@ -30,6 +31,10 @@ public class Tag
 	public void setHijos(List<Tag> hijos)
 	{
 		this.hijos = hijos;
+	}
+	
+	public void addHijo(Tag tag){
+		hijos.add(tag);		
 	}
 
 	public String getNombre() {
@@ -48,6 +53,10 @@ public class Tag
 	public void setAccionesGenerales(List<AccionGeneral> accionesGenerales)
 	{
 		this.accionesGenerales = accionesGenerales;
+	}
+	
+	public void addAccionGeneral(AccionGeneral accionGeneral){
+		accionesGenerales.add(accionGeneral);
 	}
 
 	@Override
