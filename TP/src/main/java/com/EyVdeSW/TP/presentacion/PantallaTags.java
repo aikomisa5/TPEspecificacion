@@ -2,6 +2,7 @@ package com.EyVdeSW.TP.presentacion;
 
 import com.EyVdeSW.TP.domainModel.Cliente;
 import com.EyVdeSW.TP.domainModel.Tag;
+import com.EyVdeSW.TP.services.TagService;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
@@ -18,6 +19,10 @@ public class PantallaTags extends VerticalLayout implements View
 {
 	protected static final String Name = "";
 	
+	
+	TagService tagService = TagService.getTagService();
+	
+	
 	public PantallaTags(){
 		TextField textFieldTag = new TextField("Nuevo Tag:");
 		
@@ -28,8 +33,8 @@ public class PantallaTags extends VerticalLayout implements View
 	    btnAgregar.setStyleName(ValoTheme.BUTTON_PRIMARY);
 	    btnAgregar.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 	    btnAgregar.addClickListener(e ->{ 
-	    	Cliente.guardarCliente();
-	    	Notification.show("Cliente Guardado", Type.TRAY_NOTIFICATION);
+	    	tagService.guardar(new Tag(textFieldTag.getValue()));
+	    	Notification.show("Tag Guardado", Type.TRAY_NOTIFICATION);
 	    });
 	    
 	    
