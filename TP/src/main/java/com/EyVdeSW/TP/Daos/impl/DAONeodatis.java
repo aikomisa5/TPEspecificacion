@@ -5,12 +5,8 @@ import org.neodatis.odb.ODBFactory;
 
 import org.neodatis.odb.Objects;
 import org.neodatis.odb.core.query.IQuery;
-import org.neodatis.odb.impl.core.query.criteria.CriteriaQuery;
 
 import com.EyVdeSW.TP.Daos.DAO;
-import com.EyVdeSW.TP.domainModel.Cliente;
-import com.EyVdeSW.TP.domainModel.Tag;
-import com.EyVdeSW.TP.services.WebAppListener;
 
 import properties.Parametros;
 
@@ -19,21 +15,17 @@ public class DAONeodatis<T> implements DAO<T>
 	private ODB odb;
 
 	@Override
-	public void guardar(T t)
-	{
+	public void guardar(T t){
 		odb = null;
-		try
-		{
+		try{
 			//Para usar en server
 			//odb = WebAppListener.getServer().openClient(WebAppListener.getProperty("ubicacion.bd"));			
-			
 			odb = ODBFactory.open(Parametros.getProperties().getProperty(Parametros.dbPath));
 			odb.store(t);
-		}
-		finally
-		{
-			if (odb != null)
-			{
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			if (odb != null){
 				// Cerramos la bd
 				odb.close();
 			}
@@ -42,11 +34,9 @@ public class DAONeodatis<T> implements DAO<T>
 	}
 
 	@Override
-	public void borrar(T t)
-	{
+	public void borrar(T t){
 		odb = null;
-		try
-		{
+		try{
 			// Abrimos la bd
 			odb = ODBFactory.open(Parametros.getProperties().getProperty(Parametros.dbPath));
 			Objects<T> objects = odb.getObjects(t.getClass());
@@ -58,9 +48,9 @@ public class DAONeodatis<T> implements DAO<T>
 
 			// Guardamos los cambios
 			odb.commit();
-		}
-		finally
-		{
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
 			if (odb != null)
 				odb.close();
 		}
@@ -69,13 +59,14 @@ public class DAONeodatis<T> implements DAO<T>
 	Objects<T> consultar(IQuery query){
 		ODB odb = null;
 		Objects<T> resultadoQuery = null;
-		try
-		{
+		try{
 			// Abrimos la bd
 			odb = ODBFactory.open(Parametros.getProperties().getProperty(Parametros.dbPath));
 			resultadoQuery = odb.getObjects(query);			
 		}
-		finally
+		catch(Exception e){
+			e.printStackTrace();
+		}finally
 		{
 			if (odb != null)
 				odb.close();
@@ -86,9 +77,8 @@ public class DAONeodatis<T> implements DAO<T>
 	}
 
 	@Override
-	public void modificar(T actual, T nuevo)
-	{
-		
+	public void modificar(T actual, T nuevo){
+		//TODO o DELETE
 		
 	}
 

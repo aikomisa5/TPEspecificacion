@@ -1,6 +1,5 @@
 package com.EyVdeSW.TP.presentacion;
 
-import com.EyVdeSW.TP.domainModel.Cliente;
 import com.EyVdeSW.TP.domainModel.Tag;
 import com.EyVdeSW.TP.services.TagService;
 import com.vaadin.data.util.BeanItemContainer;
@@ -15,6 +14,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.ValoTheme;
 
+@SuppressWarnings("serial")
 public class PantallaTags extends VerticalLayout implements View
 {
 	protected static final String Name = "";

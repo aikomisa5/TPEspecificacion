@@ -29,11 +29,9 @@ public class TagDAONeodatis extends DAONeodatis<Tag> implements TagDAO{
 			t.setAccionesGenerales(modificacion.getAccionesGenerales());
 			t.setNombre(modificacion.getNombre());
 			odb.store(t);
-		}
-		catch(Exception e){
+		}catch(Exception e){
 			e.printStackTrace();
-		}
-		finally{
+		}finally{
 			if (odb != null)
 				odb.close();
 		}
@@ -46,7 +44,6 @@ public class TagDAONeodatis extends DAONeodatis<Tag> implements TagDAO{
 
 	@Override
 	public Collection<Tag> consultarPorNombre(String nombre) {
-		
 		IQuery query = new CriteriaQuery(Tag.class, Where.like("nombre", "%"+nombre+"%"));
 		return consultar(query);
 	}

@@ -1,30 +1,15 @@
 package com.EyVdeSW.TP.Daos.impl;
 
 import static org.junit.Assert.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.neodatis.odb.core.query.IQuery;
-import org.neodatis.odb.core.query.criteria.Where;
-import org.neodatis.odb.impl.core.query.criteria.CriteriaQuery;
-
 import com.EyVdeSW.TP.domainModel.Tag;
-
-import static org.junit.Assert.*;
-
 import java.io.File;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import javax.management.Query;
-
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import properties.Parametros;
 
 public class TestTagDAONeodatis {
