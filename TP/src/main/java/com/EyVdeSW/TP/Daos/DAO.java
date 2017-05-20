@@ -1,9 +1,5 @@
 package com.EyVdeSW.TP.Daos;
 
-import java.util.List;
-
-import org.neodatis.odb.Objects;
-
 public interface DAO<T>
 {
 	public void guardar(T t);
