@@ -80,6 +80,16 @@ public class TestTagDAONeodatis {
 	    	assertEquals(tags.get(1).getNombre(), "Padre2");
 	    }
 	    
+	    @Test
+	    public void getTagPorNombre()
+	    {
+	    	limpiarBD();
+	    	agregarDatosDePrueba();
+	    	
+	    	Tag tag= tagDAO.getTagPorNombre("Padre1");
+	    	assertEquals(tag.getNombre(), "Padre1");	    	
+	    }
+	    
 	    
 	 
 	    private void agregarDatosDePrueba() {

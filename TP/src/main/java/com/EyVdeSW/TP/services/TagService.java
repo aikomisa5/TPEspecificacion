@@ -26,6 +26,18 @@ public class TagService
 		tagDAO.guardar(t);
 	}
 	
+	public void guardar(String nombreTag, String padreTag){
+		if(padreTag == null){
+			tagDAO.guardar(new Tag(nombreTag));
+		}
+		else
+		{
+			Tag padre = tagDAO.getTagPorNombre(padreTag);
+			padre.addHijo(new Tag(nombreTag));
+			tagDAO.modificar(padre, padre);			
+		}
+	}
+	
 	public void borrar(Tag t){
 		tagDAO.borrar(t);
 	}
