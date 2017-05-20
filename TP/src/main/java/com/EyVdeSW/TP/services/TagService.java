@@ -1,6 +1,7 @@
 package com.EyVdeSW.TP.services;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.EyVdeSW.TP.Daos.TagDAO;
 import com.EyVdeSW.TP.Daos.impl.TagDAONeodatis;
@@ -41,6 +42,23 @@ public class TagService
 	public void borrar(Tag t){
 		tagDAO.borrar(t);
 	}
+	
+	//REVISAR
+	public void borrar (String nombreTag, String padreTag){
+		Tag padre = tagDAO.getTagPorNombre(padreTag);
+		List <Tag> hijos = padre.getHijos();
+		
+		for (Tag i : hijos){
+			if (i.equals(nombreTag)==true){
+				padre.removeHijo(i);
+				tagDAO.borrar(i);
+			}
+		}
+		
+		
+	}
+	
+	
 	
 	public void modificar (Tag original, Tag modificacion)
 	{
