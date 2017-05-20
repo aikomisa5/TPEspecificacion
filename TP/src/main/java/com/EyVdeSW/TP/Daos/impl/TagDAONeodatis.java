@@ -1,7 +1,6 @@
 package com.EyVdeSW.TP.Daos.impl;
 
 import java.util.Collection;
-
 import org.neodatis.odb.ODB;
 import org.neodatis.odb.ODBFactory;
 import org.neodatis.odb.Objects;
@@ -46,6 +45,30 @@ public class TagDAONeodatis extends DAONeodatis<Tag> implements TagDAO{
 	public Collection<Tag> consultarPorNombre(String nombre) {
 		IQuery query = new CriteriaQuery(Tag.class, Where.like("nombre", "%"+nombre+"%"));
 		return consultar(query);
+	}
+
+	@Override
+	public Tag getTagPorNombre(String nombre)
+	{	
+		Tag tag=null;
+		ODB odb = null;
+		Objects<Tag> resultadoQuery = null;
+		try{
+			// Abrimos la bd
+			odb = ODBFactory.open(Parametros.getProperties().getProperty(Parametros.dbPath));
+			resultadoQuery = odb.getObjects(new CriteriaQuery(Tag.class, Where.like("nombre", "%"+nombre+"%")));
+			tag= (Tag) resultadoQuery.getFirst();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}finally
+		{
+			if (odb != null)
+				odb.close();
+		}
+		
+		return tag;
+		
 	}
 
 	
