@@ -35,25 +35,7 @@ public class MyUI extends UI
 		// Creamos el navegador
 		navigator = new Navigator(this, this);
 		// Y creamos y registramos las views (pantallas)		
-		navigator.addView("", new PantallaTags());	
-		
-		
-		
-		
-		/*
-		//sarasa
-		final VerticalLayout layout = new VerticalLayout();
-		layout.setMargin(true);
-		setContent(layout);
-		
-		Button button = new Button("Click Me");
-		button.addClickListener( e ->{
-				Cliente.guardarCliente();
-				layout.addComponent(new Label("Cliente Guardado"));
-			}
-		);
-		layout.addComponent(button);
-		*/
+		navigator.addView("", new PantallaTags());		
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

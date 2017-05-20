@@ -10,6 +10,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.ValoTheme;
@@ -25,6 +26,8 @@ public class PantallaTags extends VerticalLayout implements View
 	
 	public PantallaTags(){
 		TextField textFieldTag = new TextField("Nuevo Tag:");
+		Tree treeTags = new Tree("Un arbol");		
+		
 		
 		BeanItemContainer<Tag> grupos =new BeanItemContainer<Tag>(Tag.class);
 	    ComboBox comboBoxTag = new ComboBox("Seleccionar Tag Padre:", grupos);
@@ -38,7 +41,7 @@ public class PantallaTags extends VerticalLayout implements View
 	    });
 	    
 	    
-	    VerticalLayout vl = new VerticalLayout(textFieldTag, comboBoxTag, btnAgregar);
+	    VerticalLayout vl = new VerticalLayout(textFieldTag, comboBoxTag, btnAgregar, treeTags);
 	    vl.setSpacing(true);
 	    
 	    addComponent(vl);	    
