@@ -18,7 +18,7 @@ import org.neodatis.odb.ODBServer;
 @WebListener
 public class WebAppListener implements ServletContextListener
 {
-	private static final int	NEODATIS_SERVER_PORT	= 10001;
+	private static final int	NEODATIS_SERVER_PORT	= 8000;
 	private static ODBServer	server;
 	private static boolean		isOk;
 	private static Properties	properties;
@@ -77,6 +77,7 @@ public class WebAppListener implements ServletContextListener
 		try
 		{
 			System.out.println("Iniciando server Neodatis webapp");
+			
 			server = ODBFactory.openServer(NEODATIS_SERVER_PORT);
 			server.startServer(true);
 			isOk = true;
