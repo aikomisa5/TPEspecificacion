@@ -39,7 +39,11 @@ public class Tag implements Serializable
 	}
 	
 	public void addHijo(Tag tag){
-		hijos.add(tag);		
+		hijos.add(tag);			
+	}
+	
+	public void removeHijo (Tag tag){
+		hijos.remove(tag);
 	}
 
 	public String getNombre() {
