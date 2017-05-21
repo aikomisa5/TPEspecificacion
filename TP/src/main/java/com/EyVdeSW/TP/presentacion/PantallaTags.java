@@ -24,7 +24,8 @@ public class PantallaTags extends VerticalLayout implements View
 {
 	protected static final String	Name		= "";
 
-	TagService						tagService	= TagService.getTagService();
+	private TagService						tagService	= TagService.getTagService();
+	private ComboBox comboBoxTag;
 
 	public PantallaTags()
 	{
@@ -34,39 +35,39 @@ public class PantallaTags extends VerticalLayout implements View
 
 		tagService.traerTodos().forEach(tag -> tags.addBean(tag));
 
-		ComboBox comboBoxTag = new ComboBox("Seleccionar Tag Padre:", tags);
+		comboBoxTag = new ComboBox("Seleccionar Tag Padre:", tags);
+		//refreshComboBoxTag();
 
 		Button btnAgregar = new Button("Agregar tag");
 		btnAgregar.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		btnAgregar.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 		btnAgregar.addClickListener(e -> {
-			tagService.guardar(new Tag(textFieldTag.getValue()));
+			String tagPadre = comboBoxTag.getValue() == null? null : comboBoxTag.getValue().toString(); 
+			tagService.guardar(textFieldTag.getValue(), tagPadre);
 			Notification.show("Tag Guardado", Type.TRAY_NOTIFICATION);
 			limpiarCampos(textFieldTag, tags, comboBoxTag);
+			refreshComboBoxTag();
 		});
-		
+
 		Button btnEditar = new Button("Editar tag");
 		btnEditar.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		btnEditar.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-		btnEditar.addClickListener(e -> {
-			List<Tag>t= (List<Tag>) tagService.consultar(comboBoxTag.getValue().toString());
-			tagService.modificar(t.get(0),new Tag(textFieldTag.getValue()));
+		btnEditar.addClickListener(e -> {			
+			tagService.guardar(textFieldTag.getValue(), comboBoxTag.getValue()==null?null:comboBoxTag.getValue().toString());
 			Notification.show("Tag Guardado", Type.TRAY_NOTIFICATION);
 		});
-		
-		
+
 		Button btnBorrar = new Button("Borrar tag");
 		btnBorrar.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		btnBorrar.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 		btnBorrar.addClickListener(e -> {
-			
-			List<Tag>t= (List<Tag>) tagService.consultar(comboBoxTag.getValue().toString());
+
+			List<Tag> t = (List<Tag>) tagService.consultar(comboBoxTag.getValue().toString());
 			tagService.borrar(t.get(0));
 			Notification.show("Tag Borrado", Type.TRAY_NOTIFICATION);
 			limpiarCampos(textFieldTag, tags, comboBoxTag);
 		});
-		
-		
+
 		HorizontalLayout hl = new HorizontalLayout(btnAgregar, btnEditar, btnBorrar);
 		hl.setSpacing(true);
 
@@ -76,10 +77,18 @@ public class PantallaTags extends VerticalLayout implements View
 		addComponent(vl);
 	}
 
-	private void limpiarCampos(TextField textFieldTag, BeanItemContainer<Tag> tags, ComboBox comboBoxTag) {
+	private void refreshComboBoxTag()
+	{
+		comboBoxTag.setContainerDataSource(new BeanItemContainer<Tag>(
+					Tag.class,tagService.traerTodos()));
+	}
+
+	private void limpiarCampos(TextField textFieldTag, BeanItemContainer<Tag> tags, ComboBox comboBoxTag)
+	{
 		textFieldTag.clear();
 		comboBoxTag.removeAllItems();
 		tagService.traerTodos().forEach(tag -> tags.addBean(tag));
+		comboBoxTag.setContainerDataSource(tags);
 	}
 
 	@Override
