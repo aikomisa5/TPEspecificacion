@@ -62,13 +62,16 @@ public class WebAppListener implements ServletContextListener
 	{
 		final Properties p = new Properties();
 		System.out.println("Cargando Properties");
-		try {
-		p.load(new FileInputStream(new File(System.getProperty("ext.config"))));		
-		properties = p;
-		System.out.println("Properties cargadas OK.");
-		System.out.println(properties);
-		} catch (Exception e) {
-		e.printStackTrace();
+		try
+		{
+			p.load(new FileInputStream(new File(System.getProperty("ext.config"))));
+			properties = p;
+			System.out.println("Properties cargadas OK.");
+			System.out.println(properties);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 	}
 
@@ -76,8 +79,7 @@ public class WebAppListener implements ServletContextListener
 	{
 		try
 		{
-			System.out.println("Iniciando server Neodatis webapp");
-			
+			System.out.println("Iniciando server Neodatiswebapp");
 			server = ODBFactory.openServer(NEODATIS_SERVER_PORT);
 			server.startServer(true);
 			isOk = true;
@@ -93,16 +95,17 @@ public class WebAppListener implements ServletContextListener
 	}
 
 	public static boolean isOk()
-	{		
+	{
 		return isOk;
 	}
 
 	public static ODBServer getServer()
-	{		
+	{
 		return server;
 	}
-	
-	public static String getProperty(String key){
+
+	public static String getProperty(String key)
+	{
 		return properties.getProperty(key);
 	}
 
