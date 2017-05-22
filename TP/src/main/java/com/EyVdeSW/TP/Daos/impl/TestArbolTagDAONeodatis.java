@@ -22,10 +22,12 @@ public class TestArbolTagDAONeodatis {
 
 	 private static String dbFilePath;
 	    private static ArbolTagDAO arbolTagDAO;
+	    private static TagDAONeodatis	tagDAO;
 	 
 	    @BeforeClass
 	    public static void setUpClass() {
 	        arbolTagDAO = new ArbolTagDAONeodatis();
+	        tagDAO = new TagDAONeodatis();
 	        dbFilePath = Parametros.getProperties().getProperty(Parametros.dbPath);
 	    }
 	 
@@ -54,6 +56,12 @@ public class TestArbolTagDAONeodatis {
 		   assertEquals(ab.getRaiz().getHijos().get(0).getHijos().size(), 2);
 		   assertEquals(ab.getRaiz().getHijos().get(1).getHijos().size(), 1);
 		   
+	 }
+	   
+	 @Test
+	 public void agregandoTags()
+	 {
+		 
 	 }
 	
 	
@@ -87,5 +95,44 @@ public class TestArbolTagDAONeodatis {
      
      return ab;
     }
+    
+	private ArrayList<Tag> instanciaTags2()
+	{
+
+		Tag padre1 = new Tag("Padre1");
+		Tag padre2 = new Tag("Padre2");
+		Tag hijo11 = new Tag("Hijo11");
+		Tag hijo12 = new Tag("Hijo12");
+		Tag hijo111= new Tag("hijo111");
+		Tag hijo112= new Tag("hijo112");
+		Tag hijo21 = new Tag("Hijo21");
+		
+
+		List<Tag> hijos = new ArrayList<Tag>();
+		hijos.add(hijo11);
+		hijos.add(hijo12);
+		padre1.setHijos(hijos);
+
+		hijos = new ArrayList<Tag>();
+		hijos.add(hijo21);
+		padre2.setHijos(hijos);
+		
+		hijos = new ArrayList<Tag>();
+		hijos.add(hijo111);
+		hijos.add(hijo112);
+		hijo11.setHijos(hijos);
+
+		ArrayList<Tag> ret = new ArrayList<>();
+
+		ret.add(padre1);
+		ret.add(padre2);
+
+		return ret;
+	}
+	
+	private void agregarDatosDePrueba(ArrayList<Tag> instancia)
+	{
+		instancia.forEach(t -> tagDAO.guardar(t));
+	}
 
 }

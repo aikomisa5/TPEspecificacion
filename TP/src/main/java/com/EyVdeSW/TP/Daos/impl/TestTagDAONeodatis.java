@@ -32,7 +32,7 @@ public class TestTagDAONeodatis
 		File f = new File(dbFilePath);
 		if (f.exists())
 			f.delete();
-		agregarDatosDePrueba();
+		//agregarDatosDePrueba(instanciaTags());
 	}
 
 	@After
@@ -54,6 +54,7 @@ public class TestTagDAONeodatis
 	@Test
 	public void testBorrarTags()
 	{
+		agregarDatosDePrueba(instanciaTags());
 		Collection<Tag> tags = tagDAO.traerTodos();
 		// tags.forEach(t -> System.out.println(t));
 		assertEquals(tags.size(), 5);
@@ -66,19 +67,27 @@ public class TestTagDAONeodatis
 	public void modificarTag()
 	{
 		limpiarBD();
-		agregarDatosDePrueba();
+		agregarDatosDePrueba(instanciaTags());
 
 		tagDAO.modificar(new Tag(null, "Padre1", null), new Tag(null, "sarasa", null));
 		ArrayList<Tag> tags = (ArrayList<Tag>) tagDAO.traerTodos();
 		tags.forEach(e -> System.out.println(e.getNombre()));
 		assertEquals(new Tag(null, "sarasa", null), tags.get(0));
 	}
+	
+	@Test
+	public void modificarTag2(){
+		limpiarBD();
+		agregarDatosDePrueba(instanciaTags2());
+		List<Tag>tags=(List<Tag>) tagDAO.traerTodos();
+		assertEquals(tags.size(), 7);
+	}
 
 	@Test
 	public void consultarPorNombre()
 	{
 		limpiarBD();
-		agregarDatosDePrueba();
+		agregarDatosDePrueba(instanciaTags());
 
 		ArrayList<Tag> tags = (ArrayList<Tag>) tagDAO.consultarPorNombre("adre");
 		assertEquals(tags.size(), 2);
@@ -90,7 +99,7 @@ public class TestTagDAONeodatis
 	public void getTagPorNombre()
 	{
 		limpiarBD();
-		agregarDatosDePrueba();
+		agregarDatosDePrueba(instanciaTags());
 
 		Tag tag = tagDAO.getTagPorNombre("Padre1");
 		assertEquals(tag.getNombre(), "Padre1");
@@ -105,10 +114,9 @@ public class TestTagDAONeodatis
 		System.out.println("-----------------------------");
 	}
 
-	private void agregarDatosDePrueba()
+	private void agregarDatosDePrueba(ArrayList<Tag> instancia)
 	{
-		ArrayList<Tag> tags = instanciaTags();
-		tags.forEach(t -> tagDAO.guardar(t));
+		instancia.forEach(t -> tagDAO.guardar(t));
 	}
 
 	private ArrayList<Tag> instanciaTags()
@@ -128,6 +136,40 @@ public class TestTagDAONeodatis
 		hijos = new ArrayList<Tag>();
 		hijos.add(hijo21);
 		padre2.setHijos(hijos);
+
+		ArrayList<Tag> ret = new ArrayList<>();
+
+		ret.add(padre1);
+		ret.add(padre2);
+
+		return ret;
+	}
+	
+	private ArrayList<Tag> instanciaTags2()
+	{
+
+		Tag padre1 = new Tag("Padre1");
+		Tag padre2 = new Tag("Padre2");
+		Tag hijo11 = new Tag("Hijo11");
+		Tag hijo12 = new Tag("Hijo12");
+		Tag hijo111= new Tag("hijo111");
+		Tag hijo112= new Tag("hijo112");
+		Tag hijo21 = new Tag("Hijo21");
+		
+
+		List<Tag> hijos = new ArrayList<Tag>();
+		hijos.add(hijo11);
+		hijos.add(hijo12);
+		padre1.setHijos(hijos);
+
+		hijos = new ArrayList<Tag>();
+		hijos.add(hijo21);
+		padre2.setHijos(hijos);
+		
+		hijos = new ArrayList<Tag>();
+		hijos.add(hijo111);
+		hijos.add(hijo112);
+		hijo11.setHijos(hijos);
 
 		ArrayList<Tag> ret = new ArrayList<>();
 

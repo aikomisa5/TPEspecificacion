@@ -3,17 +3,22 @@ package com.EyVdeSW.TP.services;
 import java.util.Collection;
 import java.util.List;
 
+import com.EyVdeSW.TP.Daos.ArbolTagDAO;
 import com.EyVdeSW.TP.Daos.TagDAO;
+import com.EyVdeSW.TP.Daos.impl.ArbolTagDAONeodatis;
 import com.EyVdeSW.TP.Daos.impl.TagDAONeodatis;
+import com.EyVdeSW.TP.domainModel.ArbolTag;
 import com.EyVdeSW.TP.domainModel.Tag;
 
 public class TagService
 {
 	private TagDAO tagDAO;
+	private ArbolTagDAO arbolTagDAO;
 	private static TagService tagService;
 	
 	private TagService(){
 		tagDAO= new TagDAONeodatis();
+		arbolTagDAO= new ArbolTagDAONeodatis();
 	}
 	
 	public static TagService getTagService(){
@@ -29,10 +34,12 @@ public class TagService
 	
 	public void guardar(String nombreTag, String padreTag){
 		if(padreTag == null){
-			tagDAO.guardar(new Tag(nombreTag));
+			System.out.println(padreTag);
+			arbolTagDAO.guardar(new ArbolTag(new Tag(nombreTag)));
 		}
 		else
 		{
+			System.out.println(padreTag);
 			Tag padre = tagDAO.getTagPorNombre(padreTag);
 			padre.addHijo(new Tag(nombreTag));
 			tagDAO.modificar(padre, padre);			
