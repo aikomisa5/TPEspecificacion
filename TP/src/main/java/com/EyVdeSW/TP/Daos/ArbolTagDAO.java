@@ -6,7 +6,7 @@ import com.EyVdeSW.TP.domainModel.ArbolTag;
 
 public interface ArbolTagDAO extends DAO<ArbolTag> {
 	
-	public Collection<ArbolTag>traerArbol();
+	public Collection<ArbolTag>traerArboles();
 	
 
 }
