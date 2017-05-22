@@ -33,6 +33,7 @@ public class PantallaTags extends VerticalLayout implements View
 		Tree arbol = new Tree("Tags");
 		
 		agregarTags(arbol);
+		asignarJerarquias(arbol);
 		
 		BeanItemContainer<Tag> tags = new BeanItemContainer<Tag>(Tag.class);
 
@@ -115,9 +116,22 @@ public class PantallaTags extends VerticalLayout implements View
 		}
 	}
 	
+	//llamarlo para asignar jerarquias
 	private void asignarJerarquias(Tree arbol){
+		List<ArbolTag>arboles =(List<ArbolTag>) tagService.traerArboles();
 		
+		for(ArbolTag a: arboles){
+			recorrerAsignar(null, a.getRaiz(), arbol);
+		}
 		
+	}
+	
+	private void recorrerAsignar(Tag padre, Tag actual, Tree arbol){
+		if(padre != null)
+			arbol.setParent(actual.getNombre(), padre.getNombre());
+		for(Tag tag : actual.getHijos()){
+			recorrerAsignar(actual, tag, arbol);
+		}
 	}
 
 }
