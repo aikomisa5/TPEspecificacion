@@ -13,9 +13,11 @@ public class Tag implements Serializable
 	private List<Tag> hijos;
 	private String nombre;
 	private List<AccionGeneral>	accionesGenerales;
+	private Tag padre;
 
 	public Tag(List<Tag> hijos, String nombre, List<AccionGeneral> accionesGenerales) {
 		super();
+		this.padre = null;
 		this.hijos = hijos;
 		this.nombre = nombre;
 		this.accionesGenerales = accionesGenerales;
@@ -23,11 +25,28 @@ public class Tag implements Serializable
 	
 	public Tag(String nombre) {
 		super();
+		this.padre = null;
+		this.nombre = nombre;
+		this.hijos=new ArrayList<>();
+		this.accionesGenerales=new ArrayList<>();
+	}
+	
+	public Tag(String nombre, Tag padre) {
+		super();
+		this.padre = padre;
 		this.nombre = nombre;
 		this.hijos=new ArrayList<>();
 		this.accionesGenerales=new ArrayList<>();
 	}
 
+	public Tag getPadre(){
+		return padre;
+	}
+	
+	public void setPadre(Tag padre){
+		this.padre = padre;
+	}
+	
 	public List<Tag> getHijos()
 	{
 		return hijos;
@@ -39,6 +58,7 @@ public class Tag implements Serializable
 	}
 	
 	public void addHijo(Tag tag){
+		tag.setPadre(this);
 		hijos.add(tag);			
 	}
 	
