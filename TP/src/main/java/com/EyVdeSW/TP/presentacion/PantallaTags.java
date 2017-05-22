@@ -49,6 +49,8 @@ public class PantallaTags extends VerticalLayout implements View
 			tagService.guardar(textFieldTag.getValue(), tagPadre);
 			Notification.show("Tag Guardado", Type.TRAY_NOTIFICATION);
 			limpiarCampos(textFieldTag, tags, comboBoxTag);
+			agregarTags(arbol);
+			asignarJerarquias(arbol);
 		});
 
 		Button btnEditar = new Button("Editar tag");
@@ -56,7 +58,9 @@ public class PantallaTags extends VerticalLayout implements View
 		btnEditar.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 		btnEditar.addClickListener(e -> {			
 			tagService.guardar(textFieldTag.getValue(), comboBoxTag.getValue()==null?null:comboBoxTag.getValue().toString());
-			Notification.show("Tag Guardado", Type.TRAY_NOTIFICATION);
+			Notification.show("Tag editado", Type.TRAY_NOTIFICATION);
+			agregarTags(arbol);
+			asignarJerarquias(arbol);
 		});
 
 		Button btnBorrar = new Button("Borrar tag");
@@ -68,6 +72,8 @@ public class PantallaTags extends VerticalLayout implements View
 			tagService.borrar(t.get(0));
 			Notification.show("Tag Borrado", Type.TRAY_NOTIFICATION);
 			limpiarCampos(textFieldTag, tags, comboBoxTag);
+			agregarTags(arbol);
+			asignarJerarquias(arbol);
 		});
 
 		HorizontalLayout hl = new HorizontalLayout(btnAgregar, btnEditar, btnBorrar);
@@ -129,6 +135,8 @@ public class PantallaTags extends VerticalLayout implements View
 	private void recorrerAsignar(Tag padre, Tag actual, Tree arbol){
 		if(padre != null)
 			arbol.setParent(actual.getNombre(), padre.getNombre());
+		if(actual.getHijos().size()==0){}
+			//arbol.setChildrenAllowed(actual.getNombre(), false); si hacemos esto cuando agregamos en un no expandible se crashea
 		for(Tag tag : actual.getHijos()){
 			recorrerAsignar(actual, tag, arbol);
 		}

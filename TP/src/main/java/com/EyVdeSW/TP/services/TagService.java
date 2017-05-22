@@ -62,9 +62,11 @@ public class TagService
 		}
 	}	
 	
-	public void modificar (Tag original, Tag modificacion)
+	public void modificar (String original, String modificacion)
 	{
-		tagDAO.modificar(original, modificacion);
+		//TODO
+		//Tag orig = tagDAO.getTagPorNombre(original);
+		//tagDAO.modificar(original, modificacion);
 	}
 	
 	public Collection<Tag>traerTodos(){
