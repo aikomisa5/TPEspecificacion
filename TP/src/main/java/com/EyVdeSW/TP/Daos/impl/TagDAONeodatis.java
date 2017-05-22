@@ -57,7 +57,8 @@ public class TagDAONeodatis extends DAONeodatis<Tag> implements TagDAO{
 			// Abrimos la bd
 			odb = ODBFactory.open(Parametros.getProperties().getProperty(Parametros.dbPath));
 			resultadoQuery = odb.getObjects(new CriteriaQuery(Tag.class, Where.like("nombre", "%"+nombre+"%")));
-			tag= (Tag) resultadoQuery.getFirst();
+			if(resultadoQuery.size() != 0)
+				tag= (Tag) resultadoQuery.getFirst();
 		}
 		catch(Exception e){
 			e.printStackTrace();

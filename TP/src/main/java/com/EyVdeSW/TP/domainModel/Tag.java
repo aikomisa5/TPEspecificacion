@@ -10,7 +10,7 @@ public class Tag implements Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = -3734241005474909743L;
-	private List<Tag> hijos=null;
+	private List<Tag> hijos;
 	private String nombre;
 	private List<AccionGeneral>	accionesGenerales;
 	
@@ -70,6 +70,11 @@ public class Tag implements Serializable
 	}
 
 	@Override
+	public int hashCode() {
+		return 1;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -95,7 +100,7 @@ public class Tag implements Serializable
 			return false;
 		return true;
 	}
-
+	
 	@Override
 	public String toString()
 	{

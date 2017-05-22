@@ -81,6 +81,16 @@ public class TestTagDAONeodatis
 		agregarDatosDePrueba(instanciaTags2());
 		List<Tag>tags=(List<Tag>) tagDAO.traerTodos();
 		assertEquals(tags.size(), 7);
+		Tag t1= tagDAO.getTagPorNombre("Hijo111");
+		t1.addHijo(new Tag("Hijo1111"));
+		tagDAO.modificar(t1, t1);
+		t1= tagDAO.getTagPorNombre("Hijo111");
+		t1.addHijo(new Tag("Hijo1112"));
+		tagDAO.modificar(t1, t1);
+		tags=(List<Tag>) tagDAO.traerTodos();
+		System.out.println("Deberia ser 9: "+tags.size());
+		assertEquals(tags.size(), 9);
+		
 	}
 
 	@Test
@@ -152,8 +162,8 @@ public class TestTagDAONeodatis
 		Tag padre2 = new Tag("Padre2");
 		Tag hijo11 = new Tag("Hijo11");
 		Tag hijo12 = new Tag("Hijo12");
-		Tag hijo111= new Tag("hijo111");
-		Tag hijo112= new Tag("hijo112");
+		Tag hijo111= new Tag("Hijo111");
+		Tag hijo112= new Tag("Hijo112");
 		Tag hijo21 = new Tag("Hijo21");
 		
 

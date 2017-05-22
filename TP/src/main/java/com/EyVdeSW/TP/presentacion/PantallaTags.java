@@ -81,6 +81,7 @@ public class PantallaTags extends VerticalLayout implements View
 	{
 		textFieldTag.clear();
 		comboBoxTag.removeAllItems();
+		System.out.println("Cantidad de elementos: "+tagService.traerTodos().size());
 		tagService.traerTodos().forEach(tag -> tags.addBean(tag));
 		comboBoxTag.setContainerDataSource(tags);
 	}
