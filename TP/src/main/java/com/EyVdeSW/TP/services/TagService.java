@@ -54,10 +54,7 @@ public class TagService
 				tagDAO.borrar(i);
 			}
 		}
-		
-		
 	}	
-	
 	
 	public void modificar (Tag original, Tag modificacion)
 	{

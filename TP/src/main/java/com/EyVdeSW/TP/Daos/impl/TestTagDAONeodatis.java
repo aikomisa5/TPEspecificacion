@@ -100,7 +100,7 @@ public class TestTagDAONeodatis
 	public void tagArbol(){
 		ArrayList <Tag> tags = instanciaArbolTags();
 		System.out.println("-----------------------------");
-		tags.forEach(tag -> System.out.println(tag + " padre:" + tag.getPadre() + 
+		tags.forEach(tag -> System.out.println(tag +
 					" hijos: "+tag.getHijos()));
 		System.out.println("-----------------------------");
 	}

@@ -25,7 +25,6 @@ public class PantallaTags extends VerticalLayout implements View
 	protected static final String	Name		= "";
 
 	private TagService						tagService	= TagService.getTagService();
-	private ComboBox comboBoxTag;
 
 	public PantallaTags()
 	{
@@ -35,7 +34,7 @@ public class PantallaTags extends VerticalLayout implements View
 
 		tagService.traerTodos().forEach(tag -> tags.addBean(tag));
 
-		comboBoxTag = new ComboBox("Seleccionar Tag Padre:", tags);
+		ComboBox comboBoxTag = new ComboBox("Seleccionar Tag Padre:", tags);
 		//refreshComboBoxTag();
 
 		Button btnAgregar = new Button("Agregar tag");
@@ -46,7 +45,7 @@ public class PantallaTags extends VerticalLayout implements View
 			tagService.guardar(textFieldTag.getValue(), tagPadre);
 			Notification.show("Tag Guardado", Type.TRAY_NOTIFICATION);
 			limpiarCampos(textFieldTag, tags, comboBoxTag);
-			refreshComboBoxTag();
+			//refreshComboBoxTag();
 		});
 
 		Button btnEditar = new Button("Editar tag");
@@ -77,12 +76,7 @@ public class PantallaTags extends VerticalLayout implements View
 		addComponent(vl);
 	}
 
-	private void refreshComboBoxTag()
-	{
-		comboBoxTag.setContainerDataSource(new BeanItemContainer<Tag>(
-					Tag.class,tagService.traerTodos()));
-	}
-
+	
 	private void limpiarCampos(TextField textFieldTag, BeanItemContainer<Tag> tags, ComboBox comboBoxTag)
 	{
 		textFieldTag.clear();

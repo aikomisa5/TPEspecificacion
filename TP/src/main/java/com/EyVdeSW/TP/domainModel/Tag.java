@@ -10,14 +10,13 @@ public class Tag implements Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = -3734241005474909743L;
-	private List<Tag> hijos;
+	private List<Tag> hijos=null;
 	private String nombre;
 	private List<AccionGeneral>	accionesGenerales;
-	private Tag padre;
+	
 
 	public Tag(List<Tag> hijos, String nombre, List<AccionGeneral> accionesGenerales) {
 		super();
-		this.padre = null;
 		this.hijos = hijos;
 		this.nombre = nombre;
 		this.accionesGenerales = accionesGenerales;
@@ -25,26 +24,9 @@ public class Tag implements Serializable
 	
 	public Tag(String nombre) {
 		super();
-		this.padre = null;
 		this.nombre = nombre;
 		this.hijos=new ArrayList<>();
 		this.accionesGenerales=new ArrayList<>();
-	}
-	
-	public Tag(String nombre, Tag padre) {
-		super();
-		this.padre = padre;
-		this.nombre = nombre;
-		this.hijos=new ArrayList<>();
-		this.accionesGenerales=new ArrayList<>();
-	}
-
-	public Tag getPadre(){
-		return padre;
-	}
-	
-	public void setPadre(Tag padre){
-		this.padre = padre;
 	}
 	
 	public List<Tag> getHijos()
@@ -58,7 +40,6 @@ public class Tag implements Serializable
 	}
 	
 	public void addHijo(Tag tag){
-		tag.setPadre(this);
 		hijos.add(tag);			
 	}
 	
@@ -89,8 +70,7 @@ public class Tag implements Serializable
 	}
 
 	@Override
-	public boolean equals(Object obj)
-	{
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -98,26 +78,20 @@ public class Tag implements Serializable
 		if (getClass() != obj.getClass())
 			return false;
 		Tag other = (Tag) obj;
-		if (accionesGenerales == null)
-		{
+		if (accionesGenerales == null) {
 			if (other.accionesGenerales != null)
 				return false;
-		}
-		else if (!accionesGenerales.equals(other.accionesGenerales))
+		} else if (!accionesGenerales.equals(other.accionesGenerales))
 			return false;
-		if (hijos == null)
-		{
+		if (hijos == null) {
 			if (other.hijos != null)
 				return false;
-		}
-		else if (!hijos.equals(other.hijos))
+		} else if (!hijos.equals(other.hijos))
 			return false;
-		if (nombre == null)
-		{
+		if (nombre == null) {
 			if (other.nombre != null)
 				return false;
-		}
-		else if (!nombre.equals(other.nombre))
+		} else if (!nombre.equals(other.nombre))
 			return false;
 		return true;
 	}
