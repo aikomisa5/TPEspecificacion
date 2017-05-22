@@ -13,12 +13,12 @@ import com.EyVdeSW.TP.domainModel.Tag;
 public class TagService
 {
 	private TagDAO tagDAO;
-	//private ArbolTagDAO arbolTagDAO;
+	private ArbolTagDAO arbolTagDAO;
 	private static TagService tagService;
 	
 	private TagService(){
 		tagDAO= new TagDAONeodatis();
-	//	arbolTagDAO= new ArbolTagDAONeodatis();
+		arbolTagDAO= new ArbolTagDAONeodatis();
 	}
 	
 	public static TagService getTagService(){
@@ -34,7 +34,7 @@ public class TagService
 	
 	public void guardar(String nombreTag, String padreTag){
 		if(padreTag == null){
-			tagDAO.guardar(new Tag(nombreTag));
+			arbolTagDAO.guardar(new ArbolTag(new Tag(nombreTag)));
 		}
 		else
 		{
@@ -73,6 +73,10 @@ public class TagService
 	
 	public Collection<Tag> consultar(String nombre){
 		return tagDAO.consultarPorNombre(nombre);
+	}
+	
+	public Collection<ArbolTag>traerArboles(){
+		return arbolTagDAO.traerArboles();
 	}
 	
 }

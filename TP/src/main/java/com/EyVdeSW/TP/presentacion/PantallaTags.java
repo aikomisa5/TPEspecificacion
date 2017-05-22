@@ -2,6 +2,7 @@ package com.EyVdeSW.TP.presentacion;
 
 import java.util.List;
 
+import com.EyVdeSW.TP.domainModel.ArbolTag;
 import com.EyVdeSW.TP.domainModel.Tag;
 import com.EyVdeSW.TP.services.TagService;
 
@@ -14,7 +15,7 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
-
+import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.ValoTheme;
@@ -29,13 +30,15 @@ public class PantallaTags extends VerticalLayout implements View
 	public PantallaTags()
 	{
 		TextField textFieldTag = new TextField("Nuevo Tag:");
-
+		Tree arbol = new Tree("Tags");
+		
+		agregarTags(arbol);
+		
 		BeanItemContainer<Tag> tags = new BeanItemContainer<Tag>(Tag.class);
 
 		tagService.traerTodos().forEach(tag -> tags.addBean(tag));
 
 		ComboBox comboBoxTag = new ComboBox("Seleccionar Tag Padre:", tags);
-		//refreshComboBoxTag();
 
 		Button btnAgregar = new Button("Agregar tag");
 		btnAgregar.setStyleName(ValoTheme.BUTTON_PRIMARY);
@@ -45,7 +48,6 @@ public class PantallaTags extends VerticalLayout implements View
 			tagService.guardar(textFieldTag.getValue(), tagPadre);
 			Notification.show("Tag Guardado", Type.TRAY_NOTIFICATION);
 			limpiarCampos(textFieldTag, tags, comboBoxTag);
-			//refreshComboBoxTag();
 		});
 
 		Button btnEditar = new Button("Editar tag");
@@ -70,15 +72,16 @@ public class PantallaTags extends VerticalLayout implements View
 		HorizontalLayout hl = new HorizontalLayout(btnAgregar, btnEditar, btnBorrar);
 		hl.setSpacing(true);
 
-		VerticalLayout vl = new VerticalLayout(textFieldTag, comboBoxTag, hl);
-		vl.setSpacing(true);
-
-		addComponent(vl);
+		VerticalLayout vlFormTags = new VerticalLayout(textFieldTag, comboBoxTag, hl);
+		VerticalLayout vlArbol= new VerticalLayout(arbol);
+		vlFormTags.setSpacing(true);
+		HorizontalLayout hlprincipal= new HorizontalLayout(vlArbol, vlFormTags);
+		hlprincipal.setSpacing(true);
+		addComponent(hlprincipal);
 	}
 
 	
-	private void limpiarCampos(TextField textFieldTag, BeanItemContainer<Tag> tags, ComboBox comboBoxTag)
-	{
+	private void limpiarCampos(TextField textFieldTag, BeanItemContainer<Tag> tags, ComboBox comboBoxTag){
 		textFieldTag.clear();
 		comboBoxTag.removeAllItems();
 		System.out.println("Cantidad de elementos: "+tagService.traerTodos().size());
@@ -87,10 +90,34 @@ public class PantallaTags extends VerticalLayout implements View
 	}
 
 	@Override
-	public void enter(ViewChangeEvent event)
-	{
+	public void enter(ViewChangeEvent event){
 		// TODO Auto-generated method stub
 
+	}
+	
+	//llamar a este metodo para asignar los valores al tree
+	private void agregarTags(Tree arbol){
+		List<ArbolTag>arboles =(List<ArbolTag>) tagService.traerArboles();
+		
+		for(ArbolTag a: arboles){
+			recorrerAgregar(a.getRaiz(), arbol);
+		}
+		
+	}
+	
+	//auxiliar de agregarTags
+	private void recorrerAgregar(Tag t, Tree arbol){
+		arbol.addItem(t.getNombre());
+		if(t.getHijos() != null){
+			for(Tag hijo:t.getHijos()){
+				recorrerAgregar(hijo, arbol);
+			}
+		}
+	}
+	
+	private void asignarJerarquias(Tree arbol){
+		
+		
 	}
 
 }

@@ -10,7 +10,7 @@ import com.EyVdeSW.TP.domainModel.ArbolTag;
 public class ArbolTagDAONeodatis extends DAONeodatis<ArbolTag> implements ArbolTagDAO {
 
 	@Override
-	public Collection<ArbolTag> traerArbol() {
+	public Collection<ArbolTag> traerArboles() {
 		return consultar(new CriteriaQuery(ArbolTag.class));
 	}
 

@@ -43,13 +43,13 @@ public class TestArbolTagDAONeodatis {
 	   @After
 	    public void limpiarBD()
 	    {
-	        Collection<ArbolTag> arbolTags = arbolTagDAO.traerArbol();        
+	        Collection<ArbolTag> arbolTags = arbolTagDAO.traerArboles();        
 	        arbolTags.forEach(e -> arbolTagDAO.borrar(e));
 	    }
 	   
 	   @Test
 	   public void testearArbol(){
-		   List<ArbolTag> ret= (List<ArbolTag>) arbolTagDAO.traerArbol();
+		   List<ArbolTag> ret= (List<ArbolTag>) arbolTagDAO.traerArboles();
 		   ArbolTag ab= ret.get(0);
 		   ab.getRaiz().getHijos().forEach(hijo -> System.out.println(hijo));
 		   assertEquals(ab.getRaiz().getHijos().size(), 2);
