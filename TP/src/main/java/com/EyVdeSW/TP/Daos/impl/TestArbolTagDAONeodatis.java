@@ -22,12 +22,10 @@ public class TestArbolTagDAONeodatis {
 
 	 private static String dbFilePath;
 	    private static ArbolTagDAO arbolTagDAO;
-	    private static TagDAONeodatis	tagDAO;
 	 
 	    @BeforeClass
 	    public static void setUpClass() {
 	        arbolTagDAO = new ArbolTagDAONeodatis();
-	        tagDAO = new TagDAONeodatis();
 	        dbFilePath = Parametros.getProperties().getProperty(Parametros.dbPath);
 	    }
 	 
@@ -59,18 +57,24 @@ public class TestArbolTagDAONeodatis {
 	 }
 	   
 	 @Test
-	 public void agregandoTags()
+	 public void esRaiz()
 	 {
-		 
+		 assertTrue(arbolTagDAO.esRaiz(new Tag("Raiz")));
+		 assertFalse(arbolTagDAO.esRaiz(new Tag("Padre1")));
+		 assertFalse(arbolTagDAO.esRaiz(new Tag("Padre2")));
+		 assertFalse(arbolTagDAO.esRaiz(new Tag("Hijo11")));
+		 assertFalse(arbolTagDAO.esRaiz(new Tag("sarasa")));//no existe, no deberia crashear
+		 arbolTagDAO.guardar(new ArbolTag(new Tag("sarasa")));
+		 assertTrue(arbolTagDAO.esRaiz(new Tag("sarasa")));
 	 }
 	
 	
 	private void agregarDatosDePrueba() {
-        ArbolTag ab = instanciaTags();
+        ArbolTag ab = instanciaArbol();
         arbolTagDAO.guardar(ab);    
     }
  
-    private ArbolTag instanciaTags() {
+    private ArbolTag instanciaArbol() {
     ArbolTag ab= new ArbolTag(new Tag("Raiz"));
      Tag padre1 = new Tag("Padre1");
      Tag padre2 = new Tag("Padre2");
@@ -78,7 +82,6 @@ public class TestArbolTagDAONeodatis {
      Tag hijo12 = new Tag("Hijo12");
      Tag hijo21 = new Tag("Hijo21");
      
-    
      List<Tag> hijos= new ArrayList<Tag>();
      hijos.add(hijo11);
      hijos.add(hijo12);
@@ -96,43 +99,5 @@ public class TestArbolTagDAONeodatis {
      return ab;
     }
     
-	private ArrayList<Tag> instanciaTags2()
-	{
-
-		Tag padre1 = new Tag("Padre1");
-		Tag padre2 = new Tag("Padre2");
-		Tag hijo11 = new Tag("Hijo11");
-		Tag hijo12 = new Tag("Hijo12");
-		Tag hijo111= new Tag("hijo111");
-		Tag hijo112= new Tag("hijo112");
-		Tag hijo21 = new Tag("Hijo21");
-		
-
-		List<Tag> hijos = new ArrayList<Tag>();
-		hijos.add(hijo11);
-		hijos.add(hijo12);
-		padre1.setHijos(hijos);
-
-		hijos = new ArrayList<Tag>();
-		hijos.add(hijo21);
-		padre2.setHijos(hijos);
-		
-		hijos = new ArrayList<Tag>();
-		hijos.add(hijo111);
-		hijos.add(hijo112);
-		hijo11.setHijos(hijos);
-
-		ArrayList<Tag> ret = new ArrayList<>();
-
-		ret.add(padre1);
-		ret.add(padre2);
-
-		return ret;
-	}
-	
-	private void agregarDatosDePrueba(ArrayList<Tag> instancia)
-	{
-		instancia.forEach(t -> tagDAO.guardar(t));
-	}
 
 }
