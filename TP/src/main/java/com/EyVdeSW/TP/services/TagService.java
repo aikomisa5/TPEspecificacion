@@ -52,7 +52,8 @@ public class TagService
 		if(!arbolTagDAO.esRaiz(t))
 			tagDAO.borrar(t);
 		else{//borrar el arbol que tenga como raiz a t
-			
+			ArbolTag aBorrar= arbolTagDAO.getArbolPorNombreRaiz(t.getNombre());
+			arbolTagDAO.borrar(aBorrar);
 		}
 	}
 	
