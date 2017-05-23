@@ -67,6 +67,17 @@ public class TestArbolTagDAONeodatis {
 		 arbolTagDAO.guardar(new ArbolTag(new Tag("sarasa")));
 		 assertTrue(arbolTagDAO.esRaiz(new Tag("sarasa")));
 	 }
+	 
+	 @Test
+	 public void getPorNombreDeRaiz(){
+		 ArbolTag raiz1=arbolTagDAO.getArbolPorNombreRaiz("Raiz");
+		 assertEquals(raiz1.getRaiz().getHijos().size(), 2);
+		 arbolTagDAO.guardar(new ArbolTag(new Tag("sarasa")));
+		 raiz1=arbolTagDAO.getArbolPorNombreRaiz("sarasa");
+		 assertEquals(raiz1.getRaiz().getNombre(), "sarasa");
+		 raiz1=arbolTagDAO.getArbolPorNombreRaiz("deportes");
+		 assertEquals(raiz1, null);
+	 }
 	
 	
 	private void agregarDatosDePrueba() {

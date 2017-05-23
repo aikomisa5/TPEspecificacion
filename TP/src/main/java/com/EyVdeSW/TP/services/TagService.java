@@ -49,8 +49,11 @@ public class TagService
 		//TODO verificar que el tag no sea raiz de un arbol, en caso de serlo eliminar el arbol
 		//Sino eliminar el tag directamente
 		//Podemos crear un metodo booleano "esRaiz(Tag t)" en arbol y usarlo aca(agregar a la interfaz)
-		List<ArbolTag>arboles=(List<ArbolTag>) arbolTagDAO.traerArboles();
-		tagDAO.borrar(t);
+		if(!arbolTagDAO.esRaiz(t))
+			tagDAO.borrar(t);
+		else{//borrar el arbol que tenga como raiz a t
+			
+		}
 	}
 	
 	//REVISAR
