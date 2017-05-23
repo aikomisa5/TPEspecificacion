@@ -72,6 +72,7 @@ public class PantallaTags extends VerticalLayout implements View
 			tagService.borrar(t.get(0));
 			Notification.show("Tag Borrado", Type.TRAY_NOTIFICATION);
 			limpiarCampos(textFieldTag, tags, comboBoxTag);
+			//TODO esto no funciona
 			agregarTags(arbol);
 			asignarJerarquias(arbol);
 		});
