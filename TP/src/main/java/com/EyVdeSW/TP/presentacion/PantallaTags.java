@@ -1,5 +1,6 @@
 package com.EyVdeSW.TP.presentacion;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.EyVdeSW.TP.domainModel.ArbolTag;
@@ -34,6 +35,7 @@ public class PantallaTags extends VerticalLayout implements View
 		
 		agregarTags(arbol);
 		asignarJerarquias(arbol);
+		expandirArbol(arbol);
 		
 		BeanItemContainer<Tag> tags = new BeanItemContainer<Tag>(Tag.class);
 
@@ -52,6 +54,7 @@ public class PantallaTags extends VerticalLayout implements View
 			arbol.removeAllItems();
 			agregarTags(arbol);
 			asignarJerarquias(arbol);
+			expandirArbol(arbol);
 		});
 
 		Button btnEditar = new Button("Editar tag");
@@ -62,6 +65,7 @@ public class PantallaTags extends VerticalLayout implements View
 			Notification.show("Tag editado", Type.TRAY_NOTIFICATION);
 			agregarTags(arbol);
 			asignarJerarquias(arbol);
+			expandirArbol(arbol);
 		});
 
 		Button btnBorrar = new Button("Borrar tag");
@@ -76,6 +80,7 @@ public class PantallaTags extends VerticalLayout implements View
 			arbol.removeAllItems();
 			agregarTags(arbol);
 			asignarJerarquias(arbol);
+			expandirArbol(arbol);
 		});
 
 		HorizontalLayout hl = new HorizontalLayout(btnAgregar, btnEditar, btnBorrar);
@@ -87,9 +92,13 @@ public class PantallaTags extends VerticalLayout implements View
 		HorizontalLayout hlprincipal= new HorizontalLayout(vlArbol, vlFormTags);
 		hlprincipal.setSpacing(true);
 		addComponent(hlprincipal);
+		
 	}
 
 	
+	
+
+
 	private void limpiarCampos(TextField textFieldTag, BeanItemContainer<Tag> tags, ComboBox comboBoxTag){
 		textFieldTag.clear();
 		comboBoxTag.removeAllItems();
@@ -102,6 +111,11 @@ public class PantallaTags extends VerticalLayout implements View
 	public void enter(ViewChangeEvent event){
 		// TODO Auto-generated method stub
 
+	}
+	
+	private void expandirArbol(Tree arbol)
+	{
+		arbol.getItemIds().forEach(item -> arbol.expandItem(item));		
 	}
 	
 	//llamar a este metodo para asignar los valores al tree
