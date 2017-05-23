@@ -49,6 +49,7 @@ public class PantallaTags extends VerticalLayout implements View
 			tagService.guardar(textFieldTag.getValue(), tagPadre);
 			Notification.show("Tag Guardado", Type.TRAY_NOTIFICATION);
 			limpiarCampos(textFieldTag, tags, comboBoxTag);
+			arbol.removeAllItems();
 			agregarTags(arbol);
 			asignarJerarquias(arbol);
 		});
@@ -73,6 +74,7 @@ public class PantallaTags extends VerticalLayout implements View
 			Notification.show("Tag Borrado", Type.TRAY_NOTIFICATION);
 			limpiarCampos(textFieldTag, tags, comboBoxTag);
 			//TODO esto no funciona
+			arbol.removeAllItems();
 			agregarTags(arbol);
 			asignarJerarquias(arbol);
 		});
