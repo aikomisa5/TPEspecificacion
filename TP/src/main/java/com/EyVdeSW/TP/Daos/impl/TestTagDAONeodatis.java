@@ -62,6 +62,16 @@ public class TestTagDAONeodatis
 		tags = tagDAO.traerTodos();
 		assertEquals(0, tags.size());
 	}
+	
+	@Test
+	public void borrarTags2(){
+		limpiarBD();
+		agregarDatosDePrueba(instanciaTags2());
+		Tag padre1=tagDAO.getTagPorNombre("Padre1");
+		tagDAO.borrar(padre1);
+		
+		assertEquals(tagDAO.traerTodos().size(), 2);
+	}
 
 	@Test
 	public void modificarTag()

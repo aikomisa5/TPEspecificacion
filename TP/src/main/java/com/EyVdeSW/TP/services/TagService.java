@@ -46,6 +46,10 @@ public class TagService
 	}
 	
 	public void borrar(Tag t){
+		//TODO verificar que el tag no sea raiz de un arbol, en caso de serlo eliminar el arbol
+		//Sino eliminar el tag directamente
+		//Podemos crear un metodo booleano "esRaiz(Tag t)" en arbol y usarlo aca(agregar a la interfaz)
+		List<ArbolTag>arboles=(List<ArbolTag>) arbolTagDAO.traerArboles();
 		tagDAO.borrar(t);
 	}
 	
@@ -61,6 +65,11 @@ public class TagService
 			}
 		}
 	}	
+	
+	public void borrarRecursivo(String nombreTag){
+		
+		
+	}
 	
 	public void modificar (String original, String modificacion)
 	{
