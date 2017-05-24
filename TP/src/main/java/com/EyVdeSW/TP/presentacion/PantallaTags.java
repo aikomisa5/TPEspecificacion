@@ -160,9 +160,9 @@ public class PantallaTags extends VerticalLayout implements View
 			arbol.setParent(actual.getNombre(), padre.getNombre());
 		if (actual.getHijos().size() == 0)
 		{
+			arbol.setChildrenAllowed(actual.getNombre(), false);
 		}
-		// arbol.setChildrenAllowed(actual.getNombre(), false); si hacemos esto
-		// cuando agregamos en un no expandible se crashea
+		
 		for (Tag tag : actual.getHijos())
 		{
 			recorrerAsignar(actual, tag, arbol);
