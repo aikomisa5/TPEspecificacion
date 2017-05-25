@@ -33,15 +33,15 @@ public class TagService
 	}
 	
 	public void guardar(String nombreTag, String padreTag){
-		if(padreTag == null){
-			arbolTagDAO.guardar(new ArbolTag(new Tag(nombreTag)));
-		}
-		else
-		{
-			System.out.println(padreTag);
-			Tag padre = tagDAO.getTagPorNombre(padreTag);
-			padre.addHijo(new Tag(nombreTag));
-			tagDAO.modificar(padre, padre);			
+		if(!tagDAO.existe(nombreTag)){
+			if(padreTag == null){
+				arbolTagDAO.guardar(new ArbolTag(new Tag(nombreTag)));
+			}
+			else{
+				Tag padre = tagDAO.getTagPorNombre(padreTag);
+				padre.addHijo(new Tag(nombreTag));
+				tagDAO.modificar(padre, padre);			
+			}
 		}
 	}
 	
