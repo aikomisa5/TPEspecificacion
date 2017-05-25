@@ -72,5 +72,26 @@ public class TagDAONeodatis extends DAONeodatis<Tag> implements TagDAO{
 		
 	}
 
+	@Override
+	public boolean existe(String nombre) {
+		boolean ret=false;
+		ODB odb = null;
+		Objects<Tag> resultadoQuery = null;
+		try{
+			// Abrimos la bd
+			odb = ODBFactory.open(Parametros.getProperties().getProperty(Parametros.dbPath));
+			resultadoQuery = odb.getObjects(new CriteriaQuery(Tag.class, Where.equal("nombre", nombre)));
+			ret = ret||(resultadoQuery.size() != 0);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}finally
+		{
+			if (odb != null)
+				odb.close();
+		}
+		return ret;
+	}
+
 	
 }

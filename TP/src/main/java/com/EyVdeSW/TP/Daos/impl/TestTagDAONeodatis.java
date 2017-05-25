@@ -133,6 +133,21 @@ public class TestTagDAONeodatis
 					" hijos: "+tag.getHijos()));
 		System.out.println("-----------------------------");
 	}
+	
+	@Test
+	public void existe(){
+		agregarDatosDePrueba(instanciaTags());
+		
+		assertTrue(tagDAO.existe("Padre1"));
+		assertTrue(tagDAO.existe("Padre2"));
+		assertTrue(tagDAO.existe("Hijo11"));
+		assertTrue(tagDAO.existe("Hijo12"));
+		assertTrue(tagDAO.existe("Hijo21"));
+		assertFalse(tagDAO.existe("Padre"));
+		assertFalse(tagDAO.existe("adre1"));
+		assertFalse(tagDAO.existe("Padre12"));
+		assertFalse(tagDAO.existe("padre1"));//Reconoce minusculas y mayusculas
+	}
 
 	private void agregarDatosDePrueba(ArrayList<Tag> instancia)
 	{
