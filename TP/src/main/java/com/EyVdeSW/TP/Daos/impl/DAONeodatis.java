@@ -66,20 +66,12 @@ public class DAONeodatis<T> implements DAO<T>
 		}
 		catch(Exception e){
 			e.printStackTrace();
-		}finally
-		{
+		}finally{
 			if (odb != null)
 				odb.close();
 		}
-		
 		return resultadoQuery;
-		
 	}
 
-	@Override
-	public void modificar(T actual, T nuevo){
-		//TODO o DELETE
-		
-	}
 
 }

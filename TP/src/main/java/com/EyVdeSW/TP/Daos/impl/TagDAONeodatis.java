@@ -48,28 +48,22 @@ public class TagDAONeodatis extends DAONeodatis<Tag> implements TagDAO{
 	}
 
 	@Override
-	public Tag getTagPorNombre(String nombre)
-	{	
+	public Tag getTagPorNombre(String nombre){	
 		Tag tag=null;
 		ODB odb = null;
 		Objects<Tag> resultadoQuery = null;
 		try{
-			// Abrimos la bd
 			odb = ODBFactory.open(Parametros.getProperties().getProperty(Parametros.dbPath));
 			resultadoQuery = odb.getObjects(new CriteriaQuery(Tag.class, Where.like("nombre", "%"+nombre+"%")));
 			if(resultadoQuery.size() != 0)
 				tag= (Tag) resultadoQuery.getFirst();
-		}
-		catch(Exception e){
+		}catch(Exception e){
 			e.printStackTrace();
-		}finally
-		{
+		}finally{
 			if (odb != null)
 				odb.close();
 		}
-		
 		return tag;
-		
 	}
 
 	@Override
@@ -78,15 +72,12 @@ public class TagDAONeodatis extends DAONeodatis<Tag> implements TagDAO{
 		ODB odb = null;
 		Objects<Tag> resultadoQuery = null;
 		try{
-			// Abrimos la bd
 			odb = ODBFactory.open(Parametros.getProperties().getProperty(Parametros.dbPath));
 			resultadoQuery = odb.getObjects(new CriteriaQuery(Tag.class, Where.equal("nombre", nombre)));
 			ret = ret||(resultadoQuery.size() != 0);
-		}
-		catch(Exception e){
+		}catch(Exception e){
 			e.printStackTrace();
-		}finally
-		{
+		}finally{
 			if (odb != null)
 				odb.close();
 		}

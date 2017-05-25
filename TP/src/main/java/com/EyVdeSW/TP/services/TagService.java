@@ -36,8 +36,7 @@ public class TagService
 		if(!tagDAO.existe(nombreTag)){
 			if(padreTag == null){
 				arbolTagDAO.guardar(new ArbolTag(new Tag(nombreTag)));
-			}
-			else{
+			}else{
 				Tag padre = tagDAO.getTagPorNombre(padreTag);
 				padre.addHijo(new Tag(nombreTag));
 				tagDAO.modificar(padre, padre);			
@@ -46,12 +45,9 @@ public class TagService
 	}
 	
 	public void borrar(Tag t){
-		//TODO verificar que el tag no sea raiz de un arbol, en caso de serlo eliminar el arbol
-		//Sino eliminar el tag directamente
-		//Podemos crear un metodo booleano "esRaiz(Tag t)" en arbol y usarlo aca(agregar a la interfaz)
 		if(!arbolTagDAO.esRaiz(t))
 			tagDAO.borrar(t);
-		else{//borrar el arbol que tenga como raiz a t
+		else{
 			ArbolTag aBorrar= arbolTagDAO.getArbolPorNombreRaiz(t.getNombre());
 			arbolTagDAO.borrar(aBorrar);
 		}

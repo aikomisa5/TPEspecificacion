@@ -19,44 +19,36 @@ public class TestTagDAONeodatis
 	private static TagDAONeodatis	tagDAO;
 
 	@BeforeClass
-	public static void setUpClass()
-	{
+	public static void setUpClass(){
 		tagDAO = new TagDAONeodatis();
 		dbFilePath = Parametros.getProperties().getProperty(Parametros.dbPath);
 	}
 
 	@Before
-	public void setUp() throws Exception
-	{
-
+	public void setUp() throws Exception{
 		File f = new File(dbFilePath);
 		if (f.exists())
 			f.delete();
-		//agregarDatosDePrueba(instanciaTags());
 	}
 
 	@After
-	public void limpiarBD()
-	{
+	public void limpiarBD(){
 		Collection<Tag> tags = tagDAO.traerTodos();
 		tags.forEach(t -> tagDAO.borrar(t));
 		tags = tagDAO.traerTodos();
 	}
 
-	// @After
-	public void tearDown() throws Exception
-	{
+	//TODO @After
+	public void tearDown() throws Exception{
 		File f = new File(dbFilePath);
 		if (f.exists())
 			f.delete();
 	}
 
 	@Test
-	public void testBorrarTags()
-	{
+	public void testBorrarTags(){
 		agregarDatosDePrueba(instanciaTags());
 		Collection<Tag> tags = tagDAO.traerTodos();
-		// tags.forEach(t -> System.out.println(t));
 		assertEquals(tags.size(), 5);
 		tags.forEach(t -> tagDAO.borrar(t));
 		tags = tagDAO.traerTodos();
@@ -69,16 +61,13 @@ public class TestTagDAONeodatis
 		agregarDatosDePrueba(instanciaTags2());
 		Tag padre1=tagDAO.getTagPorNombre("Padre1");
 		tagDAO.borrar(padre1);
-		
 		assertEquals(tagDAO.traerTodos().size(), 2);
 	}
 
 	@Test
-	public void modificarTag()
-	{
+	public void modificarTag(){
 		limpiarBD();
 		agregarDatosDePrueba(instanciaTags());
-
 		tagDAO.modificar(new Tag(null, "Padre1", null), new Tag(null, "sarasa", null));
 		ArrayList<Tag> tags = (ArrayList<Tag>) tagDAO.traerTodos();
 		tags.forEach(e -> System.out.println(e.getNombre()));
@@ -98,14 +87,11 @@ public class TestTagDAONeodatis
 		t1.addHijo(new Tag("Hijo1112"));
 		tagDAO.modificar(t1, t1);
 		tags=(List<Tag>) tagDAO.traerTodos();
-		System.out.println("Deberia ser 9: "+tags.size());
 		assertEquals(tags.size(), 9);
-		
 	}
 
 	@Test
-	public void consultarPorNombre()
-	{
+	public void consultarPorNombre(){
 		limpiarBD();
 		agregarDatosDePrueba(instanciaTags());
 
@@ -116,8 +102,7 @@ public class TestTagDAONeodatis
 	}
 
 	@Test
-	public void getTagPorNombre()
-	{
+	public void getTagPorNombre(){
 		limpiarBD();
 		agregarDatosDePrueba(instanciaTags());
 
@@ -149,13 +134,11 @@ public class TestTagDAONeodatis
 		assertFalse(tagDAO.existe("padre1"));//Reconoce minusculas y mayusculas
 	}
 
-	private void agregarDatosDePrueba(ArrayList<Tag> instancia)
-	{
+	private void agregarDatosDePrueba(ArrayList<Tag> instancia){
 		instancia.forEach(t -> tagDAO.guardar(t));
 	}
 
-	private ArrayList<Tag> instanciaTags()
-	{
+	private ArrayList<Tag> instanciaTags(){
 
 		Tag padre1 = new Tag("Padre1");
 		Tag padre2 = new Tag("Padre2");
@@ -180,8 +163,7 @@ public class TestTagDAONeodatis
 		return ret;
 	}
 	
-	private ArrayList<Tag> instanciaTags2()
-	{
+	private ArrayList<Tag> instanciaTags2(){
 
 		Tag padre1 = new Tag("Padre1");
 		Tag padre2 = new Tag("Padre2");
@@ -214,8 +196,7 @@ public class TestTagDAONeodatis
 		return ret;
 	}
 
-	private ArrayList<Tag> instanciaArbolTags()
-	{
+	private ArrayList<Tag> instanciaArbolTags(){
 		ArrayList<Tag> tags = new ArrayList<>();
 		Tag raiz1 = new Tag("Raiz1");
 		Tag hijo1 = new Tag("R1.Hijo1");

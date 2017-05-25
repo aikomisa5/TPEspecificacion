@@ -27,8 +27,7 @@ public class PantallaTags extends VerticalLayout implements View
 
 	private TagService				tagService	= TagService.getTagService();
 
-	public PantallaTags()
-	{
+	public PantallaTags(){
 		TextField textFieldTag = new TextField("Nuevo Tag:");
 		Tree arbol = new Tree("Tags");
 
@@ -73,8 +72,7 @@ public class PantallaTags extends VerticalLayout implements View
 		btnBorrar.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		btnBorrar.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 		btnBorrar.addClickListener(e -> {
-			if (comboBoxTag.getValue() != null)
-			{
+			if (comboBoxTag.getValue() != null){
 				List<Tag> t = (List<Tag>) tagService.consultar(comboBoxTag.getValue().toString());
 				tagService.borrar(t.get(0));
 				Notification.show("Tag Borrado", Type.TRAY_NOTIFICATION);
@@ -98,8 +96,7 @@ public class PantallaTags extends VerticalLayout implements View
 
 	}
 
-	private void limpiarCampos(TextField textFieldTag, BeanItemContainer<Tag> tags, ComboBox comboBoxTag)
-	{
+	private void limpiarCampos(TextField textFieldTag, BeanItemContainer<Tag> tags, ComboBox comboBoxTag){
 		textFieldTag.clear();
 		comboBoxTag.removeAllItems();
 		System.out.println("Cantidad de elementos: " + tagService.traerTodos().size());
@@ -108,65 +105,52 @@ public class PantallaTags extends VerticalLayout implements View
 	}
 
 	@Override
-	public void enter(ViewChangeEvent event)
-	{
+	public void enter(ViewChangeEvent event){
 		// TODO Auto-generated method stub
 
 	}
 
-	private void expandirArbol(Tree arbol)
-	{
+	private void expandirArbol(Tree arbol){
 		arbol.getItemIds().forEach(item -> arbol.expandItem(item));
 	}
 
 	// llamar a este metodo para asignar los valores al tree
-	private void agregarTags(Tree arbol)
-	{
+	private void agregarTags(Tree arbol){
 		List<ArbolTag> arboles = (List<ArbolTag>) tagService.traerArboles();
-
-		for (ArbolTag a : arboles)
-		{
+		for (ArbolTag a : arboles){
 			recorrerAgregar(a.getRaiz(), arbol);
 		}
 
 	}
 
 	// auxiliar de agregarTags
-	private void recorrerAgregar(Tag t, Tree arbol)
-	{
+	private void recorrerAgregar(Tag t, Tree arbol){
 		arbol.addItem(t.getNombre());
-		if (t.getHijos() != null)
-		{
-			for (Tag hijo : t.getHijos())
-			{
+		if (t.getHijos() != null){
+			for (Tag hijo : t.getHijos()){
 				recorrerAgregar(hijo, arbol);
 			}
 		}
 	}
 
 	// llamarlo para asignar jerarquias
-	private void asignarJerarquias(Tree arbol)
-	{
+	private void asignarJerarquias(Tree arbol){
 		List<ArbolTag> arboles = (List<ArbolTag>) tagService.traerArboles();
 
-		for (ArbolTag a : arboles)
-		{
+		for (ArbolTag a : arboles){
 			recorrerAsignar(null, a.getRaiz(), arbol);
 		}
 
 	}
 
-	private void recorrerAsignar(Tag padre, Tag actual, Tree arbol)
-	{
+	private void recorrerAsignar(Tag padre, Tag actual, Tree arbol){
 		if (padre != null)
 			arbol.setParent(actual.getNombre(), padre.getNombre());
-		if (actual.getHijos().size() == 0)
-		{
+		if (actual.getHijos().size() == 0){
 			arbol.setChildrenAllowed(actual.getNombre(), false);
 		}
 		
-		for (Tag tag : actual.getHijos())
-		{
+		for (Tag tag : actual.getHijos()){
 			recorrerAsignar(actual, tag, arbol);
 		}
 	}
