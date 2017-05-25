@@ -60,8 +60,10 @@ public class PantallaTags extends VerticalLayout implements View
 		btnEditar.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		btnEditar.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 		btnEditar.addClickListener(e -> {
-			tagService.guardar(textFieldTag.getValue(), comboBoxTag.getValue() == null ? null : comboBoxTag.getValue().toString());
+			tagService.modificar(comboBoxTag.getValue().toString(), textFieldTag.getValue());
 			Notification.show("Tag editado", Type.TRAY_NOTIFICATION);
+			limpiarCampos(textFieldTag, tags, comboBoxTag);
+			arbol.removeAllItems();
 			agregarTags(arbol);
 			asignarJerarquias(arbol);
 			expandirArbol(arbol);

@@ -70,16 +70,11 @@ public class TagService
 		}
 	}	
 	
-	public void borrarRecursivo(String nombreTag){
-		
-		
-	}
-	
-	public void modificar (String original, String modificacion)
-	{
-		//TODO
-		//Tag orig = tagDAO.getTagPorNombre(original);
-		//tagDAO.modificar(original, modificacion);
+	public void modificar (String original, String modificacion){
+		Tag orig = tagDAO.getTagPorNombre(original);
+		Tag modi = tagDAO.getTagPorNombre(original);
+		modi.setNombre(modificacion);
+		tagDAO.modificar(orig, modi);
 	}
 	
 	public Collection<Tag>traerTodos(){
