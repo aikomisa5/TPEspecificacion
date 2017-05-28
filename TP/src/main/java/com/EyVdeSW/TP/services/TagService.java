@@ -70,7 +70,7 @@ public class TagService
 	public void modificar (String original, String modificacion){
 		Tag orig = tagDAO.getTagPorNombre(original);
 		Tag modi = tagDAO.getTagPorNombre(original);
-		modi.setNombre(modificacion);
+		modi.setNombre(modificacion.toUpperCase());
 		tagDAO.modificar(orig, modi);
 	}
 	
