@@ -33,12 +33,13 @@ public class TagService
 	}
 	
 	public void guardar(String nombreTag, String padreTag){
-		if(!tagDAO.existe(nombreTag)){
+		String nombreTagUpperCase = nombreTag.toUpperCase();
+		if(!tagDAO.existe(nombreTagUpperCase)){
 			if(padreTag == null){
-				arbolTagDAO.guardar(new ArbolTag(new Tag(nombreTag)));
+				arbolTagDAO.guardar(new ArbolTag(new Tag(nombreTagUpperCase)));
 			}else{
 				Tag padre = tagDAO.getTagPorNombre(padreTag);
-				padre.addHijo(new Tag(nombreTag));
+				padre.addHijo(new Tag(nombreTagUpperCase));
 				tagDAO.modificar(padre, padre);			
 			}
 		}
