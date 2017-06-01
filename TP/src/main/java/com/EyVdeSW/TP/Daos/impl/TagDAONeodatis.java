@@ -60,6 +60,17 @@ public class TagDAONeodatis extends DAONeodatis<Tag> implements TagDAO{
 		}
 		return tag;
 	}
+	
+	
+
+	@Override
+	public void borrar(Tag t) {
+		super.borrar(t);
+		TagDAONeodatis tagDAO = new TagDAONeodatis();
+		tagDAO.setBdConnector(bdConnector);
+		t.getHijos().forEach(tagHijo -> tagDAO.borrar(tagHijo));		
+		
+	}
 
 	@Override
 	public boolean existe(String nombre) {

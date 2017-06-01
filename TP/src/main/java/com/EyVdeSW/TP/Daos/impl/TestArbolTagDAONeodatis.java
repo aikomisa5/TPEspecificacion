@@ -44,7 +44,7 @@ public class TestArbolTagDAONeodatis {
 	public void limpiarBD() {
 		Collection<ArbolTag> arbolTags = arbolTagDAO.traerArboles();
 		arbolTags.forEach(e -> arbolTagDAO.borrar(e));
-	}
+	}	
 
 	@Test
 	public void testearArbol() {

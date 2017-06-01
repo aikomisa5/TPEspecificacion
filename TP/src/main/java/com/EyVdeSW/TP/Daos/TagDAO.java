@@ -11,4 +11,5 @@ public interface TagDAO extends DAO<Tag>
 	public Collection<Tag>consultarPorNombre(String nombre);
 	public Tag getTagPorNombre(String padreTag);
 	public boolean existe(String nombre);
+	
 }

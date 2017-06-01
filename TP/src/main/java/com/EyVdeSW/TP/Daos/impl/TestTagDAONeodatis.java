@@ -32,7 +32,7 @@ public class TestTagDAONeodatis
 			f.delete();
 	}
 
-	@After
+	//@After
 	public void limpiarBD(){
 		Collection<Tag> tags = tagDAO.traerTodos();
 		tags.forEach(t -> tagDAO.borrar(t));
@@ -61,8 +61,9 @@ public class TestTagDAONeodatis
 		limpiarBD();
 		agregarDatosDePrueba(instanciaTags2());
 		Tag padre1=tagDAO.getTagPorNombre("Padre1");
-		tagDAO.borrar(padre1);
-		assertEquals(tagDAO.traerTodos().size(), 2);
+		tagDAO.borrar(padre1);		
+		assertEquals(2,tagDAO.traerTodos().size());
+		
 	}
 
 	@Test
@@ -70,8 +71,7 @@ public class TestTagDAONeodatis
 		limpiarBD();
 		agregarDatosDePrueba(instanciaTags());
 		tagDAO.modificar(new Tag(null, "Padre1", null), new Tag(null, "sarasa", null));
-		ArrayList<Tag> tags = (ArrayList<Tag>) tagDAO.traerTodos();
-		tags.forEach(e -> System.out.println(e.getNombre()));
+		ArrayList<Tag> tags = (ArrayList<Tag>) tagDAO.traerTodos();		
 		assertEquals(new Tag(null, "sarasa", null), tags.get(0));
 	}
 	
@@ -109,15 +109,6 @@ public class TestTagDAONeodatis
 
 		Tag tag = tagDAO.getTagPorNombre("Padre1");
 		assertEquals(tag.getNombre(), "Padre1");
-	}
-	
-	@Test
-	public void tagArbol(){
-		ArrayList <Tag> tags = instanciaArbolTags();
-		System.out.println("-----------------------------");
-		tags.forEach(tag -> System.out.println(tag +
-					" hijos: "+tag.getHijos()));
-		System.out.println("-----------------------------");
 	}
 	
 	@Test
