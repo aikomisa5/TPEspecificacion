@@ -32,13 +32,13 @@ public class TagService {
 	}
 
 	public void guardar(String nombreTag, String padreTag) {
-		String nombreTagUpperCase = nombreTag.toUpperCase();
-		if (!tagDAO.existe(nombreTagUpperCase)) {
+		String nombreMinuscula = nombreTag.toLowerCase();
+		if (!tagDAO.existe(nombreMinuscula)) {
 			if (padreTag == null) {
-				arbolTagDAO.guardar(new ArbolTag(new Tag(nombreTagUpperCase)));
+				arbolTagDAO.guardar(new ArbolTag(new Tag(nombreMinuscula)));
 			} else {
 				Tag padre = tagDAO.getTagPorNombre(padreTag);
-				padre.addHijo(new Tag(nombreTagUpperCase));
+				padre.addHijo(new Tag(nombreMinuscula));
 				tagDAO.modificar(padre, padre);
 			}
 		}
@@ -57,9 +57,10 @@ public class TagService {
 	}
 
 	public void modificar(String original, String modificacion) {
+		String modificacionMinuscula= modificacion.toLowerCase();
 		Tag orig = tagDAO.getTagPorNombre(original);
 		Tag modi = tagDAO.getTagPorNombre(original);
-		modi.setNombre(modificacion.toUpperCase());
+		modi.setNombre(modificacionMinuscula);
 		tagDAO.modificar(orig, modi);
 	}
 
