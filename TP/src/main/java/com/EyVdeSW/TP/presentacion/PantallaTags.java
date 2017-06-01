@@ -61,9 +61,8 @@ public class PantallaTags extends VerticalLayout implements View {
 		Button btnBorrar = new Button("Borrar tag");
 		btnBorrar.setStyleName(ValoTheme.BUTTON_DANGER);
 		btnBorrar.addClickListener(e -> {
-			if (comboBoxTag.getValue() != null) {
-				List<Tag> t = (List<Tag>) tagService.consultar(comboBoxTag.getValue().toString());
-				tagService.borrar(t.get(0));
+			if (comboBoxTag.getValue() != null) {				
+				tagService.borrar(comboBoxTag.getValue().toString());
 				Notification.show("Tag Borrado", Type.TRAY_NOTIFICATION);
 				limpiarCampos(textFieldTag, tags, comboBoxTag);
 				updateTree(arbol);

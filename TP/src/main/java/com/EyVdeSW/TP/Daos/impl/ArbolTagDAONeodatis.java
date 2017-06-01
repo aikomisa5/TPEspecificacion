@@ -20,11 +20,11 @@ public class ArbolTagDAONeodatis extends DAONeodatis<ArbolTag> implements ArbolT
 	}
 
 	
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean esRaiz(Tag t) {		
-		List<ArbolTag>arboles= (List<ArbolTag>) consultar(new CriteriaQuery(ArbolTag.class));
-		boolean ret=false;
+		Objects<ArbolTag>arboles= consultar(new CriteriaQuery(ArbolTag.class));
+		boolean ret=false;		
 		for(ArbolTag a:arboles){ret=ret||a.getRaiz().getNombre().equals(t.getNombre());}		
 		return ret;
 		

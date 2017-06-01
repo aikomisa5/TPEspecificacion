@@ -10,80 +10,69 @@ import com.EyVdeSW.TP.Daos.impl.TagDAONeodatis;
 import com.EyVdeSW.TP.domainModel.ArbolTag;
 import com.EyVdeSW.TP.domainModel.Tag;
 
-public class TagService
-{
+public class TagService {
 	private TagDAO tagDAO;
 	private ArbolTagDAO arbolTagDAO;
 	private static TagService tagService;
-	
-	private TagService(){
-		tagDAO= new TagDAONeodatis();		
-		arbolTagDAO= new ArbolTagDAONeodatis();		
+
+	private TagService() {
+		tagDAO = new TagDAONeodatis();
+		arbolTagDAO = new ArbolTagDAONeodatis();
 	}
-	
-	public static TagService getTagService(){
-		if(tagService == null){
-			tagService=new TagService();
+
+	public static TagService getTagService() {
+		if (tagService == null) {
+			tagService = new TagService();
 		}
 		return tagService;
 	}
-	
-	public void guardar(Tag t){
+
+	public void guardar(Tag t) {
 		tagDAO.guardar(t);
 	}
-	
-	public void guardar(String nombreTag, String padreTag){
+
+	public void guardar(String nombreTag, String padreTag) {
 		String nombreTagUpperCase = nombreTag.toUpperCase();
-		if(!tagDAO.existe(nombreTagUpperCase)){
-			if(padreTag == null){
+		if (!tagDAO.existe(nombreTagUpperCase)) {
+			if (padreTag == null) {
 				arbolTagDAO.guardar(new ArbolTag(new Tag(nombreTagUpperCase)));
-			}else{
+			} else {
 				Tag padre = tagDAO.getTagPorNombre(padreTag);
 				padre.addHijo(new Tag(nombreTagUpperCase));
-				tagDAO.modificar(padre, padre);			
+				tagDAO.modificar(padre, padre);
 			}
 		}
 	}
-	
-	public void borrar(Tag t){
-		if(!arbolTagDAO.esRaiz(t))
-			tagDAO.borrar(t);
-		else{
-			ArbolTag aBorrar= arbolTagDAO.getArbolPorNombreRaiz(t.getNombre());
-			arbolTagDAO.borrar(aBorrar);
-		}
-	}
-	
-	//REVISAR
-	public void borrar (String nombreTag, String padreTag){
-		Tag padre = tagDAO.getTagPorNombre(padreTag);
-		List <Tag> hijos = padre.getHijos();
-		
-		for (Tag i : hijos){
-			if (i.equals(nombreTag)==true){
-				padre.removeHijo(i);
-				tagDAO.borrar(i);
+
+	public void borrar(String nombreTag) {
+		Tag t = tagDAO.getTagPorNombre(nombreTag);
+		if (t != null) {
+			if (!arbolTagDAO.esRaiz(t))
+				tagDAO.borrar(t);
+			else {
+				ArbolTag aBorrar = arbolTagDAO.getArbolPorNombreRaiz(t.getNombre());
+				arbolTagDAO.borrar(aBorrar);
 			}
 		}
-	}	
-	
-	public void modificar (String original, String modificacion){
+	}
+
+	public void modificar(String original, String modificacion) {
 		Tag orig = tagDAO.getTagPorNombre(original);
 		Tag modi = tagDAO.getTagPorNombre(original);
 		modi.setNombre(modificacion.toUpperCase());
 		tagDAO.modificar(orig, modi);
 	}
-	
-	public Collection<Tag>traerTodos(){
+
+	public Collection<Tag> traerTodos() {
 		return tagDAO.traerTodos();
 	}
-	
-	public Collection<Tag> consultar(String nombre){
+
+	public Collection<Tag> consultar(String nombre) {
 		return tagDAO.consultarPorNombre(nombre);
 	}
-	
-	public Collection<ArbolTag>traerArboles(){
+
+	public Collection<ArbolTag> traerArboles() {
 		return arbolTagDAO.traerArboles();
 	}
-	
+
 }
