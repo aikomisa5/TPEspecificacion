@@ -65,11 +65,8 @@ public class TagDAONeodatis extends DAONeodatis<Tag> implements TagDAO{
 
 	@Override
 	public void borrar(Tag t) {
-		super.borrar(t);
-		TagDAONeodatis tagDAO = new TagDAONeodatis();
-		tagDAO.setBdConnector(bdConnector);
-		t.getHijos().forEach(tagHijo -> tagDAO.borrar(tagHijo));		
-		
+		super.borrar(t);		
+		t.getHijos().forEach(tagHijo -> this.borrar(tagHijo));		
 	}
 
 	@Override
