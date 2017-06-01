@@ -43,7 +43,7 @@ public class DAONeodatis<T> implements DAO<T> {
 
 			objects.forEach(o -> {
 				if (t.equals(o))
-					odb.deleteCascade(o);
+					odb.delete(o);
 			});
 
 			// Guardamos los cambios

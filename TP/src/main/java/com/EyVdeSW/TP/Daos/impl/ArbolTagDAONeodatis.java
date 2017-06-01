@@ -50,6 +50,16 @@ public class ArbolTagDAONeodatis extends DAONeodatis<ArbolTag> implements ArbolT
 		
 		return arbol;
 	}
+	
+	@Override
+	public void borrar(ArbolTag t) {
+		super.borrar(t);
+		TagDAONeodatis tagDao = new TagDAONeodatis();
+		tagDao.setBdConnector(bdConnector);		
+		tagDao.borrar(t.getRaiz());
+		t.getRaiz().getHijos().forEach(hijo -> tagDao.borrar(hijo));
+		
+	}
 
 	
 
