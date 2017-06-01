@@ -12,15 +12,26 @@ import properties.Parametros;
 
 public class DAONeodatis<T> implements DAO<T>
 {
+	private neodatisBDConnector bdConector;
 	private ODB odb;
+
+	
+	public DAONeodatis() {
+		super();
+		//Por defecto el conector es local.
+		this.bdConector = new NeodatisLocalConnector();
+	}
+	
+	public DAONeodatis(neodatisBDConnector bdConector) {
+		super();
+		this.bdConector = bdConector;
+	}
 
 	@Override
 	public void guardar(T t){
 		odb = null;
 		try{
-			//Para usar en server
-			//odb = WebAppListener.getServer().openClient(WebAppListener.getProperty("ubicacion.bd"));			
-			odb = ODBFactory.open(Parametros.getProperties().getProperty(Parametros.dbPath));
+			getConexion();
 			odb.store(t);
 		}catch(Exception e){
 			e.printStackTrace();
@@ -33,12 +44,15 @@ public class DAONeodatis<T> implements DAO<T>
 
 	}
 
+	private void getConexion() {
+		odb = bdConector.getBDConnection();
+	}
+
 	@Override
 	public void borrar(T t){
 		odb = null;
 		try{
-			// Abrimos la bd
-			odb = ODBFactory.open(Parametros.getProperties().getProperty(Parametros.dbPath));
+			getConexion();
 			Objects<T> objects = odb.getObjects(t.getClass());
 
 			objects.forEach(o -> {
