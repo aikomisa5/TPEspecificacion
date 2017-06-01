@@ -23,15 +23,17 @@ public class TestArbolTagDAONeodatis {
 	private static String dbFilePath;
 	private static ArbolTagDAO arbolTagDAO;
 
+	@SuppressWarnings("unchecked")
 	@BeforeClass
 	public static void setUpClass() {
-		arbolTagDAO = new ArbolTagDAONeodatis();
+		arbolTagDAO = new ArbolTagDAONeodatis();		
+		((DAONeodatis<ArbolTag>) arbolTagDAO).setBdConnector(new NeodatisLocalConnector());		
 		dbFilePath = Parametros.getProperties().getProperty(Parametros.dbPath);
 	}
 
 	@Before
 	public void setUp() throws Exception {
-
+		
 		File f = new File(dbFilePath);
 		if (f.exists())
 			f.delete();

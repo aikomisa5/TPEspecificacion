@@ -1,42 +1,32 @@
 package com.EyVdeSW.TP.Daos.impl;
 
 import org.neodatis.odb.ODB;
-import org.neodatis.odb.ODBFactory;
 
 import org.neodatis.odb.Objects;
 import org.neodatis.odb.core.query.IQuery;
 
 import com.EyVdeSW.TP.Daos.DAO;
 
-import properties.Parametros;
+public class DAONeodatis<T> implements DAO<T> {
+	protected neodatisBDConnector bdConnector;
+	protected ODB odb;
 
-public class DAONeodatis<T> implements DAO<T>
-{
-	private neodatisBDConnector bdConector;
-	private ODB odb;
-
-	
 	public DAONeodatis() {
 		super();
-		//Por defecto el conector es local.
-		this.bdConector = new NeodatisLocalConnector();
-	}
-	
-	public DAONeodatis(neodatisBDConnector bdConector) {
-		super();
-		this.bdConector = bdConector;
+		// Por defecto el conector es server.
+		this.bdConnector = new NeodatisServerConnector();
 	}
 
 	@Override
-	public void guardar(T t){
+	public void guardar(T t) {
 		odb = null;
-		try{
+		try {
 			getConexion();
 			odb.store(t);
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			if (odb != null){
+		} finally {
+			if (odb != null) {
 				// Cerramos la bd
 				odb.close();
 			}
@@ -44,14 +34,10 @@ public class DAONeodatis<T> implements DAO<T>
 
 	}
 
-	private void getConexion() {
-		odb = bdConector.getBDConnection();
-	}
-
 	@Override
-	public void borrar(T t){
+	public void borrar(T t) {
 		odb = null;
-		try{
+		try {
 			getConexion();
 			Objects<T> objects = odb.getObjects(t.getClass());
 
@@ -62,30 +48,36 @@ public class DAONeodatis<T> implements DAO<T>
 
 			// Guardamos los cambios
 			odb.commit();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			if (odb != null)
 				odb.close();
 		}
 	}
-	
-	Objects<T> consultar(IQuery query){
-		ODB odb = null;
+
+	Objects<T> consultar(IQuery query) {
+		odb = null;
 		Objects<T> resultadoQuery = null;
-		try{
+		try {
 			// Abrimos la bd
-			odb = ODBFactory.open(Parametros.getProperties().getProperty(Parametros.dbPath));
-			resultadoQuery = odb.getObjects(query);			
-		}
-		catch(Exception e){
+			getConexion();
+			resultadoQuery = odb.getObjects(query);
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			if (odb != null)
 				odb.close();
 		}
 		return resultadoQuery;
 	}
 
+	public void setBdConnector(neodatisBDConnector bdConnector) {
+		this.bdConnector = bdConnector;
+	}	
+
+	private void getConexion() {
+		odb = bdConnector.getBDConnection();
+	}
 
 }

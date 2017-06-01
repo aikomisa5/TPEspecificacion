@@ -2,7 +2,6 @@ package com.EyVdeSW.TP.presentacion;
 
 import java.util.List;
 
-import com.EyVdeSW.TP.domainModel.ArbolTag;
 import com.EyVdeSW.TP.domainModel.Tag;
 import com.EyVdeSW.TP.services.TagService;
 
@@ -51,7 +50,7 @@ public class PantallaTags extends VerticalLayout implements View {
 			updateTree(arbol);
 		});
 
-		Button btnEditar = new Button("Editar tag");		
+		Button btnEditar = new Button("Editar tag");
 		btnEditar.addClickListener(e -> {
 			tagService.modificar(comboBoxTag.getValue().toString(), textFieldTag.getValue());
 			Notification.show("Tag editado", Type.TRAY_NOTIFICATION);
@@ -110,11 +109,7 @@ public class PantallaTags extends VerticalLayout implements View {
 
 	// llamar a este metodo para asignar los valores al tree
 	private void agregarTags(Tree arbol) {
-		List<ArbolTag> arboles = (List<ArbolTag>) tagService.traerArboles();
-		for (ArbolTag a : arboles) {
-			recorrerAgregar(a.getRaiz(), arbol);
-		}
-
+		tagService.traerArboles().forEach(a -> recorrerAgregar(a.getRaiz(), arbol));
 	}
 
 	// auxiliar de agregarTags
@@ -129,12 +124,7 @@ public class PantallaTags extends VerticalLayout implements View {
 
 	// llamarlo para asignar jerarquias
 	private void asignarJerarquias(Tree arbol) {
-		List<ArbolTag> arboles = (List<ArbolTag>) tagService.traerArboles();
-
-		for (ArbolTag a : arboles) {
-			recorrerAsignar(null, a.getRaiz(), arbol);
-		}
-
+		tagService.traerArboles().forEach(a -> recorrerAsignar(null, a.getRaiz(), arbol));
 	}
 
 	private void recorrerAsignar(Tag padre, Tag actual, Tree arbol) {

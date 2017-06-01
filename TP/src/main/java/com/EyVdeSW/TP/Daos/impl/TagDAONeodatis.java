@@ -1,8 +1,6 @@
 package com.EyVdeSW.TP.Daos.impl;
 
 import java.util.Collection;
-import org.neodatis.odb.ODB;
-import org.neodatis.odb.ODBFactory;
 import org.neodatis.odb.Objects;
 import org.neodatis.odb.core.query.IQuery;
 import org.neodatis.odb.core.query.criteria.Where;
@@ -11,19 +9,17 @@ import org.neodatis.odb.impl.core.query.criteria.CriteriaQuery;
 import com.EyVdeSW.TP.Daos.TagDAO;
 import com.EyVdeSW.TP.domainModel.Tag;
 
-import properties.Parametros;
-
 public class TagDAONeodatis extends DAONeodatis<Tag> implements TagDAO{
 	
 	@Override
 	public void modificar(Tag original, Tag modificacion){
-		ODB odb = null;
-		try{
-			odb = ODBFactory.open(Parametros.getProperties().getProperty(Parametros.dbPath));
+		odb = null;
+		try{			
+			odb = bdConnector.getBDConnection();
 			IQuery query = new CriteriaQuery(Tag.class, Where.like("nombre", original.getNombre()));	
 			Objects<Tag>resultadoQuery=odb.getObjects(query);
 			
-			Tag t=(Tag)resultadoQuery.getFirst();
+			Tag t=resultadoQuery.getFirst();
 			t.setHijos(modificacion.getHijos());
 			t.setAccionesGenerales(modificacion.getAccionesGenerales());
 			t.setNombre(modificacion.getNombre());
@@ -49,14 +45,13 @@ public class TagDAONeodatis extends DAONeodatis<Tag> implements TagDAO{
 
 	@Override
 	public Tag getTagPorNombre(String nombre){	
-		Tag tag=null;
-		ODB odb = null;
+		Tag tag=null;		
 		Objects<Tag> resultadoQuery = null;
 		try{
-			odb = ODBFactory.open(Parametros.getProperties().getProperty(Parametros.dbPath));
+			odb = bdConnector.getBDConnection();
 			resultadoQuery = odb.getObjects(new CriteriaQuery(Tag.class, Where.like("nombre", "%"+nombre+"%")));
 			if(resultadoQuery.size() != 0)
-				tag= (Tag) resultadoQuery.getFirst();
+				tag= resultadoQuery.getFirst();
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{
@@ -69,10 +64,9 @@ public class TagDAONeodatis extends DAONeodatis<Tag> implements TagDAO{
 	@Override
 	public boolean existe(String nombre) {
 		boolean ret=false;
-		ODB odb = null;
 		Objects<Tag> resultadoQuery = null;
 		try{
-			odb = ODBFactory.open(Parametros.getProperties().getProperty(Parametros.dbPath));
+			odb = bdConnector.getBDConnection();
 			resultadoQuery = odb.getObjects(new CriteriaQuery(Tag.class, Where.equal("nombre", nombre)));
 			ret = ret||(resultadoQuery.size() != 0);
 		}catch(Exception e){

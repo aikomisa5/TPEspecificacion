@@ -17,8 +17,8 @@ public class TagService
 	private static TagService tagService;
 	
 	private TagService(){
-		tagDAO= new TagDAONeodatis();
-		arbolTagDAO= new ArbolTagDAONeodatis();
+		tagDAO= new TagDAONeodatis();		
+		arbolTagDAO= new ArbolTagDAONeodatis();		
 	}
 	
 	public static TagService getTagService(){

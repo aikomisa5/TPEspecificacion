@@ -20,7 +20,8 @@ public class TestTagDAONeodatis
 
 	@BeforeClass
 	public static void setUpClass(){
-		tagDAO = new TagDAONeodatis();
+		tagDAO = new TagDAONeodatis();		
+		tagDAO.setBdConnector( new NeodatisLocalConnector());
 		dbFilePath = Parametros.getProperties().getProperty(Parametros.dbPath);
 	}
 
