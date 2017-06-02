@@ -56,12 +56,19 @@ public class TagService {
 		}
 	}
 
-	public void modificar(String original, String modificacion) {
-		String modificacionMinuscula= modificacion.toLowerCase();
-		Tag orig = tagDAO.getTagPorNombre(original);
-		Tag modi = tagDAO.getTagPorNombre(original);
-		modi.setNombre(modificacionMinuscula);
-		tagDAO.modificar(orig, modi);
+	public boolean modificar(String original, String modificacion) {
+		boolean ret = true;
+		if (tagDAO.existe(modificacion)) {
+			ret = false;
+		}
+		{
+			String modificacionMinuscula = modificacion.toLowerCase();
+			Tag orig = tagDAO.getTagPorNombre(original);
+			Tag modi = tagDAO.getTagPorNombre(original);
+			modi.setNombre(modificacionMinuscula);
+			tagDAO.modificar(orig, modi);
+		}
+		return ret;
 	}
 
 	public Collection<Tag> traerTodos() {

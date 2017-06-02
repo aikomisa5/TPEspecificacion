@@ -31,73 +31,83 @@ public class PantallaTags extends VerticalLayout implements View {
 	public PantallaTags() {
 		Label titulo = new Label("Gestión de Tags");
 		titulo.setStyleName(ValoTheme.LABEL_H1);
-		HorizontalLayout hlTitulo = new HorizontalLayout(titulo);		
+		HorizontalLayout hlTitulo = new HorizontalLayout(titulo);
 		addComponent(hlTitulo);
 		setComponentAlignment(hlTitulo, Alignment.MIDDLE_CENTER);
-				
-		TextField textFieldTag = new TextField("Nombre");
-		Tree arbol = new Tree("Tags");
 
+		Tree arbol = new Tree("Tags");
 		agregarTags(arbol);
 		asignarJerarquias(arbol);
 		expandirArbol(arbol);
 
+		TextField tfNombre = new TextField("Nombre");
+
 		BeanItemContainer<Tag> tags = new BeanItemContainer<Tag>(Tag.class);
-
 		tagService.traerTodos().forEach(tag -> tags.addBean(tag));
-
 		ComboBox comboBoxTag = new ComboBox("Tag Padre", tags);
 
 		Button btnAgregar = new Button("Agregar");
-		
+
 		btnAgregar.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		btnAgregar.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 		btnAgregar.addClickListener(e -> {
-			String tagPadre = comboBoxTag.getValue() == null ? null : comboBoxTag.getValue().toString();
-			tagService.guardar(textFieldTag.getValue(), tagPadre);
-			Notification.show("Tag Guardado", Type.TRAY_NOTIFICATION);
-			limpiarCampos(textFieldTag, tags, comboBoxTag);
-			updateTree(arbol);
+			if (tfNombre.getValue() == "") {
+				Notification.show("El nombre esta vacío!", Type.WARNING_MESSAGE);
+			} else {
+				String tagPadre = comboBoxTag.getValue() == null ? null : comboBoxTag.getValue().toString();
+				tagService.guardar(tfNombre.getValue(), tagPadre);
+				Notification.show("Tag Guardado", Type.TRAY_NOTIFICATION);
+				limpiarCampos(tfNombre, tags, comboBoxTag);
+				updateTree(arbol);
+				tfNombre.focus();
+			}
 		});
 
-		Button btnEditar = new Button("Editar");		
+		Button btnEditar = new Button("Editar");
+
 		btnEditar.addClickListener(e -> {
-			tagService.modificar(comboBoxTag.getValue().toString(), textFieldTag.getValue());
-			Notification.show("Tag editado", Type.TRAY_NOTIFICATION);
-			limpiarCampos(textFieldTag, tags, comboBoxTag);
-			updateTree(arbol);
+			if (tfNombre.getValue() == "" || comboBoxTag.getValue() == null) {
+				Notification.show("Los campos estan vacios!", Type.WARNING_MESSAGE);
+			} else {
+				boolean resultado = tagService.modificar(comboBoxTag.getValue().toString(), tfNombre.getValue());
+				if (resultado) {
+					Notification.show("Tag editado", Type.TRAY_NOTIFICATION);
+					limpiarCampos(tfNombre, tags, comboBoxTag);
+					updateTree(arbol);
+				}
+				else{
+					Notification.show("El nuevo nombre del tag ya existe", Type.WARNING_MESSAGE);
+				}
+			}
 		});
 
-		Button btnBorrar = new Button("Borrar");		
+		Button btnBorrar = new Button("Borrar");
 		btnBorrar.setStyleName(ValoTheme.BUTTON_DANGER);
-		
-		
+
 		btnBorrar.addClickListener(e -> {
-			if (comboBoxTag.getValue() != null) {				
+			if (comboBoxTag.getValue() != null) {
 				tagService.borrar(comboBoxTag.getValue().toString());
 				Notification.show("Tag Borrado", Type.TRAY_NOTIFICATION);
-				limpiarCampos(textFieldTag, tags, comboBoxTag);
+				limpiarCampos(tfNombre, tags, comboBoxTag);
 				updateTree(arbol);
 			}
 		});
 
 		HorizontalLayout hlBotones = new HorizontalLayout(btnAgregar, btnEditar, btnBorrar);
-		hlBotones.setSpacing(true);		
+		hlBotones.setSpacing(true);
 
-		FormLayout flFormTags = new FormLayout(textFieldTag, comboBoxTag);		
-		flFormTags.setSpacing(true);				
-		VerticalLayout vlFormTags = new VerticalLayout(flFormTags,hlBotones);		
+		FormLayout flFormTags = new FormLayout(tfNombre, comboBoxTag);
+		flFormTags.setSpacing(true);
+		VerticalLayout vlFormTags = new VerticalLayout(flFormTags, hlBotones);
 		vlFormTags.setSpacing(true);
-		
-		
+
 		VerticalLayout vlArbol = new VerticalLayout(arbol);
-		HorizontalLayout hlPrincipal = new HorizontalLayout(vlArbol, vlFormTags);		
-		hlPrincipal.setSpacing(true);		
-		hlPrincipal.setWidth("80%");		
+		HorizontalLayout hlPrincipal = new HorizontalLayout(vlArbol, vlFormTags);
+		hlPrincipal.setSpacing(true);
+		hlPrincipal.setWidth("80%");
 		addComponent(hlPrincipal);
 		setComponentAlignment(hlPrincipal, Alignment.TOP_CENTER);
-		setMargin(true);		
-		
+		setMargin(true);
 
 	}
 
