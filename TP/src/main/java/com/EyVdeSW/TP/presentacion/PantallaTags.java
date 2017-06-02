@@ -7,13 +7,12 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.Sizeable;
+
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
@@ -59,8 +58,9 @@ public class PantallaTags extends VerticalLayout implements View {
 				Notification.show("Tag Guardado", Type.TRAY_NOTIFICATION);
 				limpiarCampos(tfNombre, tags, comboBoxTag);
 				updateTree(arbol);
-				tfNombre.focus();
+
 			}
+			tfNombre.focus();
 		});
 
 		Button btnEditar = new Button("Editar");
@@ -74,11 +74,11 @@ public class PantallaTags extends VerticalLayout implements View {
 					Notification.show("Tag editado", Type.TRAY_NOTIFICATION);
 					limpiarCampos(tfNombre, tags, comboBoxTag);
 					updateTree(arbol);
-				}
-				else{
+				} else {
 					Notification.show("El nuevo nombre del tag ya existe", Type.WARNING_MESSAGE);
 				}
 			}
+			tfNombre.focus();
 		});
 
 		Button btnBorrar = new Button("Borrar");
@@ -91,6 +91,7 @@ public class PantallaTags extends VerticalLayout implements View {
 				limpiarCampos(tfNombre, tags, comboBoxTag);
 				updateTree(arbol);
 			}
+			tfNombre.focus();
 		});
 
 		HorizontalLayout hlBotones = new HorizontalLayout(btnAgregar, btnEditar, btnBorrar);
