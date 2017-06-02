@@ -1,7 +1,5 @@
 package com.EyVdeSW.TP.presentacion;
 
-import java.util.List;
-
 import com.EyVdeSW.TP.domainModel.Tag;
 import com.EyVdeSW.TP.services.TagService;
 
@@ -9,9 +7,14 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.Sizeable;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.HorizontalSplitPanel;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Tree;
@@ -26,7 +29,13 @@ public class PantallaTags extends VerticalLayout implements View {
 	private TagService tagService = TagService.getTagService();
 
 	public PantallaTags() {
-		TextField textFieldTag = new TextField("Nuevo Tag:");
+		Label titulo = new Label("Gestión de Tags");
+		titulo.setStyleName(ValoTheme.LABEL_H1);
+		HorizontalLayout hlTitulo = new HorizontalLayout(titulo);		
+		addComponent(hlTitulo);
+		setComponentAlignment(hlTitulo, Alignment.MIDDLE_CENTER);
+				
+		TextField textFieldTag = new TextField("Nombre");
 		Tree arbol = new Tree("Tags");
 
 		agregarTags(arbol);
@@ -37,9 +46,10 @@ public class PantallaTags extends VerticalLayout implements View {
 
 		tagService.traerTodos().forEach(tag -> tags.addBean(tag));
 
-		ComboBox comboBoxTag = new ComboBox("Seleccionar Tag Padre:", tags);
+		ComboBox comboBoxTag = new ComboBox("Tag Padre", tags);
 
-		Button btnAgregar = new Button("Agregar tag");
+		Button btnAgregar = new Button("Agregar");
+		
 		btnAgregar.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		btnAgregar.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 		btnAgregar.addClickListener(e -> {
@@ -50,7 +60,7 @@ public class PantallaTags extends VerticalLayout implements View {
 			updateTree(arbol);
 		});
 
-		Button btnEditar = new Button("Editar tag");
+		Button btnEditar = new Button("Editar");		
 		btnEditar.addClickListener(e -> {
 			tagService.modificar(comboBoxTag.getValue().toString(), textFieldTag.getValue());
 			Notification.show("Tag editado", Type.TRAY_NOTIFICATION);
@@ -58,8 +68,10 @@ public class PantallaTags extends VerticalLayout implements View {
 			updateTree(arbol);
 		});
 
-		Button btnBorrar = new Button("Borrar tag");
+		Button btnBorrar = new Button("Borrar");		
 		btnBorrar.setStyleName(ValoTheme.BUTTON_DANGER);
+		
+		
 		btnBorrar.addClickListener(e -> {
 			if (comboBoxTag.getValue() != null) {				
 				tagService.borrar(comboBoxTag.getValue().toString());
@@ -69,15 +81,23 @@ public class PantallaTags extends VerticalLayout implements View {
 			}
 		});
 
-		HorizontalLayout hl = new HorizontalLayout(btnAgregar, btnEditar, btnBorrar);
-		hl.setSpacing(true);
+		HorizontalLayout hlBotones = new HorizontalLayout(btnAgregar, btnEditar, btnBorrar);
+		hlBotones.setSpacing(true);		
 
-		VerticalLayout vlFormTags = new VerticalLayout(textFieldTag, comboBoxTag, hl);
-		VerticalLayout vlArbol = new VerticalLayout(arbol);
+		FormLayout flFormTags = new FormLayout(textFieldTag, comboBoxTag);		
+		flFormTags.setSpacing(true);				
+		VerticalLayout vlFormTags = new VerticalLayout(flFormTags,hlBotones);		
 		vlFormTags.setSpacing(true);
-		HorizontalLayout hlprincipal = new HorizontalLayout(vlArbol, vlFormTags);
-		hlprincipal.setSpacing(true);
-		addComponent(hlprincipal);
+		
+		
+		VerticalLayout vlArbol = new VerticalLayout(arbol);
+		HorizontalLayout hlPrincipal = new HorizontalLayout(vlArbol, vlFormTags);		
+		hlPrincipal.setSpacing(true);		
+		hlPrincipal.setWidth("80%");		
+		addComponent(hlPrincipal);
+		setComponentAlignment(hlPrincipal, Alignment.TOP_CENTER);
+		setMargin(true);		
+		
 
 	}
 

@@ -59,8 +59,6 @@ public class ArbolTagDAONeodatis extends DAONeodatis<ArbolTag> implements ArbolT
 		tagDao.borrar(t.getRaiz());
 		t.getRaiz().getHijos().forEach(hijo -> tagDao.borrar(hijo));
 		
-	}
-
-	
+	}	
 
 }

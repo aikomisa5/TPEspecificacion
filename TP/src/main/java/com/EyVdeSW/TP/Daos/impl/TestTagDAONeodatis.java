@@ -32,7 +32,6 @@ public class TestTagDAONeodatis
 			f.delete();
 	}
 
-	//@After
 	public void limpiarBD(){
 		Collection<Tag> tags = tagDAO.traerTodos();
 		tags.forEach(t -> tagDAO.borrar(t));

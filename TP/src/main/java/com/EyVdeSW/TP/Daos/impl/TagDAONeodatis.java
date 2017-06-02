@@ -59,9 +59,7 @@ public class TagDAONeodatis extends DAONeodatis<Tag> implements TagDAO{
 				odb.close();
 		}
 		return tag;
-	}
-	
-	
+	}	
 
 	@Override
 	public void borrar(Tag t) {
