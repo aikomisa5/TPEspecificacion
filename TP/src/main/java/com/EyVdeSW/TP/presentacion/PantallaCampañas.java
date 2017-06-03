@@ -22,7 +22,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 public class PantallaCampañas extends VerticalLayout implements View {
 
-	protected static final String Name = "";
+	protected static final String NAME = "";
 
 	private CampañaService campañaService = CampañaService.getCampañaService();
 

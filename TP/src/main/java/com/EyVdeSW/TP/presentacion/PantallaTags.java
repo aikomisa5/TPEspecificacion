@@ -23,7 +23,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 @SuppressWarnings("serial")
 public class PantallaTags extends VerticalLayout implements View {
-	protected static final String Name = "";
+	protected static final String NAME = "";
 
 	private TagService tagService = TagService.getTagService();
 
