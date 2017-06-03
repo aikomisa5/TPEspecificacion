@@ -1,19 +1,34 @@
 package com.EyVdeSW.TP.domainModel;
 
 import java.util.Date;
+import java.util.List;
 
 public class Campaña {
 	
+	private List<AccionPublicitaria> accionesPublicitarias;
 	private Mensaje mensaje;
 	private String nombre;
 	private String descripcion;
 	private Date fechaDeInicio;
 	
-	public Campaña(String nombre, String descripcion, Mensaje mensaje, Date fechaDeInicio){
+	public Campaña(List<AccionPublicitaria> accionesPublicitarias,String nombre, String descripcion, Mensaje mensaje, Date fechaDeInicio){
+		this.accionesPublicitarias=accionesPublicitarias;
 		this.nombre=nombre;
 		this.descripcion=descripcion;
 		this.mensaje=mensaje;
 		this.fechaDeInicio=fechaDeInicio;
+	}
+	
+	public List<AccionPublicitaria> getAccionesPublicitarias() {
+		return accionesPublicitarias;
+	}
+
+	public void setAccionesPublicitarias(List<AccionPublicitaria> accionesPublicitarias) {
+		this.accionesPublicitarias = accionesPublicitarias;
+	}
+
+	public void addAccionPublicitaria(AccionPublicitaria accion){
+		accionesPublicitarias.add(accion);
 	}
 	
 	public Mensaje getMensaje() {
