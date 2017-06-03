@@ -42,7 +42,7 @@ public class PantallaCampañas extends VerticalLayout implements View {
 
 		
 		TextField tfNombre = new TextField("Nombre Campaña");
-		TextField tfDescripcion = new TextField("Descripción Campaña");
+		TextArea taDescripcion = new TextArea("Descripción Campaña");
 		TextArea taTextoMensaje = new TextArea("Texto del Mensaje");
 		
 		// Create the selection component
@@ -109,7 +109,7 @@ public class PantallaCampañas extends VerticalLayout implements View {
 		HorizontalLayout hlBotones = new HorizontalLayout(btnCrear);
 		hlBotones.setSpacing(true);
 
-		FormLayout flFormCampos = new FormLayout(tfNombre,tfDescripcion,taTextoMensaje,DuracionCampaña,date);
+		FormLayout flFormCampos = new FormLayout(tfNombre,taDescripcion,taTextoMensaje,DuracionCampaña,date);
 		flFormCampos.setSpacing(true);
 		
 		VerticalLayout vlFormTags = new VerticalLayout(flFormCampos, hlBotones);
