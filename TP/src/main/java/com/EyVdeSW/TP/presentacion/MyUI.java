@@ -35,7 +35,7 @@ public class MyUI extends UI
 		// Creamos el navegador
 		navigator = new Navigator(this, this);
 		// Y creamos y registramos las views (pantallas)		
-		navigator.addView("", new PantallaTags());		
+		navigator.addView("", new PantallaCampañas());		
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
