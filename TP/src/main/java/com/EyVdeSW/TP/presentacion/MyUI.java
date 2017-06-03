@@ -28,6 +28,7 @@ public class MyUI extends UI
 	
 	protected static final String TAGSVIEW = "gestionTags";
 	protected static final String CAMPAÑASVIEW = "gestionCampañas";
+	//protected static final String MAINVIEW = "main";
 	
 	@Override
 	protected void init(VaadinRequest vaadinRequest)
@@ -42,7 +43,7 @@ public class MyUI extends UI
 		
 		navigator.addView(CAMPAÑASVIEW, new PantallaCampañas());	
 		navigator.addView(TAGSVIEW, new PantallaTags());	
-		navigator.addView(Main.NAME, new Main());	
+		navigator.addView("", new Main());	
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

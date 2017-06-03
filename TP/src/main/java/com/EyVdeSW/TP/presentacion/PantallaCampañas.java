@@ -25,6 +25,8 @@ public class PantallaCampañas extends VerticalLayout implements View {
 	protected static final String NAME = "";
 
 	private CampañaService campañaService = CampañaService.getCampañaService();
+	
+	Button logout = new Button("Logout");
 
 	public PantallaCampañas() {
 		Label titulo = new Label("Gestión de Campañas");
@@ -92,6 +94,11 @@ public class PantallaCampañas extends VerticalLayout implements View {
 		addComponent(hlPrincipal);
 		setComponentAlignment(hlPrincipal, Alignment.TOP_CENTER);
 		setMargin(true);
+		
+		//Para volver al main principal
+		addComponent(logout);		
+		logout.addClickListener(event -> // Java 8
+			getUI().getNavigator().navigateTo(""));
 
 	}
 
