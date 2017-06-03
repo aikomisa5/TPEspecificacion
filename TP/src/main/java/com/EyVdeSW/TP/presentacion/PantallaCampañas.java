@@ -66,20 +66,12 @@ public class PantallaCampañas extends VerticalLayout implements View {
 		date.setValue(new Date());
 		
 		date.setDescription("Calendario para elegir la fecha de inicio de la campaña");
-			
-		//Date fechaInicio = new Date();
-		
+					
 		fechaInicio=date.getValue();
 				
 		System.out.print(fechaInicio.toString());
 		
 		
-		
-		
-		//addComponent(date);
-		
-		
-
 		/*
 		BeanItemContainer<Campaña> tags = new BeanItemContainer<Campaña>(Campaña.class);
 		tagService.traerTodos().forEach(tag -> tags.addBean(tag));
@@ -90,9 +82,6 @@ public class PantallaCampañas extends VerticalLayout implements View {
 
 		btnCrear.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		btnCrear.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-		
-		
-		
 		btnCrear.addClickListener(e -> {
 			if (tfNombre.getValue() == "") {
 				Notification.show("El nombre está vacío!", Type.WARNING_MESSAGE);
@@ -114,8 +103,6 @@ public class PantallaCampañas extends VerticalLayout implements View {
 						tfNombreMensaje.getValue(),taTextoMensaje.getData().toString(),fechaInicio);
 				Notification.show("Campaña Guardado", Type.TRAY_NOTIFICATION);
 				limpiarCampos(tfNombre, taDescripcion, tfNombreMensaje, taTextoMensaje);
-				
-
 			}
 			tfNombre.focus();
 		});
@@ -130,7 +117,6 @@ public class PantallaCampañas extends VerticalLayout implements View {
 		
 		VerticalLayout vlFormTags = new VerticalLayout(flFormCampos, hlBotones);
 		vlFormTags.setSpacing(true);
-
 	
 		HorizontalLayout hlPrincipal = new HorizontalLayout(vlFormTags);
 		hlPrincipal.setSpacing(true);
@@ -145,8 +131,6 @@ public class PantallaCampañas extends VerticalLayout implements View {
 		logout.addClickListener(event -> // Java 8
 			getUI().getNavigator().navigateTo(""));
 		
-		
-
 	}
 
 
