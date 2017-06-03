@@ -40,17 +40,24 @@ public class Main extends VerticalLayout implements View{
 			setComponentAlignment(buttonTags, Alignment.MIDDLE_CENTER);
 			
 		
-		Button buttonCampaña = new Button("Ir a Creación de Campañas");
-				buttonCampaña.setStyleName(ValoTheme.BUTTON_PRIMARY);
-				buttonCampaña.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-				buttonCampaña.addClickListener(e -> {
+		Button buttonCampañas = new Button("Ir a Creación de Campañas");
+				buttonCampañas.setStyleName(ValoTheme.BUTTON_PRIMARY);
+				buttonCampañas.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+				buttonCampañas.addClickListener(e -> {
 			getUI().getNavigator().navigateTo(MyUI.CAMPAÑASVIEW);
 			
 		});
-			addComponent(buttonCampaña);
-			setComponentAlignment(buttonCampaña, Alignment.MIDDLE_CENTER);
+			addComponent(buttonCampañas);
+			setComponentAlignment(buttonCampañas, Alignment.MIDDLE_CENTER);
 			
+			VerticalLayout vlBotones = new VerticalLayout(buttonTags, buttonCampañas);
+			vlBotones.setSpacing(true);
+			vlBotones.setWidth("80%");
+			addComponent(vlBotones);
+			setComponentAlignment(vlBotones, Alignment.MIDDLE_CENTER);
+			setMargin(true);
 
+			
 		}
 		
 		@Override
