@@ -14,5 +14,28 @@ public class Campaña {
 		this.fechaDeInicio=fechaDeInicio;
 	}
 	
+	public String getNombre() {
+		return nombre;
+	}
 
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public Date getFechaDeInicio() {
+		return fechaDeInicio;
+	}
+
+	public void setFechaDeInicio(Date fechaDeInicio) {
+		this.fechaDeInicio = fechaDeInicio;
+	}
+	
 }
