@@ -1,5 +1,8 @@
 package com.EyVdeSW.TP.presentacion;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 import com.EyVdeSW.TP.domainModel.Tag;
 import com.EyVdeSW.TP.services.CampañaService;
 import com.EyVdeSW.TP.services.TagService;
@@ -10,6 +13,7 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -18,6 +22,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Notification.Type;
+import com.vaadin.ui.TextArea;
 import com.vaadin.ui.themes.ValoTheme;
 
 public class PantallaCampañas extends VerticalLayout implements View {
@@ -38,6 +43,7 @@ public class PantallaCampañas extends VerticalLayout implements View {
 		
 		TextField tfNombre = new TextField("Nombre Campaña");
 		TextField tfDescripcion = new TextField("Descripción Campaña");
+		TextArea taTextoMensaje = new TextArea("Texto del Mensaje");
 		
 		// Create the selection component
 		ComboBox DuracionCampaña = new ComboBox("Duración de Campaña");
@@ -56,10 +62,10 @@ public class PantallaCampañas extends VerticalLayout implements View {
 		*/
 		
 		
-		Button btnAgregar = new Button("Crear Campaña");
+		Button btnCrear = new Button("Crear Campaña");
 
-		btnAgregar.setStyleName(ValoTheme.BUTTON_PRIMARY);
-		btnAgregar.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+		btnCrear.setStyleName(ValoTheme.BUTTON_PRIMARY);
+		btnCrear.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 		
 		/*
 		btnAgregar.addClickListener(e -> {
@@ -78,13 +84,35 @@ public class PantallaCampañas extends VerticalLayout implements View {
 
 	*/
 	
+		//Calendario
 		
-		HorizontalLayout hlBotones = new HorizontalLayout(btnAgregar);
+		// Create a DateField with the default style
+		DateField date = new DateField();
+
+		// Set the date to present
+		date.setValue(new Date());
+		
+		date.setDescription("Calendario para elegir la fecha de inicio de la campaña");
+			
+		Date fechaInicio = new Date();
+		
+		fechaInicio=date.getValue();
+				
+		System.out.print(fechaInicio.toString());
+		
+		
+		
+		
+		//addComponent(date);
+		
+		
+		HorizontalLayout hlBotones = new HorizontalLayout(btnCrear);
 		hlBotones.setSpacing(true);
 
-		FormLayout flFormTags = new FormLayout(tfNombre,tfDescripcion,DuracionCampaña);
-		flFormTags.setSpacing(true);
-		VerticalLayout vlFormTags = new VerticalLayout(flFormTags, hlBotones);
+		FormLayout flFormCampos = new FormLayout(tfNombre,tfDescripcion,taTextoMensaje,DuracionCampaña,date);
+		flFormCampos.setSpacing(true);
+		
+		VerticalLayout vlFormTags = new VerticalLayout(flFormCampos, hlBotones);
 		vlFormTags.setSpacing(true);
 
 	
@@ -97,8 +125,11 @@ public class PantallaCampañas extends VerticalLayout implements View {
 		
 		//Para volver al main principal
 		addComponent(logout);		
+		setComponentAlignment(logout, Alignment.BOTTOM_LEFT);
 		logout.addClickListener(event -> // Java 8
 			getUI().getNavigator().navigateTo(""));
+		
+		
 
 	}
 
