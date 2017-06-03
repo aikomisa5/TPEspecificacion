@@ -3,7 +3,6 @@ package com.EyVdeSW.TP.Daos;
 import java.util.Collection;
 
 import com.EyVdeSW.TP.domainModel.AccionGeneral;
-import com.EyVdeSW.TP.domainModel.Campaña;
 
 public interface AccionGeneralDAO extends DAO<AccionGeneral> {
 
