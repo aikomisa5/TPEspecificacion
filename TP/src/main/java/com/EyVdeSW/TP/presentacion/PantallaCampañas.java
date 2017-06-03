@@ -1,11 +1,9 @@
 package com.EyVdeSW.TP.presentacion;
 
-import java.time.LocalDate;
 import java.util.Date;
 
-import com.EyVdeSW.TP.domainModel.Tag;
+
 import com.EyVdeSW.TP.services.CampañaService;
-import com.EyVdeSW.TP.services.TagService;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
