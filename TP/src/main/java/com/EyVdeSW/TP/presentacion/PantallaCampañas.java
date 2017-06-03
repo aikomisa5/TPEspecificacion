@@ -2,7 +2,7 @@ package com.EyVdeSW.TP.presentacion;
 
 import java.util.Date;
 
-
+import com.EyVdeSW.TP.domainModel.Tag;
 import com.EyVdeSW.TP.services.CampañaService;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.ShortcutAction;
@@ -30,7 +30,9 @@ public class PantallaCampañas extends VerticalLayout implements View {
 	private CampañaService campañaService = CampañaService.getCampañaService();
 	
 	Button logout = new Button("Logout");
-
+	
+	Date fechaInicio = new Date();
+	
 	public PantallaCampañas() {
 		Label titulo = new Label("Gestión de Campañas");
 		titulo.setStyleName(ValoTheme.LABEL_H1);
@@ -41,6 +43,7 @@ public class PantallaCampañas extends VerticalLayout implements View {
 		
 		TextField tfNombre = new TextField("Nombre Campaña");
 		TextArea taDescripcion = new TextArea("Descripción Campaña");
+		TextField tfNombreMensaje = new TextField("Nombre Mensaje");
 		TextArea taTextoMensaje = new TextArea("Texto del Mensaje");
 		
 		// Create the selection component
@@ -54,34 +57,6 @@ public class PantallaCampañas extends VerticalLayout implements View {
 		DuracionCampaña.setNullSelectionAllowed(false);
 		
 
-		/*
-		BeanItemContainer<Campaña> tags = new BeanItemContainer<Campaña>(Campaña.class);
-		tagService.traerTodos().forEach(tag -> tags.addBean(tag));
-		*/
-		
-		
-		Button btnCrear = new Button("Crear Campaña");
-
-		btnCrear.setStyleName(ValoTheme.BUTTON_PRIMARY);
-		btnCrear.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-		
-		/*
-		btnAgregar.addClickListener(e -> {
-			if (tfNombre.getValue() == "") {
-				Notification.show("El nombre esta vacío!", Type.WARNING_MESSAGE);
-			} else {
-				//String tagPadre = comboBoxTag.getValue() == null ? null : comboBoxTag.getValue().toString();
-				tagService.guardar(tfNombre.getValue(), tagPadre);
-				Notification.show("Tag Guardado", Type.TRAY_NOTIFICATION);
-				limpiarCampos(tfNombre, tags, comboBoxTag);
-				
-
-			}
-			tfNombre.focus();
-		});
-
-	*/
-	
 		//Calendario
 		
 		// Create a DateField with the default style
@@ -92,7 +67,7 @@ public class PantallaCampañas extends VerticalLayout implements View {
 		
 		date.setDescription("Calendario para elegir la fecha de inicio de la campaña");
 			
-		Date fechaInicio = new Date();
+		//Date fechaInicio = new Date();
 		
 		fechaInicio=date.getValue();
 				
@@ -104,10 +79,53 @@ public class PantallaCampañas extends VerticalLayout implements View {
 		//addComponent(date);
 		
 		
+
+		/*
+		BeanItemContainer<Campaña> tags = new BeanItemContainer<Campaña>(Campaña.class);
+		tagService.traerTodos().forEach(tag -> tags.addBean(tag));
+		*/
+		
+		
+		Button btnCrear = new Button("Crear Campaña");
+
+		btnCrear.setStyleName(ValoTheme.BUTTON_PRIMARY);
+		btnCrear.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+		
+		
+		
+		btnCrear.addClickListener(e -> {
+			if (tfNombre.getValue() == "") {
+				Notification.show("El nombre está vacío!", Type.WARNING_MESSAGE);
+			} 
+			
+			if (taDescripcion.getData().toString() == "") {
+				Notification.show("La descripción está vacía!", Type.WARNING_MESSAGE);
+			}
+			
+			if (tfNombreMensaje.getValue() == ""){
+				Notification.show("El nombre del mensaje está vacío!", Type.WARNING_MESSAGE);
+			}
+			
+			if (taTextoMensaje.getData().toString() == ""){
+				Notification.show("El texto del mensaje está vacío!", Type.WARNING_MESSAGE);
+			}
+			else {
+				campañaService.guardar(tfNombre.getValue(),taDescripcion.getData().toString(),
+						tfNombreMensaje.getValue(),taTextoMensaje.getData().toString(),fechaInicio);
+				Notification.show("Campaña Guardado", Type.TRAY_NOTIFICATION);
+				limpiarCampos(tfNombre, taDescripcion, tfNombreMensaje, taTextoMensaje);
+				
+
+			}
+			tfNombre.focus();
+		});
+
+	
+	
 		HorizontalLayout hlBotones = new HorizontalLayout(btnCrear);
 		hlBotones.setSpacing(true);
 
-		FormLayout flFormCampos = new FormLayout(tfNombre,taDescripcion,taTextoMensaje,DuracionCampaña,date);
+		FormLayout flFormCampos = new FormLayout(tfNombre,taDescripcion,tfNombreMensaje,taTextoMensaje,DuracionCampaña,date);
 		flFormCampos.setSpacing(true);
 		
 		VerticalLayout vlFormTags = new VerticalLayout(flFormCampos, hlBotones);
@@ -141,6 +159,14 @@ public class PantallaCampañas extends VerticalLayout implements View {
 		comboBoxTag.setContainerDataSource(tags);
 	} */
 
+	private void limpiarCampos(TextField textFieldNombre, TextArea textAreaDescripcion, 
+			TextField textFieldNombreMensaje, TextArea textAreaTextoMensaje) {
+		textFieldNombre.clear();
+		textAreaDescripcion.clear();
+		textFieldNombreMensaje.clear();
+		textAreaTextoMensaje.clear();
+	}
+	
 	@Override
 	public void enter(ViewChangeEvent event) {
 		// TODO Auto-generated method stub
