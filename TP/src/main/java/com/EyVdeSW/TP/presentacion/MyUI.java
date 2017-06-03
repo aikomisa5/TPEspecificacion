@@ -43,7 +43,7 @@ public class MyUI extends UI
 		
 		navigator.addView(CAMPAÑASVIEW, new PantallaCampañas());	
 		navigator.addView(TAGSVIEW, new PantallaTags());	
-		navigator.addView("", new Main());	
+		navigator.addView("", new PantallaMain());	
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

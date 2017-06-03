@@ -13,11 +13,11 @@ import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.ui.VerticalLayout;
 
-public class Main extends VerticalLayout implements View{
+public class PantallaMain extends VerticalLayout implements View{
 	
 	protected static final String NAME = "";
 	
-	public Main() {
+	public PantallaMain() {
 		
 		//setSizeFull();
 		
