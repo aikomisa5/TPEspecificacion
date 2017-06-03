@@ -51,10 +51,27 @@ public class CampañaService {
 		}
 	}
 	
-	//TODO
-	public void modificar (String nombreCampaña, String descripcionCampaña, 
-			String nombreMensaje, String textoMensaje, Date fechaDeInicio){
-				
+	public boolean modificar (String nombreCampañaOriginal, String nombreModificacion, 
+			String descripcionCampañaMod, String nombreMensajeMod, String textoMensajeMod, Date fechaDeInicioMod){
+		boolean ret = true;
+		if (campañaDAO.existe(nombreModificacion)) {
+			ret = false;
+		}
+		{
+			String modificacionMinuscula = nombreModificacion.toLowerCase();
+			String descripcionMinuscula = descripcionCampañaMod.toLowerCase();
+			
+			Campaña orig = campañaDAO.getCampañaPorNombre(nombreCampañaOriginal);
+			Campaña modi = campañaDAO.getCampañaPorNombre(nombreCampañaOriginal);
+			
+			modi.setNombre(modificacionMinuscula);
+			modi.setDescripcion(descripcionMinuscula);
+			modi.setMensaje(new Mensaje(nombreMensajeMod, textoMensajeMod));
+			modi.setFechaDeInicio(fechaDeInicioMod);
+			
+			campañaDAO.modificar(orig, modi);
+		}
+		return ret;
 		
 	}
 		
