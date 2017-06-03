@@ -4,14 +4,24 @@ import java.util.Date;
 
 public class Campaña {
 	
+	private Mensaje mensaje;
 	private String nombre;
 	private String descripcion;
 	private Date fechaDeInicio;
 	
-	public Campaña(String nombre, String descripcion, Date fechaDeInicio){
+	public Campaña(String nombre, String descripcion, Mensaje mensaje, Date fechaDeInicio){
 		this.nombre=nombre;
 		this.descripcion=descripcion;
+		this.mensaje=mensaje;
 		this.fechaDeInicio=fechaDeInicio;
+	}
+	
+	public Mensaje getMensaje() {
+		return mensaje;
+	}
+
+	public void setMensaje(Mensaje mensaje) {
+		this.mensaje = mensaje;
 	}
 	
 	public String getNombre() {
