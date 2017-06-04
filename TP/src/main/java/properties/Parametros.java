@@ -36,5 +36,19 @@ public class Parametros {
 
 		return p;
 	}
+	
+	public static String getProperty(String key){
+		try {
+			File f = new File(PARAM_FILE);
+			if (!f.exists()) SetearParametros();
+			
+			FileInputStream fis = new FileInputStream(PARAM_FILE);
+			p.load(fis);
+		} catch (Exception e) {
+			System.err.println(PARAM_FILE + ":archivo no encontrado.");
+		}
+
+		return p.getProperty(key);
+	}
 
 }
