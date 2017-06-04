@@ -3,6 +3,7 @@ package com.EyVdeSW.TP.Daos.impl;
 import org.neodatis.odb.ODB;
 
 import org.neodatis.odb.Objects;
+import org.neodatis.odb.OdbConfiguration;
 import org.neodatis.odb.core.query.IQuery;
 
 import com.EyVdeSW.TP.Daos.DAO;
@@ -77,7 +78,8 @@ public class DAONeodatis<T> implements DAO<T> {
 	}	
 
 	private void getConexion() {
-		odb = bdConnector.getBDConnection();
+		odb = bdConnector.getBDConnection();	
+		OdbConfiguration.setReconnectObjectsToSession(true);		
 	}
 
 }
