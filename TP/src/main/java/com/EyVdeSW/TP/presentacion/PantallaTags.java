@@ -23,9 +23,11 @@ import com.vaadin.ui.themes.ValoTheme;
 
 @SuppressWarnings("serial")
 public class PantallaTags extends VerticalLayout implements View {
-	protected static final String Name = "";
+	protected static final String NAME = "";
 
 	private TagService tagService = TagService.getTagService();
+	
+	Button logout = new Button("Logout");
 
 	public PantallaTags() {
 		Label titulo = new Label("Gestión de Tags");
@@ -109,6 +111,12 @@ public class PantallaTags extends VerticalLayout implements View {
 		addComponent(hlPrincipal);
 		setComponentAlignment(hlPrincipal, Alignment.TOP_CENTER);
 		setMargin(true);
+		
+		//Para volver al main principal
+		addComponent(logout);		
+		logout.addClickListener(event -> // Java 8
+			getUI().getNavigator().navigateTo(""));
+         
 
 	}
 

@@ -25,6 +25,11 @@ import com.vaadin.ui.VerticalLayout;
 public class MyUI extends UI
 {
 	private Navigator navigator;
+	
+	protected static final String TAGSVIEW = "gestionTags";
+	protected static final String CAMPAÑASVIEW = "gestionCampañas";
+	//protected static final String MAINVIEW = "main";
+	
 	@Override
 	protected void init(VaadinRequest vaadinRequest)
 	{
@@ -34,8 +39,11 @@ public class MyUI extends UI
 		getPage().setTitle("TP Especificaciónes y verificación de Software");
 		// Creamos el navegador
 		navigator = new Navigator(this, this);
-		// Y creamos y registramos las views (pantallas)		
-		navigator.addView("", new PantallaTags());		
+		// Y creamos y registramos las views (pantallas)
+		
+		navigator.addView(CAMPAÑASVIEW, new PantallaCampañas());	
+		navigator.addView(TAGSVIEW, new PantallaTags());	
+		navigator.addView("", new PantallaMain());	
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
