@@ -2,7 +2,7 @@ package com.EyVdeSW.TP.domainModel;
 
 public class Usuario {
 	
-	public enum UsuarioTipo{
+	public enum TipoUsuario{
 		CLIENTE,
 		ANALISTATECNICO,
 		ANALISTACOMERCIAL;
@@ -11,11 +11,9 @@ public class Usuario {
 	private String usuario;
 	private String nombre;
 	private String password;
+	private TipoUsuario tipoUsuario;
 	
-
-	private UsuarioTipo tipoUsuario;
-	
-	public Usuario (String usuario, String nombre, String password, UsuarioTipo tipoUsuario){
+	public Usuario (String usuario, String nombre, String password, TipoUsuario tipoUsuario){
 		
 		this.usuario=usuario;
 		this.nombre=nombre;
@@ -47,11 +45,11 @@ public class Usuario {
 		this.password = password;
 	}
 
-	public UsuarioTipo getTipoUsuario() {
+	public TipoUsuario getTipoUsuario() {
 		return tipoUsuario;
 	}
 
-	public void setTipoUsuario(UsuarioTipo tipoUsuario) {
+	public void setTipoUsuario(TipoUsuario tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
 	}
 	
