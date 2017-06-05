@@ -5,6 +5,8 @@ import javax.servlet.annotation.WebServlet;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
+import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 
@@ -43,7 +45,53 @@ public class MyUI extends UI
 		
 		navigator.addView(CAMPAÑASVIEW, new PantallaCampañas());	
 		navigator.addView(TAGSVIEW, new PantallaTags());	
-		navigator.addView("", new PantallaMain());	
+		//navigator.addView("", new PantallaMain());	
+		
+		 // The initial log view where the user can login to the application
+        //
+        getNavigator().addView(SimpleLoginView.NAME, SimpleLoginView.class);//
+
+        //
+        // Add the main view of the application
+        //
+        getNavigator().addView(SimpleLoginMainView.NAME,
+                SimpleLoginMainView.class);
+
+        //
+        // We use a view change handler to ensure the user is always redirected
+        // to the login view if the user is not logged in.
+        //
+        getNavigator().addViewChangeListener(new ViewChangeListener() {
+
+            @Override
+            public boolean beforeViewChange(ViewChangeEvent event) {
+
+                // Check if a user has logged in
+                boolean isLoggedIn = getSession().getAttribute("user") != null;
+                boolean isLoginView = event.getNewView() instanceof SimpleLoginView;
+
+                if (!isLoggedIn && !isLoginView) {
+                    // Redirect to login view always if a user has not yet
+                    // logged in
+                    getNavigator().navigateTo(SimpleLoginView.NAME);
+                    return false;
+
+                } else if (isLoggedIn && isLoginView) {
+                    // If someone tries to access to login view while logged in,
+                    // then cancel
+                    return false;
+                }
+
+                return true;
+            }
+
+            @Override
+            public void afterViewChange(ViewChangeEvent event) {
+
+            }
+        });
+    
+	
 	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
