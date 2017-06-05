@@ -8,59 +8,73 @@ import org.neodatis.odb.core.query.criteria.Where;
 import org.neodatis.odb.impl.core.query.criteria.CriteriaQuery;
 
 import com.EyVdeSW.TP.Daos.CampañaDAO;
-import com.EyVdeSW.TP.domainModel.Campaña;
+import com.EyVdeSW.TP.domainModel.Campania;
 
-public class CampañaDAONeodatis extends DAONeodatis <Campaña> implements CampañaDAO {
+public class CampañaDAONeodatis extends DAONeodatis<Campania> implements CampañaDAO
+{
 
 	@Override
-	public void modificar(Campaña original, Campaña modificacion) {
+	public void modificar(Campania original, Campania modificacion)
+	{
 		odb = null;
-		try{			
+		try
+		{
 			odb = bdConnector.getBDConnection();
-			IQuery query = new CriteriaQuery(Campaña.class, Where.like("nombre", original.getNombre()));	
-			Objects<Campaña>resultadoQuery=odb.getObjects(query);
-			
-			Campaña t=resultadoQuery.getFirst();
+			IQuery query = new CriteriaQuery(Campania.class, Where.like("nombre", original.getNombre()));
+			Objects<Campania> resultadoQuery = odb.getObjects(query);
+
+			Campania t = resultadoQuery.getFirst();
 			t.setMensaje(modificacion.getMensaje());
 			t.setAccionesPublicitarias(modificacion.getAccionesPublicitarias());
 			t.setNombre(modificacion.getNombre());
 			t.setDescripcion(modificacion.getDescripcion());
 			t.setFechaDeInicio(modificacion.getFechaDeInicio());
-			
+
 			odb.store(t);
-		}catch(Exception e){
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
-		}finally{
+		}
+		finally
+		{
 			if (odb != null)
 				odb.close();
 		}
 	}
-	
 
 	@Override
-	public Collection<Campaña> traerTodos() {
-		return consultar(new CriteriaQuery(Campaña.class));
+	public Collection<Campania> traerTodos()
+	{
+		return consultar(new CriteriaQuery(Campania.class));
 	}
 
 	@Override
-	public Collection<Campaña> consultarPorNombre(String nombre) {
-		IQuery query = new CriteriaQuery(Campaña.class, Where.like("nombre", "%"+nombre+"%"));
+	public Collection<Campania> consultarPorNombre(String nombre)
+	{
+		IQuery query = new CriteriaQuery(Campania.class, Where.equal("nombre", nombre));
 		return consultar(query);
 	}
 
 	@Override
-	public Campaña getCampañaPorNombre(String nombreCampaña) {
-		Campaña campaña=null;		
-		Objects<Campaña> resultadoQuery = null;
-		odb=null;
-		try{
+	public Campania getCampañaPorNombre(String nombreCampaña)
+	{
+		Campania campaña = null;
+		Objects<Campania> resultadoQuery = null;
+		odb = null;
+		try
+		{
 			odb = bdConnector.getBDConnection();
-			resultadoQuery = odb.getObjects(new CriteriaQuery(Campaña.class, Where.like("nombre", "%"+nombreCampaña+"%")));
-			if(resultadoQuery.size() != 0)
-				campaña= resultadoQuery.getFirst();
-		}catch(Exception e){
+			resultadoQuery = odb.getObjects(new CriteriaQuery(Campania.class, Where.like("nombre", "%" + nombreCampaña + "%")));
+			if (resultadoQuery.size() != 0)
+				campaña = resultadoQuery.getFirst();
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
-		}finally{
+		}
+		finally
+		{
 			if (odb != null)
 				odb.close();
 		}
@@ -68,22 +82,28 @@ public class CampañaDAONeodatis extends DAONeodatis <Campaña> implements Campa
 	}
 
 	@Override
-	public boolean existe(String nombreCampaña) {
-		boolean ret=false;
-		Objects<Campaña> resultadoQuery = null;
-		odb=null;
-		try{
+	public boolean existe(String nombreCampaña)
+	{
+		boolean ret = false;
+		Objects<Campania> resultadoQuery = null;
+		odb = null;
+		try
+		{
 			odb = bdConnector.getBDConnection();
-			resultadoQuery = odb.getObjects(new CriteriaQuery(Campaña.class, Where.equal("nombre", nombreCampaña)));
-			ret = ret||(resultadoQuery.size() != 0);
-		}catch(Exception e){
+			resultadoQuery = odb.getObjects(new CriteriaQuery(Campania.class, Where.equal("nombre", nombreCampaña)));
+			ret = ret || (resultadoQuery.size() != 0);
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
-		}finally{
+		}
+		finally
+		{
 			if (odb != null)
 				odb.close();
 		}
 		return ret;
-	
+
 	}
 
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import com.EyVdeSW.TP.Daos.CampañaDAO;
 import com.EyVdeSW.TP.Daos.impl.CampañaDAONeodatis;
 import com.EyVdeSW.TP.domainModel.AccionPublicitaria;
-import com.EyVdeSW.TP.domainModel.Campaña;
+import com.EyVdeSW.TP.domainModel.Campania;
 import com.EyVdeSW.TP.domainModel.Mensaje;
 
 public class CampañaService {
@@ -25,7 +25,7 @@ public class CampañaService {
 		return campañaService;
 	}
 	
-	public void guardar(Campaña campaña){
+	public void guardar(Campania campaña){
 		campañaDAO.guardar(campaña);
 		
 	}
@@ -38,7 +38,7 @@ public class CampañaService {
 		
 		if (!campañaDAO.existe(nombreMinuscula)){
 			List<AccionPublicitaria> accionesPublicitarias = null;
-			campañaDAO.guardar(new Campaña(accionesPublicitarias, nombreMinuscula, descripcionMinuscula, new Mensaje(nombreMensaje, textoMensaje), fechaDeInicio));
+			campañaDAO.guardar(new Campania(accionesPublicitarias, nombreMinuscula, descripcionMinuscula, new Mensaje(nombreMensaje, textoMensaje), fechaDeInicio));
 			
 		}
 	}
@@ -46,7 +46,7 @@ public class CampañaService {
 	public void borrar (String nombreCampaña){
 		String nombreMinuscula = nombreCampaña.toLowerCase();
 		if (campañaDAO.existe(nombreMinuscula)){
-			Campaña campaña = campañaDAO.getCampañaPorNombre(nombreMinuscula);
+			Campania campaña = campañaDAO.getCampañaPorNombre(nombreMinuscula);
 			campañaDAO.borrar(campaña);
 		}
 	}
@@ -61,8 +61,8 @@ public class CampañaService {
 			String modificacionMinuscula = nombreModificacion.toLowerCase();
 			String descripcionMinuscula = descripcionCampañaMod.toLowerCase();
 			
-			Campaña orig = campañaDAO.getCampañaPorNombre(nombreCampañaOriginal);
-			Campaña modi = campañaDAO.getCampañaPorNombre(nombreCampañaOriginal);
+			Campania orig = campañaDAO.getCampañaPorNombre(nombreCampañaOriginal);
+			Campania modi = campañaDAO.getCampañaPorNombre(nombreCampañaOriginal);
 			
 			modi.setNombre(modificacionMinuscula);
 			modi.setDescripcion(descripcionMinuscula);

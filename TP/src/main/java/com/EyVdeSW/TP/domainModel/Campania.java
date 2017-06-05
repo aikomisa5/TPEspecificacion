@@ -5,42 +5,38 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Campaña {
+public class Campania {
 	
 	private List<AccionPublicitaria> accionesPublicitarias;
 	private Mensaje mensaje;
 	private String nombre;
 	private String descripcion;
 	private Date fechaDeInicio;
-	private EstadoCampaña estado;
+	private EstadoCampania estado;
 	private UUID idCampaña;
 	
-	public enum EstadoCampaña{
+	public enum EstadoCampania{
 		PLANIFICADA,
 		PRELIMINAR,
 		CANCELADA;
 	}
 	
-	public Campaña(){
-		
-	}
-	
-	public Campaña(String nombre, String descripcion) {
+	public Campania(String nombre, String descripcion) {
 		this.nombre = nombre;
 		this.descripcion = descripcion;
-		estado=EstadoCampaña.PLANIFICADA;
+		estado=EstadoCampania.PLANIFICADA;
 		this.mensaje=null;
 		this.fechaDeInicio=null;
 		idCampaña= UUID.randomUUID();
 	}
 
-	public Campaña(List<AccionPublicitaria> accionesPublicitarias,String nombre, String descripcion, Mensaje mensaje, Date fechaDeInicio){
+	public Campania(List<AccionPublicitaria> accionesPublicitarias,String nombre, String descripcion, Mensaje mensaje, Date fechaDeInicio){
 		this.accionesPublicitarias=accionesPublicitarias;
 		this.nombre=nombre;
 		this.descripcion=descripcion;
 		this.mensaje=mensaje;
 		this.fechaDeInicio=fechaDeInicio;
-		estado=EstadoCampaña.CANCELADA;
+		estado=EstadoCampania.CANCELADA;
 	}
 	
 	public List<AccionPublicitaria> getAccionesPublicitarias() {
@@ -87,13 +83,15 @@ public class Campaña {
 		this.fechaDeInicio = fechaDeInicio;
 	}
 	
-	public EstadoCampaña getEstado() {
+	public EstadoCampania getEstado() {
 		return estado;
 	}
 
-	public void setEstado(EstadoCampaña estado) {
+	public void setEstado(EstadoCampania estado) {
 		this.estado = estado;
 	}
+
+	
 
 	@Override
 	public int hashCode() {
@@ -101,44 +99,34 @@ public class Campaña {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Campaña other = (Campaña) obj;
-		if (accionesPublicitarias == null) {
-			if (other.accionesPublicitarias != null)
-				return false;
-		} else if (!accionesPublicitarias.equals(other.accionesPublicitarias))
-			return false;
-		if (descripcion == null) {
-			if (other.descripcion != null)
-				return false;
-		} else if (!descripcion.equals(other.descripcion))
-			return false;
-		if (estado != other.estado)
-			return false;
-		if (fechaDeInicio == null) {
-			if (other.fechaDeInicio != null)
-				return false;
-		} else if (!fechaDeInicio.equals(other.fechaDeInicio))
-			return false;
-		if (mensaje == null) {
-			if (other.mensaje != null)
-				return false;
-		} else if (!mensaje.equals(other.mensaje))
-			return false;
-		if (nombre == null) {
+		Campania other = (Campania) obj;
+		if (nombre == null)
+		{
 			if (other.nombre != null)
 				return false;
-		} else if (!nombre.equals(other.nombre))
+		}
+		else if (!nombre.equals(other.nombre))
 			return false;
 		return true;
 	}
 
+	@Override
+	public String toString()
+	{
+		return nombre;
+	}
+	
+	
+
+	
 	
 	
 }

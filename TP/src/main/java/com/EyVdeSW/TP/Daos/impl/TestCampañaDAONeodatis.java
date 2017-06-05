@@ -11,8 +11,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.EyVdeSW.TP.domainModel.Campaña;
-import com.EyVdeSW.TP.domainModel.Campaña.EstadoCampaña;
+import com.EyVdeSW.TP.domainModel.Campania;
+import com.EyVdeSW.TP.domainModel.Campania.EstadoCampania;
 import com.EyVdeSW.TP.domainModel.Tag;
 
 import properties.Parametros;
@@ -37,18 +37,29 @@ public class TestCampañaDAONeodatis {
 	}
 
 	public void limpiarBD(){
-		Collection<Campaña> tags = campañaDAO.traerTodos();
+		Collection<Campania> tags = campañaDAO.traerTodos();
 		tags.forEach(t -> campañaDAO.borrar(t));
 		tags = campañaDAO.traerTodos();
 	}
 	
+	
 	@Test
-	public void modificarSimple(){
-		Campaña c1= new Campaña("nombre", "Soy una descripcion");
-		c1.setEstado(EstadoCampaña.PLANIFICADA);
+	public void testExiste(){
+		Campania c1= new Campania("unaCampaña", "Soy una descripcion");
 		campañaDAO.guardar(c1);
 		
-		Campaña c2=campañaDAO.getCampañaPorNombre("nombre");
+		assertEquals(true, campañaDAO.existe("unaCampaña"));
+		assertEquals(false, campañaDAO.existe("unaCampañaInexistente"));
+		
+	}
+	
+	@Test
+	public void modificarSimple(){
+		Campania c1= new Campania("nombre", "Soy una descripcion");
+		c1.setEstado(EstadoCampania.PLANIFICADA);
+		campañaDAO.guardar(c1);
+		
+		Campania c2=campañaDAO.getCampañaPorNombre("nombre");
 		
 		assertEquals(c1, c2);
 		
@@ -62,13 +73,13 @@ public class TestCampañaDAONeodatis {
 	
 	
 
-	private void agregarDatosDePrueba(ArrayList<Campaña> instancia){
+	private void agregarDatosDePrueba(ArrayList<Campania> instancia){
 		instancia.forEach(t -> campañaDAO.guardar(t));
 	}
 
-	private ArrayList<Campaña> instanciaCampañas(){
+	private ArrayList<Campania> instanciaCampañas(){
 
-		ArrayList<Campaña> ret = new ArrayList<>();
+		ArrayList<Campania> ret = new ArrayList<>();
 
 
 		return ret;
