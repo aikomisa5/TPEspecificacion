@@ -2,6 +2,8 @@ package com.EyVdeSW.TP.domainModel;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class Campaña {
 	
@@ -10,13 +12,35 @@ public class Campaña {
 	private String nombre;
 	private String descripcion;
 	private Date fechaDeInicio;
+	private EstadoCampaña estado;
+	private UUID idCampaña;
 	
+	public enum EstadoCampaña{
+		PLANIFICADA,
+		PRELIMINAR,
+		CANCELADA;
+	}
+	
+	public Campaña(){
+		
+	}
+	
+	public Campaña(String nombre, String descripcion) {
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		estado=EstadoCampaña.PLANIFICADA;
+		this.mensaje=null;
+		this.fechaDeInicio=null;
+		idCampaña= UUID.randomUUID();
+	}
+
 	public Campaña(List<AccionPublicitaria> accionesPublicitarias,String nombre, String descripcion, Mensaje mensaje, Date fechaDeInicio){
 		this.accionesPublicitarias=accionesPublicitarias;
 		this.nombre=nombre;
 		this.descripcion=descripcion;
 		this.mensaje=mensaje;
 		this.fechaDeInicio=fechaDeInicio;
+		estado=EstadoCampaña.CANCELADA;
 	}
 	
 	public List<AccionPublicitaria> getAccionesPublicitarias() {
@@ -62,15 +86,18 @@ public class Campaña {
 	public void setFechaDeInicio(Date fechaDeInicio) {
 		this.fechaDeInicio = fechaDeInicio;
 	}
+	
+	public EstadoCampaña getEstado() {
+		return estado;
+	}
+
+	public void setEstado(EstadoCampaña estado) {
+		this.estado = estado;
+	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
-		result = prime * result + ((fechaDeInicio == null) ? 0 : fechaDeInicio.hashCode());
-		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		return result;
+		return Objects.hash(idCampaña);
 	}
 
 	@Override
@@ -82,15 +109,27 @@ public class Campaña {
 		if (getClass() != obj.getClass())
 			return false;
 		Campaña other = (Campaña) obj;
+		if (accionesPublicitarias == null) {
+			if (other.accionesPublicitarias != null)
+				return false;
+		} else if (!accionesPublicitarias.equals(other.accionesPublicitarias))
+			return false;
 		if (descripcion == null) {
 			if (other.descripcion != null)
 				return false;
 		} else if (!descripcion.equals(other.descripcion))
 			return false;
+		if (estado != other.estado)
+			return false;
 		if (fechaDeInicio == null) {
 			if (other.fechaDeInicio != null)
 				return false;
 		} else if (!fechaDeInicio.equals(other.fechaDeInicio))
+			return false;
+		if (mensaje == null) {
+			if (other.mensaje != null)
+				return false;
+		} else if (!mensaje.equals(other.mensaje))
 			return false;
 		if (nombre == null) {
 			if (other.nombre != null)
@@ -99,5 +138,7 @@ public class Campaña {
 			return false;
 		return true;
 	}
+
+	
 	
 }

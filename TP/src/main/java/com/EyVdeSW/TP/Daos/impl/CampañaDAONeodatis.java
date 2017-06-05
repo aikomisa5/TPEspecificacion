@@ -52,6 +52,7 @@ public class CampañaDAONeodatis extends DAONeodatis <Campaña> implements Campa
 	public Campaña getCampañaPorNombre(String nombreCampaña) {
 		Campaña campaña=null;		
 		Objects<Campaña> resultadoQuery = null;
+		odb=null;
 		try{
 			odb = bdConnector.getBDConnection();
 			resultadoQuery = odb.getObjects(new CriteriaQuery(Campaña.class, Where.like("nombre", "%"+nombreCampaña+"%")));
@@ -70,6 +71,7 @@ public class CampañaDAONeodatis extends DAONeodatis <Campaña> implements Campa
 	public boolean existe(String nombreCampaña) {
 		boolean ret=false;
 		Objects<Campaña> resultadoQuery = null;
+		odb=null;
 		try{
 			odb = bdConnector.getBDConnection();
 			resultadoQuery = odb.getObjects(new CriteriaQuery(Campaña.class, Where.equal("nombre", nombreCampaña)));

@@ -12,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.EyVdeSW.TP.domainModel.Campaña;
+import com.EyVdeSW.TP.domainModel.Campaña.EstadoCampaña;
 import com.EyVdeSW.TP.domainModel.Tag;
 
 import properties.Parametros;
@@ -39,6 +40,24 @@ public class TestCampañaDAONeodatis {
 		Collection<Campaña> tags = campañaDAO.traerTodos();
 		tags.forEach(t -> campañaDAO.borrar(t));
 		tags = campañaDAO.traerTodos();
+	}
+	
+	@Test
+	public void modificarSimple(){
+		Campaña c1= new Campaña("nombre", "Soy una descripcion");
+		c1.setEstado(EstadoCampaña.PLANIFICADA);
+		campañaDAO.guardar(c1);
+		
+		Campaña c2=campañaDAO.getCampañaPorNombre("nombre");
+		
+		assertEquals(c1, c2);
+		
+		c2.setNombre("sarasa");
+		c2.setDescripcion("descripcion");
+		
+		campañaDAO.modificar(c1, c2);
+		
+		assertEquals(campañaDAO.getCampañaPorNombre("sarasa"), c2);
 	}
 	
 	
