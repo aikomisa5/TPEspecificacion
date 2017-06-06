@@ -30,6 +30,7 @@ public class MyUI extends UI
 	
 	protected static final String TAGSVIEW = "gestionTags";
 	protected static final String CAMPAÑASVIEW = "gestionCampañas";
+	protected static final String REGISTROVIEW = "altaRegistro";
 	//protected static final String MAINVIEW = "main";
 	
 	@Override
@@ -45,6 +46,7 @@ public class MyUI extends UI
 		
 		navigator.addView(CAMPAÑASVIEW, new PantallaCampañas());	
 		navigator.addView(TAGSVIEW, new PantallaTags());	
+		navigator.addView(REGISTROVIEW, new PantallaRegistro());
 		//navigator.addView("", new PantallaMain());	
 		
 		 // The initial log view where the user can login to the application
@@ -61,6 +63,8 @@ public class MyUI extends UI
         // We use a view change handler to ensure the user is always redirected
         // to the login view if the user is not logged in.
         //
+        
+        
         getNavigator().addViewChangeListener(new ViewChangeListener() {
 
             @Override
@@ -69,8 +73,9 @@ public class MyUI extends UI
                 // Check if a user has logged in
                 boolean isLoggedIn = getSession().getAttribute("user") != null;
                 boolean isLoginView = event.getNewView() instanceof SimpleLoginView;
+                boolean isRegistroView = event.getNewView() instanceof PantallaRegistro;
 
-                if (!isLoggedIn && !isLoginView) {
+                if (!isLoggedIn && !isLoginView && !isRegistroView) {
                     // Redirect to login view always if a user has not yet
                     // logged in
                     getNavigator().navigateTo(SimpleLoginView.NAME);
@@ -81,6 +86,11 @@ public class MyUI extends UI
                     // then cancel
                     return false;
                 }
+                
+                else if (!isLoggedIn && isRegistroView) {
+                	getNavigator().navigateTo(PantallaRegistro.NAME);
+                	return true;
+                }
 
                 return true;
             }
@@ -89,7 +99,7 @@ public class MyUI extends UI
             public void afterViewChange(ViewChangeEvent event) {
 
             }
-        });
+        }); 
     
 	
 	}

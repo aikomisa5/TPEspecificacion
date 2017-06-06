@@ -9,6 +9,8 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -25,8 +27,10 @@ private final PasswordField password;
 
 private final Button loginButton;
 
+private final Button registroButton;
+
 public SimpleLoginView() {
-    setSizeFull();
+    //setSizeFull();
 
     // Create the user input field
     user = new TextField("User:");
@@ -47,20 +51,38 @@ public SimpleLoginView() {
 
     // Create login button
     loginButton = new Button("Login", this);
+    registroButton = new Button("Regristrarse", this);
 
     // Add both to a panel
-    VerticalLayout fields = new VerticalLayout(user, password, loginButton);
+    /*
+    VerticalLayout fields = new VerticalLayout(user, password);
     fields.setCaption("Please login to access the application. (test@test.com/passw0rd)");
     fields.setSpacing(true);
     fields.setMargin(new MarginInfo(true, true, true, false));
     fields.setSizeUndefined();
-
+    */
+    
+    FormLayout fields = new FormLayout(user, password);
+    fields.setCaption("Please login to access the application. (test@test.com/passw0rd)");
+	fields.setSpacing(true);
+	fields.setMargin(new MarginInfo(true, true, true, false));
+	fields.setSizeUndefined();
+    
+    HorizontalLayout botones = new HorizontalLayout(loginButton,registroButton);
+    botones.setSpacing(true);
+     
+       
     // The view root layout
-    VerticalLayout viewLayout = new VerticalLayout(fields);
+    VerticalLayout viewLayout = new VerticalLayout(fields, botones);
     viewLayout.setSizeFull();
     viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
+    viewLayout.setComponentAlignment(botones, Alignment.MIDDLE_CENTER);
     viewLayout.setStyleName(Reindeer.LAYOUT_BLUE);
     setCompositionRoot(viewLayout);
+    
+    registroButton.addClickListener(event -> // Java 8
+	getUI().getNavigator().navigateTo(MyUI.REGISTROVIEW));
+    
 }
 
 @Override
