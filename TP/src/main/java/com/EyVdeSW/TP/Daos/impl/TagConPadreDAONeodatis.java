@@ -28,18 +28,18 @@ public class TagConPadreDAONeodatis extends DAONeodatis<TagConPadre> implements 
 
 	@Override
 	public TagConPadre getTagPorNombre(String nombre) {
-		return consultar(new CriteriaQuery(TagConPadre.class, Where.like("nombre", nombre))).getFirst();
+		return nombre != null? consultar(new CriteriaQuery(TagConPadre.class, Where.like("nombre", nombre))).getFirst() : null;
 	}
 
 	@Override
-	public void borrar(TagConPadre tag) {
+	public void borrar(TagConPadre tagRaiz) {
 
 		Collection<TagConPadre> todosLosTags = traerTodos();
 		List<TagConPadre> tagsABorrar = new ArrayList<>();
 		Queue<TagConPadre> colaDeTags = new LinkedList<>();
-		colaDeTags.add(tag);
+		colaDeTags.add(tagRaiz);
 		while (!colaDeTags.isEmpty()) {
-			todosLosTags.stream().filter(t -> colaDeTags.peek().equals(t.getPadre())).forEach(colaDeTags::add);
+			todosLosTags.stream().filter(tag -> colaDeTags.peek().equals(tag.getPadre())).forEach(colaDeTags::add);
 			tagsABorrar.add(colaDeTags.poll());
 		}
 
@@ -47,10 +47,7 @@ public class TagConPadreDAONeodatis extends DAONeodatis<TagConPadre> implements 
 		try {
 			odb = bdConnector.getBDConnection();
 			Set<OID> oids = new HashSet<>();
-			tagsABorrar.forEach(t -> {
-				oids.add(odb.getObjectId(t));
-			});
-
+			tagsABorrar.forEach(tag -> oids.add(odb.getObjectId(tag)));
 			oids.forEach(odb::deleteObjectWithId);
 			odb.commit();
 		} catch (Exception e) {
