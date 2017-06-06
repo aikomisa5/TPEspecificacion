@@ -36,6 +36,7 @@ public class TestCampañaDAONeodatis {
 			f.delete();
 	}
 
+	@Before
 	public void limpiarBD(){
 		Collection<Campania> tags = campañaDAO.traerTodos();
 		tags.forEach(t -> campañaDAO.borrar(t));
@@ -71,7 +72,21 @@ public class TestCampañaDAONeodatis {
 		assertEquals(campañaDAO.getCampañaPorNombre("sarasa"), c2);
 	}
 	
+	@Test
+	public void traerTodos(){
+		agregarDatosDePrueba(instanciaCampañas());
+		ArrayList<Campania>campanias=(ArrayList<Campania>) campañaDAO.traerTodos();
+		assertEquals(campanias.size(), 5);
+	}
 	
+	@Test
+	public void consultarPorNombre(){
+		agregarDatosDePrueba(instanciaCampañas());
+		ArrayList<Campania>campanias=(ArrayList<Campania>) campañaDAO.consultarPorNombre("c");
+		assertEquals(campanias.size(), 5);
+		campanias=(ArrayList<Campania>) campañaDAO.consultarPorNombre("c2");
+		assertEquals(campanias.size(), 1);
+	}
 
 	private void agregarDatosDePrueba(ArrayList<Campania> instancia){
 		instancia.forEach(t -> campañaDAO.guardar(t));
@@ -80,9 +95,13 @@ public class TestCampañaDAONeodatis {
 	private ArrayList<Campania> instanciaCampañas(){
 
 		ArrayList<Campania> ret = new ArrayList<>();
-
-
+		ret.add(new Campania("c1","d1")); 
+		ret.add(new Campania("c2","d2"));
+		ret.add(new Campania("c3","d3"));
+		ret.add(new Campania("c4","d4"));
+		ret.add(new Campania("c5","d5"));
 		return ret;
 	}
 
+	
 }
