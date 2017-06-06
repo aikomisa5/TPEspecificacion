@@ -22,13 +22,13 @@ public class TagConPadreDAONeodatis extends DAONeodatis<TagConPadre> implements 
 
 	@Override
 	public boolean existe(String nombre) {
-		Objects<TagConPadre> resultado = consultar(new CriteriaQuery(TagConPadre.class, Where.like("nombre", nombre)));
+		Objects<TagConPadre> resultado = consultar(new CriteriaQuery(TagConPadre.class, Where.equal("nombre", nombre)));
 		return resultado.size() != 0;
 	}
 
 	@Override
 	public TagConPadre getTagPorNombre(String nombre) {
-		return nombre != null? consultar(new CriteriaQuery(TagConPadre.class, Where.like("nombre", nombre))).getFirst() : null;
+		return nombre != null? consultar(new CriteriaQuery(TagConPadre.class, Where.equal("nombre", nombre))).getFirst() : null;
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class TagConPadreDAONeodatis extends DAONeodatis<TagConPadre> implements 
 		odb = null;
 		try {
 			odb = bdConnector.getBDConnection();
-			IQuery query = new CriteriaQuery(TagConPadre.class, Where.like("nombre", nombreOriginalTag));
+			IQuery query = new CriteriaQuery(TagConPadre.class, Where.equal("nombre", nombreOriginalTag));
 			Objects<TagConPadre> resultadoQuery = odb.getObjects(query);
 			resultadoQuery.forEach(t -> {
 				t.setPadre(modificacion.getPadre());
