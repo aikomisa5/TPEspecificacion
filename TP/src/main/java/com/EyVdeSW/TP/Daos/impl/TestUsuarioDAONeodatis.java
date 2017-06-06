@@ -60,10 +60,4 @@ public class TestUsuarioDAONeodatis {
 		assertEquals(usuarioDAO.getUsuarioPorNombreUsuario("fulano77"), u2);
 	}
 	
-	
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
-
 }
