@@ -3,6 +3,7 @@ package com.EyVdeSW.TP.Daos.impl;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.junit.Before;
@@ -35,6 +36,7 @@ public class TestUsuarioDAONeodatis {
 			f.delete();
 	}
 	
+	@Before
 	public void limpiarBD(){
 		Collection<Usuario> usuarios = usuarioDAO.traerTodosLosUsuarios();
 		usuarios.forEach(t -> usuarioDAO.borrar(t));
@@ -56,8 +58,37 @@ public class TestUsuarioDAONeodatis {
 	
 		
 		usuarioDAO.modificar(u1, u2);
-		
+		//Aca ya tenemos testeado el getUsuarioPorNombre
 		assertEquals(usuarioDAO.getUsuarioPorNombreUsuario("fulano77"), u2);
+	}
+	
+	@Test
+	public void consultarPorNombreDeUsuario(){
+		agregarDatosDePrueba(instanciaUsuarios());
+		assertEquals(usuarioDAO.consultarPorNombreUsuario("soy").size(), 5);
+		assertEquals(usuarioDAO.consultarPorNombreUsuario("soyUnNombreUsuario3").size(), 1);
+	}
+	
+	@Test
+	public void existeUsuario(){
+		agregarDatosDePrueba(instanciaUsuarios());
+		assertTrue(usuarioDAO.existeUsuario("soyUnNombreUsuario1"));
+		assertFalse(usuarioDAO.existeUsuario("soyUnNombreUsuario6"));
+		assertFalse(usuarioDAO.existeUsuario("soyUnNombreUsuario"));
+	}
+	
+	private void agregarDatosDePrueba(ArrayList<Usuario>instancia){
+		instancia.forEach(u -> usuarioDAO.guardar(u));
+	}
+	
+	private ArrayList<Usuario>instanciaUsuarios(){
+		ArrayList<Usuario>ret=new ArrayList<>();
+		ret.add(new Usuario("soyUnNombreUsuario1", "soyUnNombreReal","soyUnMail@gmail.com","soyUnaPassword",null));
+		ret.add(new Usuario("soyUnNombreUsuario2", "soyUnNombreReal","soyUnMail@gmail.com","soyUnaPassword",null));
+		ret.add(new Usuario("soyUnNombreUsuario3", "soyUnNombreReal","soyUnMail@gmail.com","soyUnaPassword",null));
+		ret.add(new Usuario("soyUnNombreUsuario4", "soyUnNombreReal","soyUnMail@gmail.com","soyUnaPassword",null));
+		ret.add(new Usuario("soyUnNombreUsuario5", "soyUnNombreReal","soyUnMail@gmail.com","soyUnaPassword",null));
+		return ret;
 	}
 	
 }

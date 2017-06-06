@@ -55,7 +55,7 @@ public class UsuarioDAONeodatis extends DAONeodatis<Usuario> implements UsuarioD
 		odb=null;
 		try{
 			odb = bdConnector.getBDConnection();
-			resultadoQuery = odb.getObjects(new CriteriaQuery(Usuario.class, Where.like("nombreUsuario", "%"+nombreUsuario+"%")));
+			resultadoQuery = odb.getObjects(new CriteriaQuery(Usuario.class, Where.equal("nombreUsuario", nombreUsuario)));
 			if(resultadoQuery.size() != 0)
 				usuario= resultadoQuery.getFirst();
 		}catch(Exception e){
