@@ -28,7 +28,7 @@ public class TagConPadreDAONeodatis extends DAONeodatis<TagConPadre> implements 
 
 	@Override
 	public TagConPadre getTagPorNombre(String nombre) {
-		return nombre != null? consultar(new CriteriaQuery(TagConPadre.class, Where.equal("nombre", nombre))).getFirst() : null;
+			return consultar(new CriteriaQuery(TagConPadre.class, Where.like("nombre", nombre))).getFirst();
 	}
 
 	@Override
