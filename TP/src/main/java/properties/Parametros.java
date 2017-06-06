@@ -7,15 +7,16 @@ import java.util.Properties;
 
 public class Parametros {
 	private static Properties p = new Properties();
-	public static final String PARAM_FILE = "parametros";
+	public static final String PARAM_FILE = "TP.properties";
 	
-	//Parametros a guardar.
-	public static final String dbPath = "dbPath";
-	private static final String dbPathValue = "C:\\TP\\neodatisDB";
+	//legacy code, ahora asigno las properties directamente
+	public static final String dbPath = "ubicacion.bd";
+	private static final String dbPathValue = "C:\\TP\\TPbd";
 	
-
-	public static void SetearParametros() {
-		p.setProperty(dbPath, dbPathValue);
+	public static void SetearParametros() {		
+		p.setProperty("ubicacion.bd", "C:\\TP\\TPbd");		
+		p.setProperty("email.user", "tpmailsender@mail.com");
+		p.setProperty("email.pass", "especificacion");
 		try {
 			p.store(new FileOutputStream(PARAM_FILE), "");
 		} catch (Exception e) {
@@ -23,6 +24,11 @@ public class Parametros {
 		}
 	}
 
+	@Deprecated
+	/**
+	 * 
+	 * usar getProperty(key) en su lugar
+	 */
 	public static Properties getProperties() {
 		try {
 			File f = new File(PARAM_FILE);

@@ -52,7 +52,7 @@ public class CampañaDAONeodatis extends DAONeodatis<Campania> implements Campa�
 	@Override
 	public Collection<Campania> consultarPorNombre(String nombre)
 	{
-		IQuery query = new CriteriaQuery(Campania.class, Where.equal("nombre", nombre));
+		IQuery query = new CriteriaQuery(Campania.class, Where.like("nombre", "%"+nombre+"%"));
 		return consultar(query);
 	}
 
@@ -65,7 +65,7 @@ public class CampañaDAONeodatis extends DAONeodatis<Campania> implements Campa�
 		try
 		{
 			odb = bdConnector.getBDConnection();
-			resultadoQuery = odb.getObjects(new CriteriaQuery(Campania.class, Where.like("nombre", "%" + nombreCampaña + "%")));
+			resultadoQuery = odb.getObjects(new CriteriaQuery(Campania.class, Where.equal("nombre", nombreCampaña)));
 			if (resultadoQuery.size() != 0)
 				campaña = resultadoQuery.getFirst();
 		}
