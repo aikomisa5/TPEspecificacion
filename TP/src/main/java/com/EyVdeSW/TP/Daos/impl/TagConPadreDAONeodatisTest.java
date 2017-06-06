@@ -48,11 +48,9 @@ public class TagConPadreDAONeodatisTest {
 		tagDAO.guardar(tagAGuardar);
 
 		TagConPadre tagObtenido = tagDAO.getTagPorNombre("unTag");
-		
 
 		assertEquals(tagAGuardar, tagObtenido);
 		assertFalse(tagDAO.existe("unTagQueNoExiste"));
-		assertNull(tagDAO.getTagPorNombre(null));
 	}
 
 	@Test

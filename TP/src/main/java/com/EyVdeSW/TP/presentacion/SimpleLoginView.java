@@ -121,7 +121,6 @@ private static final class PasswordValidator extends
 @Override
 public void buttonClick(ClickEvent event) {
 
-	
     //
     // Validate the fields using the navigator. By using validors for the
     // fields we reduce the amount of queries we have to use to the database
@@ -147,7 +146,7 @@ public void buttonClick(ClickEvent event) {
         getSession().setAttribute("user", username);
 
         // Navigate to main view
-        getUI().getNavigator().navigateTo("gestionTags");//
+        getUI().getNavigator().navigateTo(SimpleLoginMainView.NAME);//
 
     } else {
 
