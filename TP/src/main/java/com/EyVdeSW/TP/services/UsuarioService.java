@@ -46,13 +46,15 @@ public class UsuarioService {
 	
 	public boolean modificar (String nombreUsuarioOri, String nombreUsuarioMod, 
 			String nombreRealMod, String mailMod, String passwordMod, TipoUsuario tipoUsuarioMod){
+		
 		boolean ret = true;
+		String nombreUsuarioModMinuscula = nombreUsuarioMod.toLowerCase();
+		String nombreRealModMinuscula = nombreRealMod.toLowerCase();
+		
 		if (usuarioDAO.existeUsuario(nombreUsuarioMod)) {
 			ret = false;
 		}
 		{
-			String nombreUsuarioModMinuscula = nombreUsuarioMod.toLowerCase();
-			String nombreRealModMinuscula = nombreRealMod.toLowerCase();
 			
 			Usuario orig = usuarioDAO.getUsuarioPorNombreUsuario(nombreUsuarioOri);
 			Usuario modi = usuarioDAO.getUsuarioPorNombreUsuario(nombreUsuarioOri);
@@ -66,6 +68,16 @@ public class UsuarioService {
 			usuarioDAO.modificar(orig, modi);
 		}
 		return ret;
+		
+	}
+	
+	public boolean existeUsuario(String nombreUsuario){
+		String nombreUsuarioMinuscula = nombreUsuario.toLowerCase();
+		if (usuarioDAO.existeUsuario(nombreUsuarioMinuscula)){
+			return true;
+		}
+		
+		return false;
 		
 	}
 	
