@@ -43,20 +43,21 @@ public class TestUsuarioDAONeodatis {
 	
 	@Test
 	public void modificarSimple(){
-		Usuario u1= new Usuario("nombreUsuario", "soy un nombre","soy una password",null);
+		Usuario u1= new Usuario("soyUnNombreUsuario", "soyUnNombreReal","soyUnMail@gmail.com","soyUnaPassword",null);
 		u1.setTipoUsuario(TipoUsuario.CLIENTE);
 		usuarioDAO.guardar(u1);
 		
-		Usuario u2=usuarioDAO.getUsuarioPorNombre("nombreUsuario");
+		Usuario u2=usuarioDAO.getUsuarioPorNombreUsuario("soyUnNombreUsuario");
 		
 		assertEquals(u1, u2);
 		
-		u2.setNombre("sarasa");
-		u2.setUsuario("fulanito");
+		u2.setNombreUsuario("fulano77");
+		u2.setNombreReal("fulanito");
+	
 		
 		usuarioDAO.modificar(u1, u2);
 		
-		assertEquals(usuarioDAO.getUsuarioPorNombre("fulanito"), u2);
+		assertEquals(usuarioDAO.getUsuarioPorNombreUsuario("fulano77"), u2);
 	}
 	
 	

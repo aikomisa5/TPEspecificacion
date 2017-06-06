@@ -17,12 +17,13 @@ public class UsuarioDAONeodatis extends DAONeodatis<Usuario> implements UsuarioD
 		odb = null;
 		try{			
 			odb = bdConnector.getBDConnection();
-			IQuery query = new CriteriaQuery(Usuario.class, Where.like("usuario", original.getUsuario()));	
+			IQuery query = new CriteriaQuery(Usuario.class, Where.like("mail", original.getMail()));	
 			Objects<Usuario>resultadoQuery=odb.getObjects(query);
 			
 			Usuario t=resultadoQuery.getFirst();
-			t.setUsuario(modificacion.getUsuario());
-			t.setNombre(modificacion.getNombre());
+			t.setNombreUsuario(modificacion.getNombreUsuario());
+			t.setNombreReal(modificacion.getNombreReal());
+			t.setMail(modificacion.getMail());
 			t.setPassword(modificacion.getPassword());
 			t.setTipoUsuario(modificacion.getTipoUsuario());
 			
@@ -42,19 +43,19 @@ public class UsuarioDAONeodatis extends DAONeodatis<Usuario> implements UsuarioD
 	}
 
 	@Override
-	public Collection<Usuario> consultarPorNombre(String nombreUsuario) {
-		IQuery query = new CriteriaQuery(Usuario.class, Where.like("usuario", "%"+nombreUsuario+"%"));
+	public Collection<Usuario> consultarPorNombreUsuario(String nombreUsuario) {
+		IQuery query = new CriteriaQuery(Usuario.class, Where.like("nombreUsuario", "%"+nombreUsuario+"%"));
 		return consultar(query);
 	}
 
 	@Override
-	public Usuario getUsuarioPorNombre(String nombreUsuario) {
+	public Usuario getUsuarioPorNombreUsuario(String nombreUsuario) {
 		Usuario usuario = null;		
 		Objects<Usuario> resultadoQuery = null;
 		odb=null;
 		try{
 			odb = bdConnector.getBDConnection();
-			resultadoQuery = odb.getObjects(new CriteriaQuery(Usuario.class, Where.like("usuario", "%"+nombreUsuario+"%")));
+			resultadoQuery = odb.getObjects(new CriteriaQuery(Usuario.class, Where.like("nombreUsuario", "%"+nombreUsuario+"%")));
 			if(resultadoQuery.size() != 0)
 				usuario= resultadoQuery.getFirst();
 		}catch(Exception e){
@@ -67,13 +68,13 @@ public class UsuarioDAONeodatis extends DAONeodatis<Usuario> implements UsuarioD
 	}
 
 	@Override
-	public boolean existe(String nombreUsuario) {
+	public boolean existeUsuario(String nombreUsuario) {
 		boolean ret=false;
 		Objects<Usuario> resultadoQuery = null;
 		odb=null;
 		try{
 			odb = bdConnector.getBDConnection();
-			resultadoQuery = odb.getObjects(new CriteriaQuery(Usuario.class, Where.equal("usuario", nombreUsuario)));
+			resultadoQuery = odb.getObjects(new CriteriaQuery(Usuario.class, Where.equal("nombreUsuario", nombreUsuario)));
 			ret = ret||(resultadoQuery.size() != 0);
 		}catch(Exception e){
 			e.printStackTrace();
