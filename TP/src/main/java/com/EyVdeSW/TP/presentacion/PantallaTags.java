@@ -1,9 +1,11 @@
 package com.EyVdeSW.TP.presentacion;
 
 import com.EyVdeSW.TP.domainModel.Tag;
+import com.EyVdeSW.TP.domainModel.TagConPadre;
 import com.EyVdeSW.TP.services.TagService;
 
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.util.HierarchicalContainer;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -43,7 +45,7 @@ public class PantallaTags extends VerticalLayout implements View {
 
 		TextField tfNombre = new TextField("Nombre");
 
-		BeanItemContainer<Tag> tags = new BeanItemContainer<Tag>(Tag.class);
+		BeanItemContainer<TagConPadre> tags = new BeanItemContainer<>(TagConPadre.class);
 		tagService.traerTodos().forEach(tag -> tags.addBean(tag));
 		ComboBox comboBoxTag = new ComboBox("Tag Padre", tags);
 
@@ -127,7 +129,7 @@ public class PantallaTags extends VerticalLayout implements View {
 		expandirArbol(arbol);
 	}
 
-	private void limpiarCampos(TextField textFieldTag, BeanItemContainer<Tag> tags, ComboBox comboBoxTag) {
+	private void limpiarCampos(TextField textFieldTag, BeanItemContainer<TagConPadre> tags, ComboBox comboBoxTag) {
 		textFieldTag.clear();
 		comboBoxTag.removeAllItems();
 		System.out.println("Cantidad de elementos: " + tagService.traerTodos().size());
@@ -147,7 +149,9 @@ public class PantallaTags extends VerticalLayout implements View {
 
 	// llamar a este metodo para asignar los valores al tree
 	private void agregarTags(Tree arbol) {
-		tagService.traerArboles().forEach(a -> recorrerAgregar(a.getRaiz(), arbol));
+		HierarchicalContainer tagContainer = new HierarchicalContainer();
+		tagService.traerTodos().forEach(tag -> tagContainer.addItem());		
+		
 	}
 
 	// auxiliar de agregarTags
