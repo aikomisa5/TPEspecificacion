@@ -25,38 +25,37 @@ public class PantallaRegistro extends VerticalLayout implements View {
 	
 	private UsuarioService usuarioService = UsuarioService.getUsuarioService();
 	
-	Button logout = new Button("Volver a Login");
-	
-	
 	private final TextField tfNombreUsuario;
 	private final TextField tfNombreReal;
-	
 	private final TextField tfMail;
 
 	private final PasswordField password;
-	
 	private final PasswordField verificacionPassword;
 
+	private final Button logout; 
 	private final Button registroButton;
 
 	
 	public PantallaRegistro(){
 				
+		//TituloPrincipal
 		Label titulo = new Label("Registro en el Sistema");
 		titulo.setStyleName(ValoTheme.LABEL_H1);
 		HorizontalLayout hlTitulo = new HorizontalLayout(titulo);
 		addComponent(hlTitulo);
 		setComponentAlignment(hlTitulo, Alignment.MIDDLE_CENTER);
 
-		
+		//NombreUsuario
 		tfNombreUsuario = new TextField("Nombre Usuario");
 		tfNombreUsuario.setWidth("300px");
 		tfNombreUsuario.setRequired(true);
 		
+		//NombreReal
 		tfNombreReal = new TextField("Nombre Real");
 		tfNombreReal.setWidth("300px");
 		tfNombreReal.setRequired(true);
 		
+		//Mail
 		tfMail = new TextField("Mail");
 		tfMail.setWidth("300px");
 		tfMail.setRequired(true);
@@ -65,6 +64,7 @@ public class PantallaRegistro extends VerticalLayout implements View {
 	            "Username must be an email address"));
 		tfMail.setInvalidAllowed(false);
 	    
+		//Password
 		password = new PasswordField("Password");
 		password.setWidth("300px");
 	    password.addValidator(new PasswordValidator());
@@ -72,6 +72,7 @@ public class PantallaRegistro extends VerticalLayout implements View {
 	    password.setValue("");
 	    password.setNullRepresentation("");
 	    
+	    //VerificacionPassword
 		verificacionPassword = new PasswordField("Repita la Password");
 		verificacionPassword.setWidth("300px");
 		verificacionPassword.addValidator(new PasswordValidator());
@@ -79,7 +80,11 @@ public class PantallaRegistro extends VerticalLayout implements View {
 		verificacionPassword.setValue("");
 		verificacionPassword.setNullRepresentation("");
 		
-		 registroButton = new Button("Registrarse");
+		//Botones
+		registroButton = new Button("Registrarse");
+		logout	= new Button("Volver a Login");
+			
+		 
 		 
 		 FormLayout fields = new FormLayout(tfNombreUsuario, tfNombreReal, tfMail, password, verificacionPassword, registroButton);
 		    fields.setCaption("Por favor registrese para acceder a la aplicacion. (test@test.com/passw0rd)");
@@ -92,7 +97,7 @@ public class PantallaRegistro extends VerticalLayout implements View {
 		 	botones.setSpacing(true);
 		    
 		 VerticalLayout viewLayout = new VerticalLayout(fields,botones);
-		 viewLayout.setSpacing(true);
+		 	viewLayout.setSpacing(true);
 		  //  viewLayout.setSizeFull();
 		   // viewLayout.setComponentAlignment(fields, Alignment.TOP_CENTER);
 		   // viewLayout.setComponentAlignment(hlTitulo, Alignment.TOP_CENTER);
@@ -109,6 +114,10 @@ public class PantallaRegistro extends VerticalLayout implements View {
 			setComponentAlignment(hlPrincipal, Alignment.TOP_CENTER);
 			setMargin(true);
 			
+		logout.addClickListener(e -> {
+			getUI().getNavigator().navigateTo(SimpleLoginView.NAME);
+		
+		});
 		    
 	}
 
