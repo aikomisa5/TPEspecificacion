@@ -149,29 +149,23 @@ public class PantallaTags extends VerticalLayout implements View {
 
 	// llamar a este metodo para asignar los valores al tree
 	private void agregarTags(Tree arbol) {
-		Map<TagConPadre, Integer> mapaTagAId = new HashMap<>();
-		Map<Integer,TagConPadre> mapaIdATag = new HashMap<>();
-		
-		
 		HierarchicalContainer tagContainer = new HierarchicalContainer();
 		tagContainer.addContainerProperty("nombre", String.class, null);
 		
-		Item item = null;
-		int itemId = 0;
+		Item item = null;		
 		for (TagConPadre tag: tagService.traerTodos()){
-			mapaTagAId.put(tag,itemId);
-			mapaIdATag.put(itemId,tag);
-			item =  tagContainer.addItem(itemId);
-			item.getItemProperty("nombre").setValue(tag.getNombre());
-			tagContainer.setChildrenAllowed(itemId, false);
-			itemId++;			
+			
+			item =  tagContainer.addItem(tag);			
+			tagContainer.setChildrenAllowed(tag, false);
+			
 		}		
 		
 		
-		tagContainer.getItemIds().forEach(idHijo ->{
-			Integer idPadre = mapaTagAId.get(mapaIdATag.get(idHijo).getPadre());
-			tagContainer.setChildrenAllowed(idPadre, true);
-			tagContainer.setParent(idHijo, idPadre);
+		tagContainer.getItemIds().forEach(tag ->{
+			TagConPadre tagPadre = ((TagConPadre) tag).getPadre();
+			if (tagPadre != null)
+			tagContainer.setChildrenAllowed(tagPadre, true);
+			tagContainer.setParent(tag, tagPadre);
 		});
 
 		arbol.setContainerDataSource(tagContainer);

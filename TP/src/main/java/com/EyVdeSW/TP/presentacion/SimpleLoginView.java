@@ -120,15 +120,6 @@ private static final class PasswordValidator extends
 
 @Override
 public void buttonClick(ClickEvent event) {
-	
-	//pasar sin validar, para test	
-	{
-		// Store the current user in the service session
-    getSession().setAttribute("user", user.getValue());
-
-    // Navigate to main view
-    getUI().getNavigator().navigateTo("gestionTags");//
-	}
 
 	
     //
