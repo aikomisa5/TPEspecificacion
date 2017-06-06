@@ -7,15 +7,20 @@ import java.util.Properties;
 
 public class Parametros {
 	private static Properties p = new Properties();
-	public static final String PARAM_FILE = "parametros";
+	public static final String PARAM_FILE = "TP.properties";
 	
-	//Parametros a guardar.
-	public static final String dbPath = "dbPath";
-	private static final String dbPathValue = "C:\\TP\\neodatisDB";
+	//Parametros a guardar.	
+	public static final String dbPath = "ubicacion.bd";
+	private static final String dbPathValue = "C:\\TP\\TPbd";
+	
 	
 
 	public static void SetearParametros() {
-		p.setProperty(dbPath, dbPathValue);
+		
+		p.setProperty("ubicacion.bd", "C:\\TP\\TPbd");		
+		p.setProperty("ubicacion.bd", "C:\\TP\\TPbd");
+		p.setProperty("email.user", "UnUser");
+		p.setProperty("email.pass", "UnPassword");
 		try {
 			p.store(new FileOutputStream(PARAM_FILE), "");
 		} catch (Exception e) {
