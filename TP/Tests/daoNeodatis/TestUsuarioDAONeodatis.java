@@ -1,4 +1,4 @@
-package testDAOs;
+package daoNeodatis;
 
 import static org.junit.Assert.*;
 
