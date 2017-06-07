@@ -1,4 +1,4 @@
-package com.EyVdeSW.TP.Daos.impl;
+package testDAOs;
 
 import static org.junit.Assert.*;
 
@@ -11,6 +11,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.EyVdeSW.TP.Daos.impl.CampañaDAONeodatis;
+import com.EyVdeSW.TP.Daos.impl.NeodatisLocalConnector;
 import com.EyVdeSW.TP.domainModel.Campania;
 import com.EyVdeSW.TP.domainModel.Campania.EstadoCampania;
 import com.EyVdeSW.TP.domainModel.Tag;

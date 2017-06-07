@@ -1,9 +1,12 @@
-package com.EyVdeSW.TP.Daos.impl;
+package testDAOs;
 
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.EyVdeSW.TP.Daos.impl.NeodatisLocalConnector;
+import com.EyVdeSW.TP.Daos.impl.TagDAONeodatis;
 import com.EyVdeSW.TP.domainModel.Tag;
 import java.io.File;
 import java.util.ArrayList;

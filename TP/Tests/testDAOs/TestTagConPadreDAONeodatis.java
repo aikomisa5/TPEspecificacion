@@ -1,4 +1,4 @@
-package com.EyVdeSW.TP.Daos.impl;
+package testDAOs;
 
 import static org.junit.Assert.*;
 
@@ -12,11 +12,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.EyVdeSW.TP.Daos.impl.NeodatisLocalConnector;
+import com.EyVdeSW.TP.Daos.impl.TagConPadreDAONeodatis;
 import com.EyVdeSW.TP.domainModel.TagConPadre;
 
 import properties.Parametros;
 
-public class TagConPadreDAONeodatisTest {
+public class TestTagConPadreDAONeodatis {
 
 	private static String dbFilePath;
 	private static TagConPadreDAONeodatis tagDAO;

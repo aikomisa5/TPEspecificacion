@@ -1,4 +1,4 @@
-package com.EyVdeSW.TP.Daos.impl;
+package testDAOs;
 
 import static org.junit.Assert.*;
 
@@ -13,6 +13,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.EyVdeSW.TP.Daos.ArbolTagDAO;
+import com.EyVdeSW.TP.Daos.impl.ArbolTagDAONeodatis;
+import com.EyVdeSW.TP.Daos.impl.DAONeodatis;
+import com.EyVdeSW.TP.Daos.impl.NeodatisLocalConnector;
 import com.EyVdeSW.TP.domainModel.ArbolTag;
 import com.EyVdeSW.TP.domainModel.Tag;
 
