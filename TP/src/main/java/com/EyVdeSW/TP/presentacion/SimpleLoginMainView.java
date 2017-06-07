@@ -14,9 +14,13 @@ public class SimpleLoginMainView extends CustomComponent implements View {
     Label text = new Label();
 
     Button logout = new Button("Logout");
+    Button tags = new Button("tags");
+    
         	
     public SimpleLoginMainView() {
-        setCompositionRoot(new CssLayout(text, logout));
+        setCompositionRoot(new CssLayout(text, logout, tags));
+        
+        tags.addClickListener( click -> getUI().getNavigator().navigateTo(MyUI.TAGSVIEW));
         
         logout.addClickListener(event -> {// Java 8
 		
