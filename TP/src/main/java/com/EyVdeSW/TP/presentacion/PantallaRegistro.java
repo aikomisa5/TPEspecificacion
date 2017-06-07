@@ -138,6 +138,7 @@ public class PantallaRegistro extends VerticalLayout implements View {
 				usuarioService.guardar(usuario);
 				Notification.show("Usuario Guardado", Type.TRAY_NOTIFICATION);
 				limpiarCampos(tfNombreUsuario, tfNombreReal, tfMail, password, verificacionPassword);
+				getUI().getNavigator().navigateTo(SimpleLoginView.NAME);
 				}
 			
 		});

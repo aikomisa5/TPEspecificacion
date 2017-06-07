@@ -11,10 +11,12 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Reindeer;
+import com.vaadin.ui.themes.ValoTheme;
 
 public class SimpleLoginView extends CustomComponent implements View,
     Button.ClickListener {
@@ -30,18 +32,23 @@ private final Button loginButton;
 private final Button registroButton;
 
 public SimpleLoginView() {
-    //setSizeFull();
+	
+	//TituloPrincipal
+	Label titulo = new Label("Ingreso al Sistema");
+	titulo.setStyleName(ValoTheme.LABEL_H1);
+	HorizontalLayout hlTitulo = new HorizontalLayout(titulo);
+	
 
-    // Create the user input field
-    user = new TextField("User:");
+    // Field para el mail
+    user = new TextField("Mail:");
     user.setWidth("300px");
     user.setRequired(true);
-    user.setInputPrompt("Your username (eg. joe@email.com)");
+    user.setInputPrompt("Ej: joe@email.com)");
     user.addValidator(new EmailValidator(
-            "Username must be an email address"));
+            "El mail debe ser válido"));
     user.setInvalidAllowed(false);
 
-    // Create the password input field
+    // Field para el password
     password = new PasswordField("Password:");
     password.setWidth("300px");
     password.addValidator(new PasswordValidator());
@@ -50,8 +57,8 @@ public SimpleLoginView() {
     password.setNullRepresentation("");
 
     // Create login button
-    loginButton = new Button("Login", this);
-    registroButton = new Button("Regristrarse", this);
+    loginButton = new Button("Ingresar", this);
+    registroButton = new Button("Ir a Registrarse", this);
 
     // Add both to a panel
     /*
@@ -63,7 +70,7 @@ public SimpleLoginView() {
     */
     
     FormLayout fields = new FormLayout(user, password);
-    fields.setCaption("Please login to access the application. (test@test.com/passw0rd)");
+    fields.setCaption("Por favor, ingrese sus datos para acceder a la aplicación");
 	fields.setSpacing(true);
 	fields.setMargin(new MarginInfo(true, true, true, false));
 	fields.setSizeUndefined();
@@ -73,8 +80,9 @@ public SimpleLoginView() {
      
        
     // The view root layout
-    VerticalLayout viewLayout = new VerticalLayout(fields, botones);
+    VerticalLayout viewLayout = new VerticalLayout(hlTitulo,fields, botones);
     viewLayout.setSizeFull();
+    viewLayout.setComponentAlignment(hlTitulo, Alignment.MIDDLE_CENTER);
     viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
     viewLayout.setComponentAlignment(botones, Alignment.MIDDLE_CENTER);
     viewLayout.setStyleName(Reindeer.LAYOUT_BLUE);
