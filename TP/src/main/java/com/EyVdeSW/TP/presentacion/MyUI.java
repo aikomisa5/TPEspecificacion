@@ -6,7 +6,6 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 
@@ -47,6 +46,7 @@ public class MyUI extends UI
 		navigator.addView(CAMPAÑASVIEW, new PantallaCampañas());	
 		navigator.addView(TAGSVIEW, new PantallaTags());	
 		navigator.addView(REGISTROVIEW, new PantallaRegistro());
+		navigator.addView(PantallaTagsConPadre.NAME, new PantallaTagsConPadre());
 		//navigator.addView("", new PantallaMain());	
 		
 		 // The initial log view where the user can login to the application

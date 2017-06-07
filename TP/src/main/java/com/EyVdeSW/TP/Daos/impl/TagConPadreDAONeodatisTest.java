@@ -25,7 +25,7 @@ public class TagConPadreDAONeodatisTest {
 	public static void setUpClass() {
 		tagDAO = new TagConPadreDAONeodatis();
 		tagDAO.setBdConnector(new NeodatisLocalConnector());
-		dbFilePath = Parametros.getProperties().getProperty(Parametros.dbPath);
+		dbFilePath = Parametros.getProperty(Parametros.dbPath);
 	}
 
 	@Before
@@ -88,7 +88,7 @@ public class TagConPadreDAONeodatisTest {
 		List<TagConPadre> tags = instanciaBosque();
 		guardarInstanciaEnBD(tags);
 
-		Collection<TagConPadre> raices = tagDAO.traerRaices();		
+		Collection<TagConPadre> raices = tagDAO.traerRaices();
 		assertEquals(2, raices.size());
 		assertTrue(raices.contains(tags.get(0)));
 		assertTrue(raices.contains(tags.get(1)));
@@ -99,19 +99,18 @@ public class TagConPadreDAONeodatisTest {
 	public void testBorrar() {
 		List<TagConPadre> tags = instanciaBosque();
 		guardarInstanciaEnBD(tags);
-		
-		//borrando una hoja
-		tagDAO.borrar(tags.get(0));		
-		assertEquals(false,tagDAO.existe("hijo11"));
-		
-		//borrado recursivo de un subarbol
-		tagDAO.borrar(tags.get(1));		
-		assertEquals(false,tagDAO.existe("hijo21"));
-		assertEquals(false,tagDAO.existe("hijo211"));
-		assertEquals(false,tagDAO.existe("hijo212"));
-		assertEquals(false,tagDAO.existe("hijo2121"));
-		
-		
+
+		// borrando una hoja
+		tagDAO.borrar(tags.get(0));
+		assertEquals(false, tagDAO.existe("hijo11"));
+
+		// borrado recursivo de un subarbol
+		tagDAO.borrar(tags.get(1));
+		assertEquals(false, tagDAO.existe("hijo21"));
+		assertEquals(false, tagDAO.existe("hijo211"));
+		assertEquals(false, tagDAO.existe("hijo212"));
+		assertEquals(false, tagDAO.existe("hijo2121"));
+
 	}
 
 	private List<TagConPadre> instanciaSimple() {
