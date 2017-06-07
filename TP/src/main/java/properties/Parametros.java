@@ -7,7 +7,8 @@ import java.util.Properties;
 
 public class Parametros {
 	private static Properties p = new Properties();
-	public static final String PARAM_FILE = "TP.properties";
+	//por si ser rompe, lo unico que hice es agregar la ruta C:\\TP\\
+	public static final String PARAM_FILE = "C:\\TP\\TP.properties";
 	
 	//legacy code, ahora asigno las properties directamente
 	public static final String dbPath = "ubicacion.bd";

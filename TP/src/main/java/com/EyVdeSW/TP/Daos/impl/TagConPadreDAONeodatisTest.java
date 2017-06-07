@@ -63,7 +63,6 @@ public class TagConPadreDAONeodatisTest {
 			tagDAO.modificar(nombreOriginal, tag);
 		});
 		assertEquals(tags.size(), tagDAO.traerTodos().size());
-
 	}
 
 	@Test
