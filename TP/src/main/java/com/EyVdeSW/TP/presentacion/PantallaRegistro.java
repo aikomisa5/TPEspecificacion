@@ -63,9 +63,9 @@ public class PantallaRegistro extends VerticalLayout implements View {
 		tfMail = new TextField("Mail");
 		tfMail.setWidth("300px");
 		tfMail.setRequired(true);
-		tfMail.setInputPrompt("Your username (eg. joe@email.com)");
+		tfMail.setInputPrompt("Ejemplo: joe@email.com");
 		tfMail.addValidator(new EmailValidator(
-	            "Username must be an email address"));
+	            "La dirección de mail es errónea"));
 		tfMail.setInvalidAllowed(false);
 	    
 		//Password
@@ -91,10 +91,7 @@ public class PantallaRegistro extends VerticalLayout implements View {
 		 
 		 
 		 FormLayout fields = new FormLayout(tfNombreUsuario, tfNombreReal, tfMail, password, verificacionPassword, registroButton);
-		    fields.setCaption("Por favor registrese para acceder a la aplicacion. (test@test.com/passw0rd)");
-		    //fields.setSpacing(true);
-		    //fields.setMargin(new MarginInfo(true, true, true, false));
-		    //fields.setSizeUndefined();
+		    fields.setCaption("Por favor registrese para acceder a la aplicación");
 		    fields.setSpacing(true);
 		    
 		 HorizontalLayout botones = new HorizontalLayout(registroButton, logout);
@@ -102,14 +99,7 @@ public class PantallaRegistro extends VerticalLayout implements View {
 		    
 		 VerticalLayout viewLayout = new VerticalLayout(fields,botones);
 		 	viewLayout.setSpacing(true);
-		  //  viewLayout.setSizeFull();
-		   // viewLayout.setComponentAlignment(fields, Alignment.TOP_CENTER);
-		   // viewLayout.setComponentAlignment(hlTitulo, Alignment.TOP_CENTER);
-			//viewLayout.setComponentAlignment(botones, Alignment.BOTTOM_CENTER);
-			
-		    
 		    viewLayout.setStyleName(Reindeer.LAYOUT_BLUE);
-		   // setCompositionRoot(viewLayout);
 			
 		 HorizontalLayout hlPrincipal = new HorizontalLayout(viewLayout);
 			hlPrincipal.setSpacing(true);
@@ -125,39 +115,16 @@ public class PantallaRegistro extends VerticalLayout implements View {
 		
 		registroButton.addClickListener(e -> {
 			
-			/* if(usuarioService.existeUsuario(tfNombreUsuario.getValue())){
-				Notification.show("El nombre de usuario ya existe!", Type.WARNING_MESSAGE);
-			}
-			
-			if(tfNombreUsuario.getValue() == ""){
-				Notification.show("El nombre de usuario esta vacío!", Type.WARNING_MESSAGE);
-			}
-			
-			if (tfNombreReal.getValue() == ""){
-				Notification.show("El nombre real esta vacío!", Type.WARNING_MESSAGE);
-			}
-			
-			if (tfMail.getValue() == ""){
-				Notification.show("El mail esta vacío!", Type.WARNING_MESSAGE);
-			}
-			
-			if (password.getValue() == ""){
-				Notification.show("El password esta vacío!", Type.WARNING_MESSAGE);
-			} */
-			
 			if(tfNombreUsuario.getValue() == "" || tfNombreReal.getValue() == ""
 			|| tfMail.getValue() == "" || password.getValue() == "") {
-				Notification.show("Uno de los campos esta vacío o es incorrecto!", Type.WARNING_MESSAGE);
+				Notification.show("Uno de los campos está vacío!", Type.WARNING_MESSAGE);
 			}
 			
-			
-			
-			/*if (password.equals(verificacionPassword)==false){
-				Notification.show("Las password no coinciden", Type.WARNING_MESSAGE);
-			}*/
-			
-			else {
-				if(usuarioService.existeUsuario(tfNombreUsuario.getValue())){
+			else if (!password.getValue().equals(verificacionPassword.getValue())){
+					Notification.show("Las password no coinciden!", Type.WARNING_MESSAGE);
+				}
+									
+			else if(usuarioService.existeUsuario(tfNombreUsuario.getValue())){
 					Notification.show("Ya existe ese nombre de usuario!", Type.WARNING_MESSAGE);
 				}
 				
@@ -172,7 +139,7 @@ public class PantallaRegistro extends VerticalLayout implements View {
 				Notification.show("Usuario Guardado", Type.TRAY_NOTIFICATION);
 				limpiarCampos(tfNombreUsuario, tfNombreReal, tfMail, password, verificacionPassword);
 				}
-			}
+			
 		});
 		    
 	}
