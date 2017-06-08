@@ -40,16 +40,25 @@ public class TestTagConPadreService {
 	
 	@Test
 	public void modificar(){
+		//TODO lean esto
 		TagConPadre original=new TagConPadre("original");
 		TagConPadre modificacion=new TagConPadre("modificacion");
-		EasyMock.expect(tagDAO.existe(modificacion.getNombre())).andReturn(true);
+		//paso 1 ejecutamos todos los metodos del dao que aparecen en el service
+		//si retornan algo los metemos en un expect indicando su debido retorno
+		//en caso contrario (void) solo los ejecutamos
+		EasyMock.expect(tagDAO.existe(modificacion.getNombre())).andReturn(false);
 		EasyMock.expect(tagDAO.getTagPorNombre(original.getNombre())).andReturn(original);
-		//el error que tira es porque esta el metodo void modificar (en el dao) y no se como testearlo
+		tagDAO.modificar(original.getNombre(), modificacion);
+		//EasyMock.expectLastCall().times(1); averiguar
 		
+		//activamos el mock object en este caso el dao
 		replay(tagDAO);
-		service.modificar(original.getNombre(), modificacion.getNombre());
-		verify(tagDAO);
+
+		//testeamos la funcionalidad
+		assertTrue(service.modificar(original.getNombre(), modificacion.getNombre()));
 		
+		//verificamos si se hizo el llamado al mock object
+		verify(tagDAO);
 	}
 
 }
