@@ -27,10 +27,10 @@ public class TagConPadreService {
 
 	public void guardar(String nombreTag, String padreTag) {
 		if (!tagDAO.existe(nombreTag)){
-		TagConPadre nuevoTag = new TagConPadre(nombreTag);
-		if (padreTag != null)
-			nuevoTag.setPadre(tagDAO.getTagPorNombre(padreTag));
-		tagDAO.guardar(nuevoTag);
+			TagConPadre nuevoTag = new TagConPadre(nombreTag);
+			if (padreTag != null)
+				nuevoTag.setPadre(tagDAO.getTagPorNombre(padreTag));
+			tagDAO.guardar(nuevoTag);
 		}
 	}
 
