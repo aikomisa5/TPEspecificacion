@@ -37,5 +37,19 @@ public class TestTagConPadreService {
 		assertEquals(3, t.size());
 		assertEquals(t.get(0).getNombre(), "t1");
 	}
+	
+	@Test
+	public void modificar(){
+		TagConPadre original=new TagConPadre("original");
+		TagConPadre modificacion=new TagConPadre("modificacion");
+		EasyMock.expect(tagDAO.existe(modificacion.getNombre())).andReturn(true);
+		EasyMock.expect(tagDAO.getTagPorNombre(original.getNombre())).andReturn(original);
+		//el error que tira es porque esta el metodo void modificar (en el dao) y no se como testearlo
+		
+		replay(tagDAO);
+		service.modificar(original.getNombre(), modificacion.getNombre());
+		verify(tagDAO);
+		
+	}
 
 }

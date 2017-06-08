@@ -43,8 +43,7 @@ public class TagConPadreService {
 		boolean ret = true;
 		if (tagDAO.existe(nombreNuevo)) {
 			ret = false;
-		}
-		{
+		}else{
 			String modificacionMinuscula = nombreNuevo.toLowerCase();
 			TagConPadre tagModificado = tagDAO.getTagPorNombre(nombreOriginal);
 			tagModificado.setNombre(modificacionMinuscula);
