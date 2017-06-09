@@ -14,10 +14,10 @@ public class Tag implements Serializable
 	private static final long	serialVersionUID	= -3734241005474909743L;
 	private Tag			padre;
 	private String				nombre;
-	private List<AccionGeneral>	accionesGenerales;
+	private List<AccionPublicitaria>	accionesGenerales;
 	private UUID				idTag;
 
-	public Tag(String nombre, Tag padre, List<AccionGeneral> accionesGenerales){
+	public Tag(String nombre, Tag padre, List<AccionPublicitaria> accionesGenerales){
 		super();
 		idTag = UUID.randomUUID();
 		this.padre = padre;
@@ -50,15 +50,15 @@ public class Tag implements Serializable
 		this.nombre = nombre;
 	}
 
-	public List<AccionGeneral> getAccionesGenerales(){
+	public List<AccionPublicitaria> getAccionesGenerales(){
 		return accionesGenerales;
 	}
 
-	public void setAccionesGenerales(List<AccionGeneral> accionesGenerales){
+	public void setAccionesGenerales(List<AccionPublicitaria> accionesGenerales){
 		this.accionesGenerales = accionesGenerales;
 	}
 
-	public void addAccionGeneral(AccionGeneral accionGeneral){
+	public void addAccionGeneral(AccionPublicitaria accionGeneral){
 		accionesGenerales.add(accionGeneral);
 	}	
 

@@ -16,7 +16,6 @@ public abstract class AccionPublicitaria
 		this.idAccion=UUID.randomUUID();
 	}
 
-	
 
 	public String getDestinatario() {
 		return destinatario;
