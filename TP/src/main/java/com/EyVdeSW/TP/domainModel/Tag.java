@@ -12,15 +12,15 @@ public class Tag implements Serializable
 	 * 
 	 */
 	private static final long	serialVersionUID	= -3734241005474909743L;
-	private List<Tag>			hijos;
+	private Tag			padre;
 	private String				nombre;
 	private List<AccionGeneral>	accionesGenerales;
 	private UUID				idTag;
 
-	public Tag(List<Tag> hijos, String nombre, List<AccionGeneral> accionesGenerales){
+	public Tag(String nombre, Tag padre, List<AccionGeneral> accionesGenerales){
 		super();
 		idTag = UUID.randomUUID();
-		this.hijos = hijos;
+		this.padre = padre;
 		this.nombre = nombre;
 		this.accionesGenerales = accionesGenerales;
 
@@ -30,24 +30,16 @@ public class Tag implements Serializable
 		super();
 		idTag = UUID.randomUUID();
 		this.nombre = nombre;
-		this.hijos = new ArrayList<>();
+		this.padre = null;
 		this.accionesGenerales = new ArrayList<>();
 	}
 
-	public List<Tag> getHijos(){
-		return hijos;
+	public Tag getPadre(){
+		return padre;
 	}
 
-	public void setHijos(List<Tag> hijos){
-		this.hijos = hijos;
-	}
-
-	public void addHijo(Tag tag){
-		hijos.add(tag);
-	}
-
-	public void removeHijo(Tag tag){
-		hijos.remove(tag);
+	public void setPadre(Tag padre){
+		this.padre = padre;
 	}
 
 	public String getNombre(){
@@ -68,15 +60,15 @@ public class Tag implements Serializable
 
 	public void addAccionGeneral(AccionGeneral accionGeneral){
 		accionesGenerales.add(accionGeneral);
-	}
+	}	
 
 	@Override
-	public int hashCode(){
+	public int hashCode() {
 		return Objects.hash(idTag);
 	}
 
 	@Override
-	public boolean equals(Object obj){
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -84,23 +76,15 @@ public class Tag implements Serializable
 		if (getClass() != obj.getClass())
 			return false;
 		Tag other = (Tag) obj;
-		if (accionesGenerales == null){
+		if (accionesGenerales == null) {
 			if (other.accionesGenerales != null)
 				return false;
-		}
-		else if (!accionesGenerales.equals(other.accionesGenerales))
+		} else if (!accionesGenerales.equals(other.accionesGenerales))
 			return false;
-		if (hijos == null){
-			if (other.hijos != null)
-				return false;
-		}
-		else if (!hijos.equals(other.hijos))
-			return false;
-		if (nombre == null){
+		if (nombre == null) {
 			if (other.nombre != null)
 				return false;
-		}
-		else if (!nombre.equals(other.nombre))
+		} else if (!nombre.equals(other.nombre))
 			return false;
 		return true;
 	}

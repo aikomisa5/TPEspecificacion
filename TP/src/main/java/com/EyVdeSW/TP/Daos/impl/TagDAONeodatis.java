@@ -16,27 +16,27 @@ import org.neodatis.odb.core.query.criteria.Where;
 import org.neodatis.odb.impl.core.query.criteria.CriteriaQuery;
 
 import com.EyVdeSW.TP.Daos.TagDAO;
-import com.EyVdeSW.TP.domainModel.TagConPadre;
+import com.EyVdeSW.TP.domainModel.Tag;
 
-public class TagDAONeodatis extends DAONeodatis<TagConPadre> implements TagDAO {
+public class TagDAONeodatis extends DAONeodatis<Tag> implements TagDAO {
 
 	@Override
 	public boolean existe(String nombre) {
-		Objects<TagConPadre> resultado = consultar(new CriteriaQuery(TagConPadre.class, Where.equal("nombre", nombre)));
+		Objects<Tag> resultado = consultar(new CriteriaQuery(Tag.class, Where.equal("nombre", nombre)));
 		return resultado.size() != 0;
 	}
 
 	@Override
-	public TagConPadre getTagPorNombre(String nombre) {
-			return consultar(new CriteriaQuery(TagConPadre.class, Where.equal("nombre", nombre))).getFirst();
+	public Tag getTagPorNombre(String nombre) {
+			return consultar(new CriteriaQuery(Tag.class, Where.equal("nombre", nombre))).getFirst();
 	}
 
 	@Override
-	public void borrar(TagConPadre tagRaiz) {
+	public void borrar(Tag tagRaiz) {
 
-		Collection<TagConPadre> todosLosTags = traerTodos();
-		List<TagConPadre> tagsABorrar = new ArrayList<>();
-		Queue<TagConPadre> colaDeTags = new LinkedList<>();
+		Collection<Tag> todosLosTags = traerTodos();
+		List<Tag> tagsABorrar = new ArrayList<>();
+		Queue<Tag> colaDeTags = new LinkedList<>();
 		colaDeTags.add(tagRaiz);
 		while (!colaDeTags.isEmpty()) {
 			todosLosTags.stream().filter(tag -> colaDeTags.peek().equals(tag.getPadre())).forEach(colaDeTags::add);
@@ -59,12 +59,12 @@ public class TagDAONeodatis extends DAONeodatis<TagConPadre> implements TagDAO {
 	}
 
 	@Override
-	public void modificar(String nombreOriginalTag, TagConPadre modificacion) {
+	public void modificar(String nombreOriginalTag, Tag modificacion) {
 		odb = null;
 		try {
 			odb = bdConnector.getBDConnection();
-			IQuery query = new CriteriaQuery(TagConPadre.class, Where.equal("nombre", nombreOriginalTag));
-			Objects<TagConPadre> resultadoQuery = odb.getObjects(query);
+			IQuery query = new CriteriaQuery(Tag.class, Where.equal("nombre", nombreOriginalTag));
+			Objects<Tag> resultadoQuery = odb.getObjects(query);
 			resultadoQuery.forEach(t -> {
 				t.setPadre(modificacion.getPadre());
 				t.setAccionesGenerales(modificacion.getAccionesGenerales());
@@ -82,19 +82,19 @@ public class TagDAONeodatis extends DAONeodatis<TagConPadre> implements TagDAO {
 	}
 
 	@Override
-	public Collection<TagConPadre> traerTodos() {
-		return consultar(new CriteriaQuery(TagConPadre.class)).stream().collect(Collectors.toSet());
+	public Collection<Tag> traerTodos() {
+		return consultar(new CriteriaQuery(Tag.class)).stream().collect(Collectors.toSet());
 	}
 
 	@Override
-	public Collection<TagConPadre> traerHijosDe(TagConPadre padre) {
-		return consultar(new CriteriaQuery(TagConPadre.class, Where.equal("padre.nombre", padre.getNombre()))).stream()
+	public Collection<Tag> traerHijosDe(Tag padre) {
+		return consultar(new CriteriaQuery(Tag.class, Where.equal("padre.nombre", padre.getNombre()))).stream()
 				.collect(Collectors.toSet());
 	}
 
 	@Override
-	public Collection<TagConPadre> traerRaices() {
-		return consultar(new CriteriaQuery(TagConPadre.class, Where.isNull("padre"))).stream()
+	public Collection<Tag> traerRaices() {
+		return consultar(new CriteriaQuery(Tag.class, Where.isNull("padre"))).stream()
 				.collect(Collectors.toSet());
 	}
 

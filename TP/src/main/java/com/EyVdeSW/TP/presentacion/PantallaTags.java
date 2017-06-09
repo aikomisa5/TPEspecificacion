@@ -1,6 +1,6 @@
 package com.EyVdeSW.TP.presentacion;
 
-import com.EyVdeSW.TP.domainModel.TagConPadre;
+import com.EyVdeSW.TP.domainModel.Tag;
 import com.EyVdeSW.TP.services.TagService;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.HierarchicalContainer;
@@ -42,7 +42,7 @@ public class PantallaTags extends VerticalLayout implements View {
 
 		TextField tfNombre = new TextField("Nombre");
 
-		BeanItemContainer<TagConPadre> tags = new BeanItemContainer<TagConPadre>(TagConPadre.class);
+		BeanItemContainer<Tag> tags = new BeanItemContainer<Tag>(Tag.class);
 		tagService.traerTodos().forEach(tag -> tags.addBean(tag));
 		ComboBox comboBoxTag = new ComboBox("Tag Padre", tags);
 
@@ -123,7 +123,7 @@ public class PantallaTags extends VerticalLayout implements View {
 		expandirArbol(arbol);
 	}
 
-	private void limpiarCampos(TextField textFieldTag, BeanItemContainer<TagConPadre> tags, ComboBox comboBoxTag) {
+	private void limpiarCampos(TextField textFieldTag, BeanItemContainer<Tag> tags, ComboBox comboBoxTag) {
 		textFieldTag.clear();
 		comboBoxTag.removeAllItems();
 		System.out.println("Cantidad de elementos: " + tagService.traerTodos().size());
@@ -150,7 +150,7 @@ public class PantallaTags extends VerticalLayout implements View {
 		});
 
 		tagContainer.getItemIds().forEach(item -> {
-			TagConPadre tagPadre = ((TagConPadre) item).getPadre();
+			Tag tagPadre = ((Tag) item).getPadre();
 			tagContainer.setChildrenAllowed(tagPadre, true);
 			tagContainer.setParent(item, tagPadre);
 		});

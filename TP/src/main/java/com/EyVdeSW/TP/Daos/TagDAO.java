@@ -2,16 +2,16 @@ package com.EyVdeSW.TP.Daos;
 
 import java.util.Collection;
 
-import com.EyVdeSW.TP.domainModel.TagConPadre;
+import com.EyVdeSW.TP.domainModel.Tag;
 
-public interface TagDAO extends DAO<TagConPadre>
+public interface TagDAO extends DAO<Tag>
 {
-	public void modificar(String nombreOriginalTag, TagConPadre modificacion);
-	public Collection<TagConPadre>traerTodos();
-	public TagConPadre getTagPorNombre(String padreTag);
+	public void modificar(String nombreOriginalTag, Tag modificacion);
+	public Collection<Tag>traerTodos();
+	public Tag getTagPorNombre(String padreTag);
 	public boolean existe(String nombre);
-	public Collection<TagConPadre> traerHijosDe(TagConPadre padre);
-	public Collection <TagConPadre> traerRaices();
+	public Collection<Tag> traerHijosDe(Tag padre);
+	public Collection <Tag> traerRaices();
 	
 	
 }

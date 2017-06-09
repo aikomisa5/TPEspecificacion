@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import com.EyVdeSW.TP.Daos.impl.NeodatisLocalConnector;
 import com.EyVdeSW.TP.Daos.impl.TagDAONeodatis;
-import com.EyVdeSW.TP.domainModel.TagConPadre;
+import com.EyVdeSW.TP.domainModel.Tag;
 
 import properties.Parametros;
 
@@ -39,17 +39,17 @@ public class TestTagDAONeodatis {
 
 	@Test
 	public void testExiste() {
-		tagDAO.guardar(new TagConPadre("unTag"));
+		tagDAO.guardar(new Tag("unTag"));
 		assertTrue(tagDAO.existe("unTag"));
 		assertFalse(tagDAO.existe("unTagQueNoExiste"));
 	}
 
 	@Test
 	public void testGetTagPorNombre() {
-		TagConPadre tagAGuardar = new TagConPadre("unTag");
+		Tag tagAGuardar = new Tag("unTag");
 		tagDAO.guardar(tagAGuardar);
 
-		TagConPadre tagObtenido = tagDAO.getTagPorNombre("unTag");
+		Tag tagObtenido = tagDAO.getTagPorNombre("unTag");
 
 		assertEquals(tagAGuardar, tagObtenido);
 		assertFalse(tagDAO.existe("unTagQueNoExiste"));
@@ -58,7 +58,7 @@ public class TestTagDAONeodatis {
 	@Test
 	public void testModificar() {
 		guardarInstanciaEnBD(instanciaSimple());
-		List<TagConPadre> tags = tagDAO.traerTodos().stream().collect(Collectors.toList());
+		List<Tag> tags = tagDAO.traerTodos().stream().collect(Collectors.toList());
 		tags.forEach(tag -> {
 			String nombreOriginal = tag.getNombre();
 			tag.setNombre(tag.getNombre() + "Modificado");
@@ -69,16 +69,16 @@ public class TestTagDAONeodatis {
 
 	@Test
 	public void testTraerHijosDe() {
-		List<TagConPadre> tags = instanciaSimple();
+		List<Tag> tags = instanciaSimple();
 		guardarInstanciaEnBD(tags);
-		Collection<TagConPadre> hijosDeRaiz = tagDAO.traerHijosDe(tags.get(0));
+		Collection<Tag> hijosDeRaiz = tagDAO.traerHijosDe(tags.get(0));
 		assertEquals(3, hijosDeRaiz.size());
 		assertTrue(hijosDeRaiz.contains(tags.get(1)));
 		assertTrue(hijosDeRaiz.contains(tags.get(2)));
 		assertTrue(hijosDeRaiz.contains(tags.get(3)));
 		assertFalse(hijosDeRaiz.contains(tags.get(4)));
 
-		Collection<TagConPadre> hijosDe2 = tagDAO.traerHijosDe(tags.get(2));
+		Collection<Tag> hijosDe2 = tagDAO.traerHijosDe(tags.get(2));
 		assertEquals(1, hijosDe2.size());
 		assertTrue(hijosDe2.contains(tags.get(4)));
 		assertFalse(hijosDe2.contains(tags.get(3)));
@@ -86,10 +86,10 @@ public class TestTagDAONeodatis {
 
 	@Test
 	public void testTraerRaices() {
-		List<TagConPadre> tags = instanciaBosque();
+		List<Tag> tags = instanciaBosque();
 		guardarInstanciaEnBD(tags);
 
-		Collection<TagConPadre> raices = tagDAO.traerRaices();
+		Collection<Tag> raices = tagDAO.traerRaices();
 		assertEquals(2, raices.size());
 		assertTrue(raices.contains(tags.get(0)));
 		assertTrue(raices.contains(tags.get(1)));
@@ -98,7 +98,7 @@ public class TestTagDAONeodatis {
 
 	@Test
 	public void testBorrar() {
-		List<TagConPadre> tags = instanciaBosque();
+		List<Tag> tags = instanciaBosque();
 		guardarInstanciaEnBD(tags);
 
 		// borrando una hoja
@@ -114,14 +114,14 @@ public class TestTagDAONeodatis {
 
 	}
 
-	private List<TagConPadre> instanciaSimple() {
-		TagConPadre raiz = new TagConPadre("raiz");
-		TagConPadre hijo1 = new TagConPadre("hijo1");
-		TagConPadre hijo2 = new TagConPadre("hijo2");
-		TagConPadre hijo3 = new TagConPadre("hijo3");
-		TagConPadre hijo21 = new TagConPadre("hijo21");
-		TagConPadre hijo31 = new TagConPadre("hijo31");
-		TagConPadre hijo311 = new TagConPadre("hijo311");
+	private List<Tag> instanciaSimple() {
+		Tag raiz = new Tag("raiz");
+		Tag hijo1 = new Tag("hijo1");
+		Tag hijo2 = new Tag("hijo2");
+		Tag hijo3 = new Tag("hijo3");
+		Tag hijo21 = new Tag("hijo21");
+		Tag hijo31 = new Tag("hijo31");
+		Tag hijo311 = new Tag("hijo311");
 
 		hijo1.setPadre(raiz);
 		hijo2.setPadre(raiz);
@@ -134,19 +134,19 @@ public class TestTagDAONeodatis {
 
 	}
 
-	private List<TagConPadre> instanciaBosque() {
-		TagConPadre raiz1 = new TagConPadre("raiz1");
-		TagConPadre raiz2 = new TagConPadre("raiz2");
+	private List<Tag> instanciaBosque() {
+		Tag raiz1 = new Tag("raiz1");
+		Tag raiz2 = new Tag("raiz2");
 
-		TagConPadre hijo11 = new TagConPadre("hijo11");
-		TagConPadre hijo12 = new TagConPadre("hijo12");
-		TagConPadre hijo13 = new TagConPadre("hijo13");
+		Tag hijo11 = new Tag("hijo11");
+		Tag hijo12 = new Tag("hijo12");
+		Tag hijo13 = new Tag("hijo13");
 
-		TagConPadre hijo21 = new TagConPadre("hijo21");
-		TagConPadre hijo22 = new TagConPadre("hijo22");
-		TagConPadre hijo211 = new TagConPadre("hijo211");
-		TagConPadre hijo212 = new TagConPadre("hijo212");
-		TagConPadre hijo2121 = new TagConPadre("hijo2121");
+		Tag hijo21 = new Tag("hijo21");
+		Tag hijo22 = new Tag("hijo22");
+		Tag hijo211 = new Tag("hijo211");
+		Tag hijo212 = new Tag("hijo212");
+		Tag hijo2121 = new Tag("hijo2121");
 
 		hijo11.setPadre(raiz1);
 		hijo12.setPadre(raiz1);
@@ -160,7 +160,7 @@ public class TestTagDAONeodatis {
 		return Arrays.asList(raiz1, raiz2, hijo11, hijo12, hijo13, hijo21, hijo22, hijo211, hijo212, hijo2121);
 	}
 
-	private void guardarInstanciaEnBD(List<TagConPadre> instancia) {
+	private void guardarInstanciaEnBD(List<Tag> instancia) {
 		instancia.forEach(tagDAO::guardar);
 	}
 

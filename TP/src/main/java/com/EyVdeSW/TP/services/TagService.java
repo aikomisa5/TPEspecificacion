@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import com.EyVdeSW.TP.Daos.TagDAO;
 import com.EyVdeSW.TP.Daos.impl.TagDAONeodatis;
-import com.EyVdeSW.TP.domainModel.TagConPadre;
+import com.EyVdeSW.TP.domainModel.Tag;
 
 public class TagService {
 	private TagDAO tagDAO;
@@ -21,13 +21,13 @@ public class TagService {
 		return tagService;
 	}
 
-	public void guardar(TagConPadre t) {
+	public void guardar(Tag t) {
 		tagDAO.guardar(t);
 	}
 
 	public void guardar(String nombreTag, String padreTag) {
 		if (!tagDAO.existe(nombreTag)){
-			TagConPadre nuevoTag = new TagConPadre(nombreTag);
+			Tag nuevoTag = new Tag(nombreTag);
 			if (padreTag != null)
 				nuevoTag.setPadre(tagDAO.getTagPorNombre(padreTag));
 			tagDAO.guardar(nuevoTag);
@@ -35,7 +35,7 @@ public class TagService {
 	}
 
 	public void borrar(String nombreTag) {
-		TagConPadre t = tagDAO.getTagPorNombre(nombreTag);
+		Tag t = tagDAO.getTagPorNombre(nombreTag);
 		tagDAO.borrar(t);
 	}
 
@@ -45,14 +45,14 @@ public class TagService {
 			ret = false;
 		}else{
 			String modificacionMinuscula = nombreNuevo.toLowerCase();
-			TagConPadre tagModificado = tagDAO.getTagPorNombre(nombreOriginal);
+			Tag tagModificado = tagDAO.getTagPorNombre(nombreOriginal);
 			tagModificado.setNombre(modificacionMinuscula);
 			tagDAO.modificar(nombreOriginal, tagModificado);
 		}
 		return ret;
 	}
 
-	public Collection<TagConPadre> traerTodos() {
+	public Collection<Tag> traerTodos() {
 		return tagDAO.traerTodos();
 	}
 

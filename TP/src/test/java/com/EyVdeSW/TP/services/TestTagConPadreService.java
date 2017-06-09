@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.EyVdeSW.TP.Daos.TagDAO;
-import com.EyVdeSW.TP.domainModel.TagConPadre;
+import com.EyVdeSW.TP.domainModel.Tag;
 import com.EyVdeSW.TP.services.TagService;
 
 @RunWith(EasyMockRunner.class)
@@ -26,7 +26,7 @@ public class TestTagConPadreService {
 	
 	@Test
 	public void guardar(){
-		TagConPadre t1=new TagConPadre("t1");
+		Tag t1=new Tag("t1");
 		tagDAO.guardar(t1);
 		replay(tagDAO);
 		service.guardar(t1);
@@ -35,8 +35,8 @@ public class TestTagConPadreService {
 	
 	@Test
 	public void guardarComplejo(){
-		TagConPadre t1=new TagConPadre("t1");
-		TagConPadre padre=new TagConPadre("padre");
+		Tag t1=new Tag("t1");
+		Tag padre=new Tag("padre");
 		EasyMock.expect(tagDAO.getTagPorNombre(padre.getNombre())).andReturn(padre);
 		EasyMock.expect(tagDAO.existe(t1.getNombre())).andReturn(false);
 		tagDAO.guardar(t1);
@@ -47,7 +47,7 @@ public class TestTagConPadreService {
 	
 	@Test
 	public void borrar(){
-		TagConPadre t1=new TagConPadre("t1");
+		Tag t1=new Tag("t1");
 		EasyMock.expect(tagDAO.getTagPorNombre(t1.getNombre())).andReturn(t1);
 		tagDAO.borrar(t1);
 		replay(tagDAO);
@@ -57,13 +57,13 @@ public class TestTagConPadreService {
 	
 	@Test
 	public void testTraerTodos() {
-		List<TagConPadre>tags= new ArrayList<>();
-		tags.add(new TagConPadre("t1"));
-		tags.add(new TagConPadre("t2"));
-		tags.add(new TagConPadre("t3"));
+		List<Tag>tags= new ArrayList<>();
+		tags.add(new Tag("t1"));
+		tags.add(new Tag("t2"));
+		tags.add(new Tag("t3"));
 		EasyMock.expect(tagDAO.traerTodos()).andReturn(tags);
 		replay(tagDAO);
-		List<TagConPadre>t=(List<TagConPadre>) service.traerTodos();
+		List<Tag>t=(List<Tag>) service.traerTodos();
 		verify(tagDAO);
 		assertEquals(3, t.size());
 		assertEquals(t.get(0).getNombre(), "t1");
@@ -73,8 +73,8 @@ public class TestTagConPadreService {
 	public void modificarHP(){
 		//TODO lean esto
 		//Happy path
-		TagConPadre original=new TagConPadre("original");
-		TagConPadre modificacion=new TagConPadre("modificacion");
+		Tag original=new Tag("original");
+		Tag modificacion=new Tag("modificacion");
 		//paso 1 ejecutamos todos los metodos del dao que aparecen en el service
 		//si retornan algo los metemos en un expect indicando su debido retorno
 		//en caso contrario (void) solo los ejecutamos
@@ -93,8 +93,8 @@ public class TestTagConPadreService {
 	
 	@Test
 	public void modificarElse(){
-		TagConPadre original=new TagConPadre("original");
-		TagConPadre modificacion=new TagConPadre("modificacion");
+		Tag original=new Tag("original");
+		Tag modificacion=new Tag("modificacion");
 		//ahora testeo el caso de que exista el tag (no deberian ejecutarse los demas metodos
 		EasyMock.expect(tagDAO.existe(modificacion.getNombre())).andReturn(true);
 		replay(tagDAO);
