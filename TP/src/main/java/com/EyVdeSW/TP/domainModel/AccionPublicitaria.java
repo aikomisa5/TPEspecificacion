@@ -3,7 +3,7 @@ package com.EyVdeSW.TP.domainModel;
 import java.util.Objects;
 import java.util.UUID;
 
-public abstract class AccionPublicitaria 
+public class AccionPublicitaria 
 {
 
 	private String destinatario;
