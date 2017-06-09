@@ -81,6 +81,7 @@ public class TestAccionPublicitariaDAONeodatis {
 		original=accionDAO.getAccionPorDestinatario(modificacion.getDestinatario());
 		
 		assertEquals(original, modificacion);
+		assertEquals(accionDAO.traerTodos().size(), 3);
 	}
 	
 	public void agregarDatosDePrueba(ArrayList<AccionPublicitaria>lista){

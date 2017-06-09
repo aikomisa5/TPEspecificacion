@@ -41,7 +41,7 @@ public class TagService {
 
 	public boolean modificar(String nombreOriginal, String nombreNuevo) {
 		boolean ret = true;
-		if (tagDAO.existe(nombreNuevo)) {
+		if (!tagDAO.existe(nombreOriginal) || tagDAO.existe(nombreNuevo)) {
 			ret = false;
 		}else{
 			String modificacionMinuscula = nombreNuevo.toLowerCase();

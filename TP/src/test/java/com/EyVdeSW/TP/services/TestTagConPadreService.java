@@ -37,9 +37,16 @@ public class TestTagConPadreService {
 	public void guardarComplejo(){
 		Tag t1=new Tag("t1");
 		Tag padre=new Tag("padre");
-		EasyMock.expect(tagDAO.getTagPorNombre(padre.getNombre())).andReturn(padre);
+		//happy path
 		EasyMock.expect(tagDAO.existe(t1.getNombre())).andReturn(false);
+		EasyMock.expect(tagDAO.getTagPorNombre(padre.getNombre())).andReturn(padre);
 		tagDAO.guardar(t1);
+		replay(tagDAO);
+		service.guardar(t1.getNombre(), padre.getNombre());
+		verify(tagDAO);
+		//else
+		EasyMock.reset(tagDAO);
+		EasyMock.expect(tagDAO.existe(t1.getNombre())).andReturn(true);
 		replay(tagDAO);
 		service.guardar(t1.getNombre(), padre.getNombre());
 		verify(tagDAO);
@@ -70,7 +77,7 @@ public class TestTagConPadreService {
 	}
 	
 	@Test
-	public void modificarHP(){
+	public void modificar(){
 		//TODO lean esto
 		//Happy path
 		Tag original=new Tag("original");
@@ -78,6 +85,7 @@ public class TestTagConPadreService {
 		//paso 1 ejecutamos todos los metodos del dao que aparecen en el service
 		//si retornan algo los metemos en un expect indicando su debido retorno
 		//en caso contrario (void) solo los ejecutamos
+		EasyMock.expect(tagDAO.existe(original.getNombre())).andReturn(true);
 		EasyMock.expect(tagDAO.existe(modificacion.getNombre())).andReturn(false);
 		EasyMock.expect(tagDAO.getTagPorNombre(original.getNombre())).andReturn(original);
 		tagDAO.modificar(original.getNombre(), modificacion);
@@ -89,16 +97,21 @@ public class TestTagConPadreService {
 		assertTrue(service.modificar(original.getNombre(), modificacion.getNombre()));
 		//verificamos si se hizo el llamado al mock object
 		verify(tagDAO);
-	}
-	
-	@Test
-	public void modificarElse(){
-		Tag original=new Tag("original");
-		Tag modificacion=new Tag("modificacion");
-		//ahora testeo el caso de que exista el tag (no deberian ejecutarse los demas metodos
+		
+		//else no existe el tag que quiero modificar
+		EasyMock.reset(tagDAO);
+		EasyMock.expect(tagDAO.existe(original.getNombre())).andReturn(false);
+		replay(tagDAO);
+		assertFalse(service.modificar(original.getNombre(), modificacion.getNombre()));
+		
+		//else existe el nombre nuevo del tag
+		EasyMock.reset(tagDAO);
+		EasyMock.expect(tagDAO.existe(original.getNombre())).andReturn(false);
 		EasyMock.expect(tagDAO.existe(modificacion.getNombre())).andReturn(true);
 		replay(tagDAO);
 		assertFalse(service.modificar(original.getNombre(), modificacion.getNombre()));
 	}
+	
+
 
 }
