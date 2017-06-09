@@ -1,4 +1,4 @@
-package daoNeodatis;
+package com.EyVdeSW.TP.Daos.impl;
 
 import static org.junit.Assert.*;
 
@@ -31,7 +31,7 @@ public class TestArbolTagDAONeodatis {
 	public static void setUpClass() {
 		arbolTagDAO = new ArbolTagDAONeodatis();		
 		((DAONeodatis<ArbolTag>) arbolTagDAO).setBdConnector(new NeodatisLocalConnector());		
-		dbFilePath = Parametros.getProperties().getProperty(Parametros.dbPath);
+		dbFilePath = Parametros.getProperty(Parametros.dbPath);
 	}
 
 	@Before

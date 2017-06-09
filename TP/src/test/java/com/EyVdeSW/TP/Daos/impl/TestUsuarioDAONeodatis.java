@@ -1,4 +1,4 @@
-package daoNeodatis;
+package com.EyVdeSW.TP.Daos.impl;
 
 import static org.junit.Assert.*;
 
@@ -27,7 +27,7 @@ public class TestUsuarioDAONeodatis {
 	public static void setUpClass(){
 		usuarioDAO = new UsuarioDAONeodatis();		
 		usuarioDAO.setBdConnector( new NeodatisLocalConnector());
-		dbFilePath = Parametros.getProperties().getProperty(Parametros.dbPath);
+		dbFilePath = Parametros.getProperty(Parametros.dbPath);
 	}
 	
 	@Before

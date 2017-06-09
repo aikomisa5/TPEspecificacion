@@ -1,4 +1,4 @@
-package daoNeodatis;
+package com.EyVdeSW.TP.Daos.impl;
 
 import static org.junit.Assert.*;
 

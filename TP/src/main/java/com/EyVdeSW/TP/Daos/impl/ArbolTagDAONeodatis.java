@@ -1,7 +1,6 @@
 package com.EyVdeSW.TP.Daos.impl;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.neodatis.odb.Objects;
 import org.neodatis.odb.core.query.criteria.Where;

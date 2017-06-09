@@ -9,7 +9,7 @@ public class NeodatisLocalConnector implements neodatisBDConnector {
 
 	@Override
 	public ODB getBDConnection() {
-		return ODBFactory.open(Parametros.getProperties().getProperty(Parametros.dbPath));
+		return ODBFactory.open(Parametros.getProperty("ubicacion.bd"));
 	}
 
 }

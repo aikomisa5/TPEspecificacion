@@ -1,4 +1,4 @@
-package daoNeodatis;
+package com.EyVdeSW.TP.Daos.impl;
 
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -24,7 +24,7 @@ public class TestTagDAONeodatis
 	public static void setUpClass(){
 		tagDAO = new TagDAONeodatis();		
 		tagDAO.setBdConnector( new NeodatisLocalConnector());
-		dbFilePath = Parametros.getProperties().getProperty(Parametros.dbPath);
+		dbFilePath = Parametros.getProperty(Parametros.dbPath);
 	}
 
 	@Before
@@ -188,20 +188,5 @@ public class TestTagDAONeodatis
 
 		return ret;
 	}
-
-	private ArrayList<Tag> instanciaArbolTags(){
-		ArrayList<Tag> tags = new ArrayList<>();
-		Tag raiz1 = new Tag("Raiz1");
-		Tag hijo1 = new Tag("R1.Hijo1");
-		hijo1.addHijo(new Tag("R1.H1.H1"));
-		raiz1.addHijo(hijo1);
-		raiz1.addHijo(new Tag("R1.Hijo2"));
-		Tag raiz2 = new Tag("Raiz2");
-
-		tags.add(raiz1);
-		tags.add(raiz2);
-
-		return tags;
-	}
-
+	
 }

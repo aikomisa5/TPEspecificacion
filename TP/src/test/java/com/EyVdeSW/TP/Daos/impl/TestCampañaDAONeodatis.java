@@ -1,11 +1,10 @@
-package daoNeodatis;
+package com.EyVdeSW.TP.Daos.impl;
 
 import static org.junit.Assert.*;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -15,7 +14,6 @@ import com.EyVdeSW.TP.Daos.impl.CampañaDAONeodatis;
 import com.EyVdeSW.TP.Daos.impl.NeodatisLocalConnector;
 import com.EyVdeSW.TP.domainModel.Campania;
 import com.EyVdeSW.TP.domainModel.Campania.EstadoCampania;
-import com.EyVdeSW.TP.domainModel.Tag;
 
 import properties.Parametros;
 
@@ -28,7 +26,7 @@ public class TestCampañaDAONeodatis {
 	public static void setUpClass(){
 		campañaDAO = new CampañaDAONeodatis();		
 		campañaDAO.setBdConnector( new NeodatisLocalConnector());
-		dbFilePath = Parametros.getProperties().getProperty(Parametros.dbPath);
+		dbFilePath = Parametros.getProperty(Parametros.dbPath);
 	}
 
 	@Before
