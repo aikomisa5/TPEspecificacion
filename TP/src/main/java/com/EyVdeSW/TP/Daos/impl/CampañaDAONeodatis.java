@@ -16,11 +16,13 @@ import com.EyVdeSW.TP.domainModel.Usuario;
 public class CampañaDAONeodatis extends DAONeodatis<Campania> implements CampañaDAO {
 
 	@Override
-	public boolean existe(String nombreCampaña) {
+	public boolean existe(String nombreCampaña)
+	{
 		boolean ret = false;
 		Objects<Campania> resultadoQuery = null;
 		odb = null;
-		try {
+		try
+		{
 			odb = bdConnector.getBDConnection();
 			resultadoQuery = odb.getObjects(new CriteriaQuery(Campania.class, Where.equal("nombre", nombreCampaña)));
 			ret = resultadoQuery.size() != 0;
