@@ -1,192 +1,167 @@
 package com.EyVdeSW.TP.Daos.impl;
 
 import static org.junit.Assert.*;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.EyVdeSW.TP.Daos.impl.NeodatisLocalConnector;
 import com.EyVdeSW.TP.Daos.impl.TagDAONeodatis;
-import com.EyVdeSW.TP.domainModel.Tag;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import com.EyVdeSW.TP.domainModel.TagConPadre;
+
 import properties.Parametros;
 
-public class TestTagDAONeodatis
-{
+public class TestTagDAONeodatis {
 
-	private static String			dbFilePath;
-	private static TagDAONeodatis	tagDAO;
+	private static String dbFilePath;
+	private static TagDAONeodatis tagDAO;
 
 	@BeforeClass
-	public static void setUpClass(){
-		tagDAO = new TagDAONeodatis();		
-		tagDAO.setBdConnector( new NeodatisLocalConnector());
+	public static void setUpClass() {
+		tagDAO = new TagDAONeodatis();
+		tagDAO.setBdConnector(new NeodatisLocalConnector());
 		dbFilePath = Parametros.getProperty(Parametros.dbPath);
 	}
 
 	@Before
-	public void setUp() throws Exception{
-		File f = new File(dbFilePath);
-		if (f.exists())
-			f.delete();
-	}
-
-	public void limpiarBD(){
-		Collection<Tag> tags = tagDAO.traerTodos();
-		tags.forEach(t -> tagDAO.borrar(t));
-		tags = tagDAO.traerTodos();
-	}
-
-	//TODO @After
-	public void tearDown() throws Exception{
+	public void setUp() throws Exception {
 		File f = new File(dbFilePath);
 		if (f.exists())
 			f.delete();
 	}
 
 	@Test
-	public void testBorrarTags(){
-		agregarDatosDePrueba(instanciaTags());
-		Collection<Tag> tags = tagDAO.traerTodos();
-		assertEquals(tags.size(), 5);
-		tags.forEach(t -> tagDAO.borrar(t));
-		tags = tagDAO.traerTodos();
-		assertEquals(0, tags.size());
-	}
-	
-	@Test
-	public void borrarTags2(){
-		limpiarBD();
-		agregarDatosDePrueba(instanciaTags2());
-		Tag padre1=tagDAO.getTagPorNombre("Padre1");
-		tagDAO.borrar(padre1);		
-		assertEquals(2,tagDAO.traerTodos().size());
-		
+	public void testExiste() {
+		tagDAO.guardar(new TagConPadre("unTag"));
+		assertTrue(tagDAO.existe("unTag"));
+		assertFalse(tagDAO.existe("unTagQueNoExiste"));
 	}
 
 	@Test
-	public void modificarTag(){
-		limpiarBD();
-		agregarDatosDePrueba(instanciaTags());
-		tagDAO.modificar(new Tag(null, "Padre1", null), new Tag(null, "sarasa", null));
-		ArrayList<Tag> tags = (ArrayList<Tag>) tagDAO.traerTodos();		
-		assertEquals(new Tag(null, "sarasa", null), tags.get(0));
-	}
-	
-	@Test
-	public void modificarTag2(){
-		limpiarBD();
-		agregarDatosDePrueba(instanciaTags2());
-		List<Tag>tags=(List<Tag>) tagDAO.traerTodos();
-		assertEquals(tags.size(), 7);
-		Tag t1= tagDAO.getTagPorNombre("Hijo111");
-		t1.addHijo(new Tag("Hijo1111"));
-		tagDAO.modificar(t1, t1);
-		t1= tagDAO.getTagPorNombre("Hijo111");
-		t1.addHijo(new Tag("Hijo1112"));
-		tagDAO.modificar(t1, t1);
-		tags=(List<Tag>) tagDAO.traerTodos();
-		assertEquals(tags.size(), 9);
+	public void testGetTagPorNombre() {
+		TagConPadre tagAGuardar = new TagConPadre("unTag");
+		tagDAO.guardar(tagAGuardar);
+
+		TagConPadre tagObtenido = tagDAO.getTagPorNombre("unTag");
+
+		assertEquals(tagAGuardar, tagObtenido);
+		assertFalse(tagDAO.existe("unTagQueNoExiste"));
 	}
 
 	@Test
-	public void consultarPorNombre(){
-		limpiarBD();
-		agregarDatosDePrueba(instanciaTags());
-
-		ArrayList<Tag> tags = (ArrayList<Tag>) tagDAO.consultarPorNombre("adre");
-		assertEquals(tags.size(), 2);
-		assertEquals(tags.get(0).getNombre(), "Padre1");
-		assertEquals(tags.get(1).getNombre(), "Padre2");
+	public void testModificar() {
+		guardarInstanciaEnBD(instanciaSimple());
+		List<TagConPadre> tags = tagDAO.traerTodos().stream().collect(Collectors.toList());
+		tags.forEach(tag -> {
+			String nombreOriginal = tag.getNombre();
+			tag.setNombre(tag.getNombre() + "Modificado");
+			tagDAO.modificar(nombreOriginal, tag);
+		});
+		assertEquals(tags.size(), tagDAO.traerTodos().size());
 	}
 
 	@Test
-	public void getTagPorNombre(){
-		limpiarBD();
-		agregarDatosDePrueba(instanciaTags());
+	public void testTraerHijosDe() {
+		List<TagConPadre> tags = instanciaSimple();
+		guardarInstanciaEnBD(tags);
+		Collection<TagConPadre> hijosDeRaiz = tagDAO.traerHijosDe(tags.get(0));
+		assertEquals(3, hijosDeRaiz.size());
+		assertTrue(hijosDeRaiz.contains(tags.get(1)));
+		assertTrue(hijosDeRaiz.contains(tags.get(2)));
+		assertTrue(hijosDeRaiz.contains(tags.get(3)));
+		assertFalse(hijosDeRaiz.contains(tags.get(4)));
 
-		Tag tag = tagDAO.getTagPorNombre("Padre1");
-		assertEquals(tag.getNombre(), "Padre1");
+		Collection<TagConPadre> hijosDe2 = tagDAO.traerHijosDe(tags.get(2));
+		assertEquals(1, hijosDe2.size());
+		assertTrue(hijosDe2.contains(tags.get(4)));
+		assertFalse(hijosDe2.contains(tags.get(3)));
 	}
-	
+
 	@Test
-	public void existe(){
-		agregarDatosDePrueba(instanciaTags());
-		
-		assertTrue(tagDAO.existe("Padre1"));
-		assertTrue(tagDAO.existe("Padre2"));
-		assertTrue(tagDAO.existe("Hijo11"));
-		assertTrue(tagDAO.existe("Hijo12"));
-		assertTrue(tagDAO.existe("Hijo21"));
-		assertFalse(tagDAO.existe("Padre"));
-		assertFalse(tagDAO.existe("adre1"));
-		assertFalse(tagDAO.existe("Padre12"));
-		assertFalse(tagDAO.existe("padre1"));//Reconoce minusculas y mayusculas
+	public void testTraerRaices() {
+		List<TagConPadre> tags = instanciaBosque();
+		guardarInstanciaEnBD(tags);
+
+		Collection<TagConPadre> raices = tagDAO.traerRaices();
+		assertEquals(2, raices.size());
+		assertTrue(raices.contains(tags.get(0)));
+		assertTrue(raices.contains(tags.get(1)));
+		assertFalse(raices.contains(tags.get(3)));
 	}
 
-	private void agregarDatosDePrueba(ArrayList<Tag> instancia){
-		instancia.forEach(t -> tagDAO.guardar(t));
+	@Test
+	public void testBorrar() {
+		List<TagConPadre> tags = instanciaBosque();
+		guardarInstanciaEnBD(tags);
+
+		// borrando una hoja
+		tagDAO.borrar(tags.get(0));
+		assertEquals(false, tagDAO.existe("hijo11"));
+
+		// borrado recursivo de un subarbol
+		tagDAO.borrar(tags.get(1));
+		assertEquals(false, tagDAO.existe("hijo21"));
+		assertEquals(false, tagDAO.existe("hijo211"));
+		assertEquals(false, tagDAO.existe("hijo212"));
+		assertEquals(false, tagDAO.existe("hijo2121"));
+
 	}
 
-	private ArrayList<Tag> instanciaTags(){
+	private List<TagConPadre> instanciaSimple() {
+		TagConPadre raiz = new TagConPadre("raiz");
+		TagConPadre hijo1 = new TagConPadre("hijo1");
+		TagConPadre hijo2 = new TagConPadre("hijo2");
+		TagConPadre hijo3 = new TagConPadre("hijo3");
+		TagConPadre hijo21 = new TagConPadre("hijo21");
+		TagConPadre hijo31 = new TagConPadre("hijo31");
+		TagConPadre hijo311 = new TagConPadre("hijo311");
 
-		Tag padre1 = new Tag("Padre1");
-		Tag padre2 = new Tag("Padre2");
-		Tag hijo11 = new Tag("Hijo11");
-		Tag hijo12 = new Tag("Hijo12");
-		Tag hijo21 = new Tag("Hijo21");
+		hijo1.setPadre(raiz);
+		hijo2.setPadre(raiz);
+		hijo3.setPadre(raiz);
+		hijo21.setPadre(hijo2);
+		hijo31.setPadre(hijo31);
+		hijo311.setPadre(hijo31);
 
-		List<Tag> hijos = new ArrayList<Tag>();
-		hijos.add(hijo11);
-		hijos.add(hijo12);
-		padre1.setHijos(hijos);
+		return Arrays.asList(raiz, hijo1, hijo2, hijo3, hijo21, hijo31, hijo311);
 
-		hijos = new ArrayList<Tag>();
-		hijos.add(hijo21);
-		padre2.setHijos(hijos);
-
-		ArrayList<Tag> ret = new ArrayList<>();
-
-		ret.add(padre1);
-		ret.add(padre2);
-
-		return ret;
 	}
-	
-	private ArrayList<Tag> instanciaTags2(){
 
-		Tag padre1 = new Tag("Padre1");
-		Tag padre2 = new Tag("Padre2");
-		Tag hijo11 = new Tag("Hijo11");
-		Tag hijo12 = new Tag("Hijo12");
-		Tag hijo111= new Tag("Hijo111");
-		Tag hijo112= new Tag("Hijo112");
-		Tag hijo21 = new Tag("Hijo21");
-		
+	private List<TagConPadre> instanciaBosque() {
+		TagConPadre raiz1 = new TagConPadre("raiz1");
+		TagConPadre raiz2 = new TagConPadre("raiz2");
 
-		List<Tag> hijos = new ArrayList<Tag>();
-		hijos.add(hijo11);
-		hijos.add(hijo12);
-		padre1.setHijos(hijos);
+		TagConPadre hijo11 = new TagConPadre("hijo11");
+		TagConPadre hijo12 = new TagConPadre("hijo12");
+		TagConPadre hijo13 = new TagConPadre("hijo13");
 
-		hijos = new ArrayList<Tag>();
-		hijos.add(hijo21);
-		padre2.setHijos(hijos);
-		
-		hijos = new ArrayList<Tag>();
-		hijos.add(hijo111);
-		hijos.add(hijo112);
-		hijo11.setHijos(hijos);
+		TagConPadre hijo21 = new TagConPadre("hijo21");
+		TagConPadre hijo22 = new TagConPadre("hijo22");
+		TagConPadre hijo211 = new TagConPadre("hijo211");
+		TagConPadre hijo212 = new TagConPadre("hijo212");
+		TagConPadre hijo2121 = new TagConPadre("hijo2121");
 
-		ArrayList<Tag> ret = new ArrayList<>();
+		hijo11.setPadre(raiz1);
+		hijo12.setPadre(raiz1);
+		hijo13.setPadre(raiz1);
+		hijo21.setPadre(raiz2);
+		hijo22.setPadre(raiz2);
+		hijo211.setPadre(hijo21);
+		hijo212.setPadre(hijo21);
+		hijo2121.setPadre(hijo212);
 
-		ret.add(padre1);
-		ret.add(padre2);
-
-		return ret;
+		return Arrays.asList(raiz1, raiz2, hijo11, hijo12, hijo13, hijo21, hijo22, hijo211, hijo212, hijo2121);
 	}
-	
+
+	private void guardarInstanciaEnBD(List<TagConPadre> instancia) {
+		instancia.forEach(tagDAO::guardar);
+	}
+
 }

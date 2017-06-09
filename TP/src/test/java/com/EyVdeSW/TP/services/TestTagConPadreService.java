@@ -10,18 +10,18 @@ import org.easymock.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.EyVdeSW.TP.Daos.TagConPadreDAO;
+import com.EyVdeSW.TP.Daos.TagDAO;
 import com.EyVdeSW.TP.domainModel.TagConPadre;
-import com.EyVdeSW.TP.services.TagConPadreService;
+import com.EyVdeSW.TP.services.TagService;
 
 @RunWith(EasyMockRunner.class)
 public class TestTagConPadreService {
 
 	@Mock
-	TagConPadreDAO tagDAO;
+	TagDAO tagDAO;
 	
 	@TestSubject
-	private final TagConPadreService service = TagConPadreService.getTagService();
+	private final TagService service = TagService.getTagService();
 	
 	
 	@Test

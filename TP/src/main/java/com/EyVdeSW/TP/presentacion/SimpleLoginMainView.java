@@ -22,7 +22,7 @@ public class SimpleLoginMainView extends CustomComponent implements View {
 		setCompositionRoot(new CssLayout(text, logout, tags, tagsConPadre));
 
 		tags.addClickListener(click -> getUI().getNavigator().navigateTo(MyUI.TAGSVIEW));
-		tagsConPadre.addClickListener(click -> getUI().getNavigator().navigateTo(PantallaTagsConPadre.NAME));
+		tagsConPadre.addClickListener(click -> getUI().getNavigator().navigateTo(PantallaTags.NAME));
 
 		logout.addClickListener(event -> {// Java 8
 

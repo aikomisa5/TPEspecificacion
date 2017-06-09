@@ -1,9 +1,9 @@
 package com.EyVdeSW.TP.presentacion;
 
-import com.EyVdeSW.TP.domainModel.Tag;
+import com.EyVdeSW.TP.domainModel.TagConPadre;
 import com.EyVdeSW.TP.services.TagService;
-
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.util.HierarchicalContainer;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -23,10 +23,10 @@ import com.vaadin.ui.themes.ValoTheme;
 
 @SuppressWarnings("serial")
 public class PantallaTags extends VerticalLayout implements View {
-	protected static final String NAME = "";
+	protected static final String NAME = "pantallaTags";
 
 	private TagService tagService = TagService.getTagService();
-	
+
 	Button logout = new Button("Logout");
 
 	public PantallaTags() {
@@ -37,13 +37,12 @@ public class PantallaTags extends VerticalLayout implements View {
 		setComponentAlignment(hlTitulo, Alignment.MIDDLE_CENTER);
 
 		Tree arbol = new Tree("Tags");
-		agregarTags(arbol);
-		asignarJerarquias(arbol);
+		cargarTree(arbol);
 		expandirArbol(arbol);
 
 		TextField tfNombre = new TextField("Nombre");
 
-		BeanItemContainer<Tag> tags = new BeanItemContainer<Tag>(Tag.class);
+		BeanItemContainer<TagConPadre> tags = new BeanItemContainer<TagConPadre>(TagConPadre.class);
 		tagService.traerTodos().forEach(tag -> tags.addBean(tag));
 		ComboBox comboBoxTag = new ComboBox("Tag Padre", tags);
 
@@ -60,7 +59,6 @@ public class PantallaTags extends VerticalLayout implements View {
 				Notification.show("Tag Guardado", Type.TRAY_NOTIFICATION);
 				limpiarCampos(tfNombre, tags, comboBoxTag);
 				updateTree(arbol);
-
 			}
 			tfNombre.focus();
 		});
@@ -111,23 +109,21 @@ public class PantallaTags extends VerticalLayout implements View {
 		addComponent(hlPrincipal);
 		setComponentAlignment(hlPrincipal, Alignment.TOP_CENTER);
 		setMargin(true);
-		
-		//Para volver al main principal
-		addComponent(logout);		
+
+		// Para volver al main principal
+		addComponent(logout);
 		logout.addClickListener(event -> // Java 8
-			getUI().getNavigator().navigateTo(""));
-         
+		getUI().getNavigator().navigateTo(""));
 
 	}
 
 	private void updateTree(Tree arbol) {
 		arbol.removeAllItems();
-		agregarTags(arbol);
-		asignarJerarquias(arbol);
+		cargarTree(arbol);
 		expandirArbol(arbol);
 	}
 
-	private void limpiarCampos(TextField textFieldTag, BeanItemContainer<Tag> tags, ComboBox comboBoxTag) {
+	private void limpiarCampos(TextField textFieldTag, BeanItemContainer<TagConPadre> tags, ComboBox comboBoxTag) {
 		textFieldTag.clear();
 		comboBoxTag.removeAllItems();
 		System.out.println("Cantidad de elementos: " + tagService.traerTodos().size());
@@ -145,36 +141,21 @@ public class PantallaTags extends VerticalLayout implements View {
 		arbol.getItemIds().forEach(item -> arbol.expandItem(item));
 	}
 
-	// llamar a este metodo para asignar los valores al tree
-	private void agregarTags(Tree arbol) {
-		tagService.traerArboles().forEach(a -> recorrerAgregar(a.getRaiz(), arbol));
-	}
+	private void cargarTree(Tree arbol) {
+		HierarchicalContainer tagContainer = new HierarchicalContainer();
 
-	// auxiliar de agregarTags
-	private void recorrerAgregar(Tag t, Tree arbol) {
-		arbol.addItem(t.getNombre());
-		if (t.getHijos() != null) {
-			for (Tag hijo : t.getHijos()) {
-				recorrerAgregar(hijo, arbol);
-			}
-		}
-	}
+		tagService.traerTodos().forEach(tag -> {
+			tagContainer.addItem(tag);
+			tagContainer.setChildrenAllowed(tag, false);
+		});
 
-	// llamarlo para asignar jerarquias
-	private void asignarJerarquias(Tree arbol) {
-		tagService.traerArboles().forEach(a -> recorrerAsignar(null, a.getRaiz(), arbol));
-	}
+		tagContainer.getItemIds().forEach(item -> {
+			TagConPadre tagPadre = ((TagConPadre) item).getPadre();
+			tagContainer.setChildrenAllowed(tagPadre, true);
+			tagContainer.setParent(item, tagPadre);
+		});
 
-	private void recorrerAsignar(Tag padre, Tag actual, Tree arbol) {
-		if (padre != null)
-			arbol.setParent(actual.getNombre(), padre.getNombre());
-		if (actual.getHijos().size() == 0) {
-			arbol.setChildrenAllowed(actual.getNombre(), false);
-		}
-
-		for (Tag tag : actual.getHijos()) {
-			recorrerAsignar(actual, tag, arbol);
-		}
+		arbol.setContainerDataSource(tagContainer);
 	}
 
 }

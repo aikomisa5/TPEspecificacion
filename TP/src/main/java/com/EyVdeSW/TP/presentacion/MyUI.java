@@ -44,9 +44,9 @@ public class MyUI extends UI
 		// Y creamos y registramos las views (pantallas)
 		
 		navigator.addView(CAMPAÑASVIEW, new PantallaCampañas());	
-		navigator.addView(TAGSVIEW, new PantallaTags());	
+		navigator.addView(PantallaTags.NAME, new PantallaTags());	
 		navigator.addView(REGISTROVIEW, new PantallaRegistro());
-		navigator.addView(PantallaTagsConPadre.NAME, new PantallaTagsConPadre());
+		navigator.addView(PantallaTags.NAME, new PantallaTags());
 		//navigator.addView("", new PantallaMain());	
 		
 		 // The initial log view where the user can login to the application

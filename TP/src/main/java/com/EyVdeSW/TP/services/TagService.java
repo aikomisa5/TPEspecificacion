@@ -2,21 +2,16 @@ package com.EyVdeSW.TP.services;
 
 import java.util.Collection;
 
-import com.EyVdeSW.TP.Daos.ArbolTagDAO;
 import com.EyVdeSW.TP.Daos.TagDAO;
-import com.EyVdeSW.TP.Daos.impl.ArbolTagDAONeodatis;
 import com.EyVdeSW.TP.Daos.impl.TagDAONeodatis;
-import com.EyVdeSW.TP.domainModel.ArbolTag;
-import com.EyVdeSW.TP.domainModel.Tag;
+import com.EyVdeSW.TP.domainModel.TagConPadre;
 
 public class TagService {
 	private TagDAO tagDAO;
-	private ArbolTagDAO arbolTagDAO;
 	private static TagService tagService;
 
 	private TagService() {
 		tagDAO = new TagDAONeodatis();
-		arbolTagDAO = new ArbolTagDAONeodatis();
 	}
 
 	public static TagService getTagService() {
@@ -26,60 +21,39 @@ public class TagService {
 		return tagService;
 	}
 
-	public void guardar(Tag t) {
+	public void guardar(TagConPadre t) {
 		tagDAO.guardar(t);
 	}
 
 	public void guardar(String nombreTag, String padreTag) {
-		String nombreMinuscula = nombreTag.toLowerCase();
-		if (!tagDAO.existe(nombreMinuscula)) {
-			if (padreTag == null) {
-				arbolTagDAO.guardar(new ArbolTag(new Tag(nombreMinuscula)));
-			} else {
-				Tag padre = tagDAO.getTagPorNombre(padreTag);
-				padre.addHijo(new Tag(nombreMinuscula));
-				tagDAO.modificar(padre, padre);
-			}
+		if (!tagDAO.existe(nombreTag)){
+			TagConPadre nuevoTag = new TagConPadre(nombreTag);
+			if (padreTag != null)
+				nuevoTag.setPadre(tagDAO.getTagPorNombre(padreTag));
+			tagDAO.guardar(nuevoTag);
 		}
 	}
 
 	public void borrar(String nombreTag) {
-		Tag t = tagDAO.getTagPorNombre(nombreTag);
-		if (t != null) {
-			if (!arbolTagDAO.esRaiz(t))
-				tagDAO.borrar(t);
-			else {
-				ArbolTag aBorrar = arbolTagDAO.getArbolPorNombreRaiz(t.getNombre());
-				arbolTagDAO.borrar(aBorrar);
-			}
-		}
+		TagConPadre t = tagDAO.getTagPorNombre(nombreTag);
+		tagDAO.borrar(t);
 	}
 
-	public boolean modificar(String original, String modificacion) {
+	public boolean modificar(String nombreOriginal, String nombreNuevo) {
 		boolean ret = true;
-		if (tagDAO.existe(modificacion)) {
+		if (tagDAO.existe(nombreNuevo)) {
 			ret = false;
-		}
-		{
-			String modificacionMinuscula = modificacion.toLowerCase();
-			Tag orig = tagDAO.getTagPorNombre(original);
-			Tag modi = tagDAO.getTagPorNombre(original);
-			modi.setNombre(modificacionMinuscula);
-			tagDAO.modificar(orig, modi);
+		}else{
+			String modificacionMinuscula = nombreNuevo.toLowerCase();
+			TagConPadre tagModificado = tagDAO.getTagPorNombre(nombreOriginal);
+			tagModificado.setNombre(modificacionMinuscula);
+			tagDAO.modificar(nombreOriginal, tagModificado);
 		}
 		return ret;
 	}
 
-	public Collection<Tag> traerTodos() {
+	public Collection<TagConPadre> traerTodos() {
 		return tagDAO.traerTodos();
-	}
-
-	public Collection<Tag> consultar(String nombre) {
-		return tagDAO.consultarPorNombre(nombre);
-	}
-
-	public Collection<ArbolTag> traerArboles() {
-		return arbolTagDAO.traerArboles();
 	}
 
 }

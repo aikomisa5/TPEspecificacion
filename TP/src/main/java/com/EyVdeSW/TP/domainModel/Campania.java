@@ -37,6 +37,7 @@ public class Campania {
 		this.mensaje=mensaje;
 		this.fechaDeInicio=fechaDeInicio;
 		estado=EstadoCampania.CANCELADA;
+		idCampaña= UUID.randomUUID();
 	}
 	
 	public List<AccionPublicitaria> getAccionesPublicitarias() {

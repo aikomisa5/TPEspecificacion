@@ -1,89 +1,101 @@
 package com.EyVdeSW.TP.Daos.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.neodatis.odb.OID;
 import org.neodatis.odb.Objects;
 import org.neodatis.odb.core.query.IQuery;
 import org.neodatis.odb.core.query.criteria.Where;
 import org.neodatis.odb.impl.core.query.criteria.CriteriaQuery;
 
 import com.EyVdeSW.TP.Daos.TagDAO;
-import com.EyVdeSW.TP.domainModel.Tag;
+import com.EyVdeSW.TP.domainModel.TagConPadre;
 
-public class TagDAONeodatis extends DAONeodatis<Tag> implements TagDAO{
-	
-	@Override
-	public void modificar(Tag original, Tag modificacion){
-		odb = null;
-		try{			
-			odb = bdConnector.getBDConnection();
-			IQuery query = new CriteriaQuery(Tag.class, Where.like("nombre", original.getNombre()));	
-			Objects<Tag>resultadoQuery=odb.getObjects(query);
-			
-			Tag t=resultadoQuery.getFirst();
-			t.setHijos(modificacion.getHijos());
-			t.setAccionesGenerales(modificacion.getAccionesGenerales());
-			t.setNombre(modificacion.getNombre());
-			odb.store(t);
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			if (odb != null)
-				odb.close();
-		}
-	}
-
-	@Override
-	public Collection<Tag> traerTodos() {
-		return consultar(new CriteriaQuery(Tag.class));
-	}
-
-	@Override
-	public Collection<Tag> consultarPorNombre(String nombre) {
-		IQuery query = new CriteriaQuery(Tag.class, Where.like("nombre", "%"+nombre+"%"));
-		return consultar(query);
-	}
-
-	@Override
-	public Tag getTagPorNombre(String nombre){	
-		Tag tag=null;		
-		Objects<Tag> resultadoQuery = null;
-		try{
-			odb = bdConnector.getBDConnection();
-			resultadoQuery = odb.getObjects(new CriteriaQuery(Tag.class, Where.like("nombre", "%"+nombre+"%")));
-			if(resultadoQuery.size() != 0)
-				tag= resultadoQuery.getFirst();
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			if (odb != null)
-				odb.close();
-		}
-		return tag;
-	}	
-
-	@Override
-	public void borrar(Tag t) {
-		super.borrar(t);		
-		t.getHijos().forEach(tagHijo -> this.borrar(tagHijo));		
-	}
+public class TagDAONeodatis extends DAONeodatis<TagConPadre> implements TagDAO {
 
 	@Override
 	public boolean existe(String nombre) {
-		boolean ret=false;
-		Objects<Tag> resultadoQuery = null;
-		try{
+		Objects<TagConPadre> resultado = consultar(new CriteriaQuery(TagConPadre.class, Where.equal("nombre", nombre)));
+		return resultado.size() != 0;
+	}
+
+	@Override
+	public TagConPadre getTagPorNombre(String nombre) {
+			return consultar(new CriteriaQuery(TagConPadre.class, Where.equal("nombre", nombre))).getFirst();
+	}
+
+	@Override
+	public void borrar(TagConPadre tagRaiz) {
+
+		Collection<TagConPadre> todosLosTags = traerTodos();
+		List<TagConPadre> tagsABorrar = new ArrayList<>();
+		Queue<TagConPadre> colaDeTags = new LinkedList<>();
+		colaDeTags.add(tagRaiz);
+		while (!colaDeTags.isEmpty()) {
+			todosLosTags.stream().filter(tag -> colaDeTags.peek().equals(tag.getPadre())).forEach(colaDeTags::add);
+			tagsABorrar.add(colaDeTags.poll());
+		}
+
+		odb = null;
+		try {
 			odb = bdConnector.getBDConnection();
-			resultadoQuery = odb.getObjects(new CriteriaQuery(Tag.class, Where.equal("nombre", nombre)));
-			ret = ret||(resultadoQuery.size() != 0);
-		}catch(Exception e){
+			Set<OID> oids = new HashSet<>();
+			tagsABorrar.forEach(tag -> oids.add(odb.getObjectId(tag)));
+			oids.forEach(odb::deleteObjectWithId);
+			odb.commit();
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			if (odb != null)
 				odb.close();
 		}
-		return ret;
 	}
 
-	
+	@Override
+	public void modificar(String nombreOriginalTag, TagConPadre modificacion) {
+		odb = null;
+		try {
+			odb = bdConnector.getBDConnection();
+			IQuery query = new CriteriaQuery(TagConPadre.class, Where.equal("nombre", nombreOriginalTag));
+			Objects<TagConPadre> resultadoQuery = odb.getObjects(query);
+			resultadoQuery.forEach(t -> {
+				t.setPadre(modificacion.getPadre());
+				t.setAccionesGenerales(modificacion.getAccionesGenerales());
+				t.setNombre(modificacion.getNombre());
+				odb.store(t);
+			});
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (odb != null)
+				odb.close();
+		}
+
+	}
+
+	@Override
+	public Collection<TagConPadre> traerTodos() {
+		return consultar(new CriteriaQuery(TagConPadre.class)).stream().collect(Collectors.toSet());
+	}
+
+	@Override
+	public Collection<TagConPadre> traerHijosDe(TagConPadre padre) {
+		return consultar(new CriteriaQuery(TagConPadre.class, Where.equal("padre.nombre", padre.getNombre()))).stream()
+				.collect(Collectors.toSet());
+	}
+
+	@Override
+	public Collection<TagConPadre> traerRaices() {
+		return consultar(new CriteriaQuery(TagConPadre.class, Where.isNull("padre"))).stream()
+				.collect(Collectors.toSet());
+	}
+
 }
