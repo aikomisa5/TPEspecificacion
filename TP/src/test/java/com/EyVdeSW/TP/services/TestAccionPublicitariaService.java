@@ -81,7 +81,7 @@ public class TestAccionPublicitariaService {
 		
 		//si el original no existe
 		EasyMock.reset(accionDAO);
-		//Solo testeo este porque al fallar no llega al or
+		//Solo testeo este porque al fallar no llega al or (ademas se rompe el test por eso mismo)
 		EasyMock.expect(accionDAO.existe(original.getDestinatario())).andReturn(false);
 		EasyMock.replay(accionDAO);
 		assertFalse(service.modificar(original.getDestinatario(), modificacion.getDestinatario(), modificacion.getTipo().toString()));
