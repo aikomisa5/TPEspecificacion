@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -30,13 +31,13 @@ public class TestAccionPublicitariaDAONeodatis {
 	}
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() throws Exception{
 		File f = new File(dbFilePath);
 		if (f.exists())
 			f.delete();
 	}
 	
-	@Before
+	@After
 	public void limpiarBD(){
 		Collection<AccionPublicitaria> usuarios = accionDAO.traerTodos();
 		usuarios.forEach(t -> accionDAO.borrar(t));
@@ -44,11 +45,42 @@ public class TestAccionPublicitariaDAONeodatis {
 	}
 	
 	@Test
+	public void getAccionPorDestinatarios(){
+		agregarDatosDePrueba(instancia());
+		
+		assertEquals(accionDAO.getAccionPorDestinatario("ap3"), new AccionPublicitaria("ap3", TipoAccion.particular));
+		assertEquals(accionDAO.getAccionPorDestinatario("ap1"), new AccionPublicitaria("ap1", TipoAccion.general));
+		assertEquals(accionDAO.getAccionPorDestinatario("a"), null);
+		assertEquals(accionDAO.getAccionPorDestinatario("1"), null);
+	}
+	
+	@Test
+	public void consultarAccionesPorDestinatario(){
+		agregarDatosDePrueba(instancia());
+		assertEquals(accionDAO.consultarPorDestinatario("ap").size(), 3);
+		assertEquals(accionDAO.consultarPorDestinatario("ap2").size(), 1);
+	}
+	
+	@Test
+	public void existe(){
+		agregarDatosDePrueba(instancia());
+		assertTrue(accionDAO.existe("ap1"));
+		assertTrue(accionDAO.existe("ap3"));
+		assertFalse(accionDAO.existe("ap4"));
+		assertFalse(accionDAO.existe("ap0"));
+		assertFalse(accionDAO.existe("ap"));
+	}
+	
+	@Test
 	public void modificar(){
-		AccionPublicitaria original = new AccionPublicitaria("original",TipoAccion.general);
 		AccionPublicitaria modificacion = new AccionPublicitaria("modificacion",TipoAccion.particular);
 		
+		agregarDatosDePrueba(instancia());
+		AccionPublicitaria original= accionDAO.getAccionPorDestinatario("ap2");
+		accionDAO.modificar(original, modificacion);
+		original=accionDAO.getAccionPorDestinatario(modificacion.getDestinatario());
 		
+		assertEquals(original, modificacion);
 	}
 	
 	public void agregarDatosDePrueba(ArrayList<AccionPublicitaria>lista){

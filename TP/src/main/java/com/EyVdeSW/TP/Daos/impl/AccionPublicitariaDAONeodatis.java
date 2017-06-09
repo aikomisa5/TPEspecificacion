@@ -42,26 +42,62 @@ public class AccionPublicitariaDAONeodatis extends DAONeodatis<AccionPublicitari
 
 	@Override
 	public Collection<AccionPublicitaria> traerTodos() {
-		// TODO Auto-generated method stub
-		return null;
+		IQuery query = new CriteriaQuery(AccionPublicitaria.class);
+		return consultar(query);
 	}
 
 	@Override
-	public Collection<AccionPublicitaria> consultarPorNombre(String destinatario) {
-		// TODO Auto-generated method stub
-		return null;
+	public Collection<AccionPublicitaria> consultarPorDestinatario(String destinatario) {
+		IQuery query = new CriteriaQuery(AccionPublicitaria.class, Where.like("destinatario", destinatario));
+		return consultar(query);
 	}
 
 	@Override
-	public AccionPublicitaria getCampañaPorNombre(String destinatario) {
-		// TODO Auto-generated method stub
-		return null;
+	public AccionPublicitaria getAccionPorDestinatario(String destinatario) {
+		AccionPublicitaria accion = null;
+		Objects<AccionPublicitaria> resultadoQuery = null;
+		odb = null;
+		try
+		{
+			odb = bdConnector.getBDConnection();
+			resultadoQuery = odb.getObjects(new CriteriaQuery(AccionPublicitaria.class, Where.equal("destinatario", destinatario)));
+			if (resultadoQuery.size() != 0)
+				accion = resultadoQuery.getFirst();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (odb != null)
+				odb.close();
+		}
+		return accion;
 	}
 
 	@Override
 	public boolean existe(String destinatario) {
-		// TODO Auto-generated method stub
-		return false;
+
+		boolean ret = false;
+		Objects<AccionPublicitaria> resultadoQuery = null;
+		odb = null;
+		try
+		{
+			odb = bdConnector.getBDConnection();
+			resultadoQuery = odb.getObjects(new CriteriaQuery(AccionPublicitaria.class, Where.equal("destinatario", destinatario)));
+			ret = ret || (resultadoQuery.size() != 0);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (odb != null)
+				odb.close();
+		}
+		return ret;
 	}
 
 }

@@ -103,7 +103,6 @@ public class Campa√±aDAONeodatis extends DAONeodatis<Campania> implements Campa√
 				odb.close();
 		}
 		return ret;
-
 	}
 
 }

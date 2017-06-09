@@ -62,11 +62,6 @@ public class AccionPublicitaria
 				return false;
 		} else if (!destinatario.equals(other.destinatario))
 			return false;
-		if (idAccion == null) {
-			if (other.idAccion != null)
-				return false;
-		} else if (!idAccion.equals(other.idAccion))
-			return false;
 		if (tipo != other.tipo)
 			return false;
 		return true;
