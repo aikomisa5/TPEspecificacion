@@ -38,7 +38,8 @@ public class CampañaService {
 		
 		if (!campañaDAO.existe(nombreMinuscula)){
 			List<AccionPublicitaria> accionesPublicitarias = null;
-			campañaDAO.guardar(new Campania(accionesPublicitarias, nombreMinuscula, descripcionMinuscula, new Mensaje(nombreMensaje, textoMensaje), fechaDeInicio));
+			//TODO
+			//campañaDAO.guardar(new Campania(accionesPublicitarias, nombreMinuscula, descripcionMinuscula, new Mensaje(nombreMensaje, textoMensaje), fechaDeInicio));
 			
 		}
 	}

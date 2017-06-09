@@ -1,5 +1,7 @@
 package com.EyVdeSW.TP.domainModel;
 
+import java.util.Objects;
+
 public class Usuario {
 	
 	public enum TipoUsuario{
@@ -63,17 +65,9 @@ public class Usuario {
 		this.tipoUsuario = tipoUsuario;
 	}
 
-	//TODO //FixMe
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
-		result = prime * result + ((nombreReal == null) ? 0 : nombreReal.hashCode());
-		result = prime * result + ((nombreUsuario == null) ? 0 : nombreUsuario.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((tipoUsuario == null) ? 0 : tipoUsuario.hashCode());
-		return result;
+		return Objects.hash(nombreUsuario);
 	}
 
 	@Override
@@ -85,29 +79,14 @@ public class Usuario {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		if (mail == null) {
-			if (other.mail != null)
-				return false;
-		} else if (!mail.equals(other.mail))
-			return false;
-		if (nombreReal == null) {
-			if (other.nombreReal != null)
-				return false;
-		} else if (!nombreReal.equals(other.nombreReal))
-			return false;
 		if (nombreUsuario == null) {
 			if (other.nombreUsuario != null)
 				return false;
 		} else if (!nombreUsuario.equals(other.nombreUsuario))
 			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		if (tipoUsuario != other.tipoUsuario)
-			return false;
 		return true;
 	}
+
+	
 	
 }

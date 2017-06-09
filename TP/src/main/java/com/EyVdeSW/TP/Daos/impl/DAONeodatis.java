@@ -72,6 +72,7 @@ public class DAONeodatis<T> implements DAO<T> {
 		}
 		return resultadoQuery;
 	}
+	
 
 	public void setBdConnector(neodatisBDConnector bdConnector) {
 		this.bdConnector = bdConnector;
