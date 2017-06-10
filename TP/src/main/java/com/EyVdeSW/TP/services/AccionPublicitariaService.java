@@ -9,6 +9,7 @@ import com.EyVdeSW.TP.domainModel.AccionPublicitaria.TipoAccion;
 
 public class AccionPublicitariaService {
 	private AccionPublicitariaDAO accionDAO;
+	private MessageSender sender;
 	private static AccionPublicitariaService service;
 	
 	private AccionPublicitariaService(){
@@ -19,6 +20,14 @@ public class AccionPublicitariaService {
 		if(service==null)
 			service= new AccionPublicitariaService();
 		return service;
+	}
+	
+	public void setSender(MessageSender sender){
+		this.sender=sender;
+	}
+	
+	public void enviarMensaje(String mensaje, String destinatario){
+		sender.enviarMensaje(mensaje, destinatario);
 	}
 	
 	public void guardar(String destinatario, String tipo){
