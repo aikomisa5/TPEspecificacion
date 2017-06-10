@@ -20,15 +20,18 @@ public class MailSender implements MessageSender {
 
 	      // Sender's email ID needs to be mentioned
 	      String from = Parametros.getProperty("email.user");
-
+	      String pass=Parametros.getProperty("email.pass");
 	      // Assuming you are sending email from localhost
 	      String host = "smtp.mail.com";
-
+	      	
 	      // Get system properties
 	      Properties properties = System.getProperties();
 
 	      // Setup mail server
 	      properties.setProperty("mail.smtp.host", host);
+	      properties.remove("mail.smtps.auth");
+	      properties.remove("mail.user", from);
+	      properties.remove("mail.password", pass);
 
 	      // Get the default Session object.
 	      Session session = Session.getDefaultInstance(properties);
@@ -50,8 +53,9 @@ public class MailSender implements MessageSender {
 	         message.setText(mensaje);
 	         
 	         // importante message.setSentDate(saras);
-
-
+	         System.out.println(Parametros.getProperty("email.user")+" "+Parametros.getProperty("email.pass"));
+	         
+	        // Transport.send(message, Parametros.getProperty("email.user"), Parametros.getProperty("email.pass"));
 	         Transport.send(message, Parametros.getProperty("email.user"), Parametros.getProperty("email.pass"));
 	         System.out.println("Sent message successfully....");
 	      }catch (MessagingException mex) {
