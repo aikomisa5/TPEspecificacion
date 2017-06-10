@@ -26,8 +26,8 @@ public class AccionPublicitariaService {
 		this.sender=sender;
 	}
 	
-	public void enviarMensaje(String mensaje, String destinatario){
-		sender.enviarMensaje(mensaje, destinatario);
+	public void enviarMensaje(String mensaje, String encabezado, String destinatario){
+		sender.enviarMensaje(mensaje, encabezado,destinatario);
 	}
 	
 	public void guardar(String destinatario, String tipo){
@@ -67,7 +67,7 @@ public class AccionPublicitariaService {
 	}
 
 	
-	//XXX ver si es necesario!
+	//XXX ver si es necesario! (Depende de si usamos combo)
 	private boolean valorValido(String valor){
 		boolean ret=false;
 		for(TipoAccion tipo:TipoAccion.values()){
