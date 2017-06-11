@@ -125,7 +125,16 @@ public class PantallaRegistro extends VerticalLayout implements View {
 			else if(usuarioService.existeUsuarioPorMail(tfMail.getValue())){
 				Notification.show("Ya existe un usuario asociado a ese mail!", Type.WARNING_MESSAGE);
 			}
+			
+			else if (!password.getValue().equals(verificacionPassword.getValue())){
+				Notification.show("Las contraseñas no coinciden!", Type.WARNING_MESSAGE);
 				
+			}
+
+			else if (password.isValid()==false || verificacionPassword.isValid()==false){
+				Notification.show("Las contraseñas deben tener 8 caracteres y 1 numero como minimo!", Type.WARNING_MESSAGE);
+				
+			}
 				else{
 				String nombreUsuario = tfNombreUsuario.getValue();
 				String nombreReal = tfNombreReal.getValue();
@@ -175,6 +184,7 @@ public class PantallaRegistro extends VerticalLayout implements View {
     //
     if (value != null
             && (value.length() < 8 || !value.matches(".*\\d.*"))) {
+    	   	Notification.show("La contraseña debe posee 8 caracteres y 1 numero como minimo!", Type.WARNING_MESSAGE);
         return false;
     	}
     return true;
@@ -185,6 +195,9 @@ public class PantallaRegistro extends VerticalLayout implements View {
 		return String.class;
 		}
 	}
+	
+	/*
+	//A PARTIR DE ACA ME PARECE QUE NO SIRVE
 		//@Override
 	public void buttonClick(ClickEvent event) {
 	
@@ -224,5 +237,6 @@ public class PantallaRegistro extends VerticalLayout implements View {
 	}
 	
 	}
+	*/
 
 }

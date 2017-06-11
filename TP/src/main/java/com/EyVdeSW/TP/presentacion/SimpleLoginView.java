@@ -142,8 +142,7 @@ public void buttonClick(ClickEvent event) {
     //
     if (!user.isValid() || !password.isValid()) {
     	// Wrong password clear the password field and refocuses it
-    	Notification.show("Los datos ingresados no son validos!", Type.WARNING_MESSAGE);
-		this.password.setValue(null);
+    	this.password.setValue(null);
         this.password.focus();
         return;
     }
@@ -165,6 +164,11 @@ public void buttonClick(ClickEvent event) {
     			isValid=true;
     		}
     	}
+    
+    if (username=="" || password==""){
+    	Notification.show("Hay campos vacios!", Type.WARNING_MESSAGE);
+    }
+    
    /* boolean isValid = username.equals(usuarioService.existeUsuarioPorMail(username))
             && password.equals("passw0rd");
     */
@@ -179,7 +183,7 @@ public void buttonClick(ClickEvent event) {
         // Navigate to main view
         getUI().getNavigator().navigateTo(SimpleLoginMainView.NAME);//
 
-    } /*else {
+    } else {
 
         // Wrong password clear the password field and refocuses it
     	Notification.show("Los datos ingresados no son validos!", Type.WARNING_MESSAGE);
@@ -187,7 +191,7 @@ public void buttonClick(ClickEvent event) {
         this.password.setValue(null);
         this.password.focus();
 
-    }*/
+    }
 }
 
 }
