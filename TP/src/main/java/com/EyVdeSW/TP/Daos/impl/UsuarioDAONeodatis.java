@@ -49,6 +49,45 @@ public class UsuarioDAONeodatis extends DAONeodatis<Usuario> implements UsuarioD
 	}
 
 	@Override
+	public Usuario getUsuarioPorMail(String mailUsuario) {
+		Usuario usuario = null;		
+		Objects<Usuario> resultadoQuery = null;
+		odb=null;
+		try{
+			odb = bdConnector.getBDConnection();
+			resultadoQuery = odb.getObjects(new CriteriaQuery(Usuario.class, Where.equal("mail", mailUsuario)));
+			if(resultadoQuery.size() != 0)
+				usuario= resultadoQuery.getFirst();
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			if (odb != null)
+				odb.close();
+		}
+		return usuario;
+	}
+
+	@Override
+	public boolean existeUsuarioPorMail(String mailUsuario) {
+		boolean ret=false;
+		Objects<Usuario> resultadoQuery = null;
+		odb=null;
+		try{
+			odb = bdConnector.getBDConnection();
+			resultadoQuery = odb.getObjects(new CriteriaQuery(Usuario.class, Where.equal("mail", mailUsuario)));
+			ret = ret||(resultadoQuery.size() != 0);
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			if (odb != null)
+				odb.close();
+		}
+		return ret;
+	
+	}
+
+
+	@Override
 	public Usuario getUsuarioPorNombreUsuario(String nombreUsuario) {
 		Usuario usuario = null;		
 		Objects<Usuario> resultadoQuery = null;
@@ -67,8 +106,9 @@ public class UsuarioDAONeodatis extends DAONeodatis<Usuario> implements UsuarioD
 		return usuario;
 	}
 
+
 	@Override
-	public boolean existeUsuario(String nombreUsuario) {
+	public boolean existeUsuarioPorNombreUsuario(String nombreUsuario) {
 		boolean ret=false;
 		Objects<Usuario> resultadoQuery = null;
 		odb=null;
@@ -83,7 +123,6 @@ public class UsuarioDAONeodatis extends DAONeodatis<Usuario> implements UsuarioD
 				odb.close();
 		}
 		return ret;
-	
 	}
 	
 	

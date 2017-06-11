@@ -73,9 +73,9 @@ public class TestUsuarioDAONeodatis {
 	@Test
 	public void existeUsuario(){
 		agregarDatosDePrueba(instanciaUsuarios());
-		assertTrue(usuarioDAO.existeUsuario("soyUnNombreUsuario1"));
-		assertFalse(usuarioDAO.existeUsuario("soyUnNombreUsuario6"));
-		assertFalse(usuarioDAO.existeUsuario("soyUnNombreUsuario"));
+		assertTrue(usuarioDAO.existeUsuarioPorNombreUsuario("soyUnNombreUsuario1"));
+		assertFalse(usuarioDAO.existeUsuarioPorNombreUsuario("soyUnNombreUsuario6"));
+		assertFalse(usuarioDAO.existeUsuarioPorNombreUsuario("soyUnNombreUsuario"));
 	}
 	
 	private void agregarDatosDePrueba(ArrayList<Usuario>instancia){

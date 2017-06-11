@@ -108,7 +108,7 @@ public class CampañaDAONeodatis extends DAONeodatis<Campania> implements Campa�
 		UsuarioDAO usuarioDAO = new UsuarioDAONeodatis();
 		((DAONeodatis<Usuario>) usuarioDAO).setBdConnector(bdConnector);
 
-		if (usuarioDAO.existeUsuario(user.getNombreUsuario())) {
+		if (usuarioDAO.existeUsuarioPorNombreUsuario(user.getNombreUsuario())) {
 			ret = consultar(new SimpleNativeQuery() {
 				public boolean match(Campania campaña) {
 					return campaña.getUsuario().equals(user);

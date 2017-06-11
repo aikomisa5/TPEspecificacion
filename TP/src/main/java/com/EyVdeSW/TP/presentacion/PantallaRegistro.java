@@ -118,13 +118,13 @@ public class PantallaRegistro extends VerticalLayout implements View {
 				Notification.show("Uno de los campos está vacío!", Type.WARNING_MESSAGE);
 			}
 			
-			else if (!password.getValue().equals(verificacionPassword.getValue())){
-					Notification.show("Las password no coinciden!", Type.WARNING_MESSAGE);
-				}
-									
-			else if(usuarioService.existeUsuario(tfNombreUsuario.getValue())){
-					Notification.show("Ya existe ese nombre de usuario!", Type.WARNING_MESSAGE);
-				}
+			else if(usuarioService.existeUsuarioPorNombreUsuario(tfNombreUsuario.getValue())){
+				Notification.show("Ya existe ese nombre de usuario!", Type.WARNING_MESSAGE);
+			}
+		
+			else if(usuarioService.existeUsuarioPorMail(tfMail.getValue())){
+				Notification.show("Ya existe un usuario asociado a ese mail!", Type.WARNING_MESSAGE);
+			}
 				
 				else{
 				String nombreUsuario = tfNombreUsuario.getValue();
