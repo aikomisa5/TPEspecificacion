@@ -164,7 +164,7 @@ public class PantallaRegistro extends VerticalLayout implements View {
     AbstractValidator<String> {
 
 		public PasswordValidator() {
-			super("The password provided is not valid");
+			super("La contraseña ingresada no es valida, debe poseer 8 caracteres y al menos un numero");
 		}
 
 	@Override
@@ -185,7 +185,7 @@ public class PantallaRegistro extends VerticalLayout implements View {
 		return String.class;
 		}
 	}
-		//ACA HABIA UN OVERRIDE
+		//@Override
 	public void buttonClick(ClickEvent event) {
 	
 	//

@@ -10,10 +10,12 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -108,7 +110,7 @@ private static final class PasswordValidator extends
         AbstractValidator<String> {
 
     public PasswordValidator() {
-        super("The password provided is not valid");
+        super("La contraseña ingresada no es valida");
     }
 
     @Override
@@ -139,6 +141,10 @@ public void buttonClick(ClickEvent event) {
     // for wrongly entered passwords
     //
     if (!user.isValid() || !password.isValid()) {
+    	// Wrong password clear the password field and refocuses it
+    	Notification.show("Los datos ingresados no son validos!", Type.WARNING_MESSAGE);
+		this.password.setValue(null);
+        this.password.focus();
         return;
     }
 
@@ -173,13 +179,15 @@ public void buttonClick(ClickEvent event) {
         // Navigate to main view
         getUI().getNavigator().navigateTo(SimpleLoginMainView.NAME);//
 
-    } else {
+    } /*else {
 
         // Wrong password clear the password field and refocuses it
+    	Notification.show("Los datos ingresados no son validos!", Type.WARNING_MESSAGE);
+		
         this.password.setValue(null);
         this.password.focus();
 
-    }
+    }*/
 }
 
 }
