@@ -92,6 +92,13 @@ public boolean existeUsuarioPorMail(String mail){
 	
 }
 
+public Usuario getUsuarioPorNombreUsuario(String nombreUsuario){
+	return (usuarioDAO.getUsuarioPorNombreUsuario(nombreUsuario));
+}
+
+public Usuario getUsuarioPorMail (String mail){
+	return (usuarioDAO.getUsuarioPorMail(mail));
+}
 
 }
 

@@ -1,5 +1,7 @@
 package com.EyVdeSW.TP.presentacion;
 
+import com.EyVdeSW.TP.domainModel.Usuario;
+import com.EyVdeSW.TP.services.UsuarioService;
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.View;
@@ -30,6 +32,8 @@ private final PasswordField password;
 private final Button loginButton;
 
 private final Button registroButton;
+
+private UsuarioService usuarioService = UsuarioService.getUsuarioService();
 
 public SimpleLoginView() {
 	
@@ -145,8 +149,21 @@ public void buttonClick(ClickEvent event) {
     // Validate username and password with database here. For examples sake
     // I use a dummy username and password.
     //
-    boolean isValid = username.equals("test@test.com")
+    
+    boolean isValid = false;
+    Usuario usuario = null;
+    
+    if (usuarioService.existeUsuarioPorMail(username)){
+    	 usuario = usuarioService.getUsuarioPorMail(username);
+    	if (usuario.getPassword().equals(password)){
+    			isValid=true;
+    		}
+    	}
+   /* boolean isValid = username.equals(usuarioService.existeUsuarioPorMail(username))
             && password.equals("passw0rd");
+    */
+   // boolean isValid = username.equals("test@test.com")
+     //       && password.equals("passw0rd");
 
     if (isValid) {
 
