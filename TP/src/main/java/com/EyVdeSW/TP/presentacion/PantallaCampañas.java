@@ -15,15 +15,15 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.themes.ValoTheme;
 
+@SuppressWarnings("serial")
 public class PantallaCampañas extends VerticalLayout implements View {
 
-	protected static final String NAME = "";
+	protected static final String NAME = "pantallaCampañas";
 
 	private CampañaService campañaService = CampañaService.getCampañaService();
 	

@@ -14,7 +14,7 @@ import properties.Parametros;
 public class MailSender implements MessageSender {
 
 	@Override
-	public void enviarMensaje(String destinatario, String encabezado, String mensaje) {
+	public void enviarMensaje(String destinatario, String encabezado, String mensaje) {		
 		 // Recipient's email ID needs to be mentioned.
 	      String to = destinatario;
 

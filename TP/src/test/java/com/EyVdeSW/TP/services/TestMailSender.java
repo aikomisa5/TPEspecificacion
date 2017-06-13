@@ -11,13 +11,13 @@ public class TestMailSender {
 	
 	@Test
 	public void enviarMail(){
-		//Properties p = System.getProperties();
+Properties p = System.getProperties();
 //		System.out.println(System.getProperty("mail.smtp.port")+"sarasa");
 //		System.clearProperty("mail.smtp.socketFactory.port");
 //		System.clearProperty("mail.smtp.socketFactory.class");
 //		System.clearProperty("mail.smtp.auth");
 //		System.clearProperty("mail.smtp.port");
-		
+//		
 //		props.put("mail.smtp.socketFactory.port", "465");
 //		props.put("mail.smtp.socketFactory.class",
 //				"javax.net.ssl.SSLSocketFactory");

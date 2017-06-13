@@ -16,14 +16,14 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.Reindeer;
 import com.vaadin.ui.themes.ValoTheme;
 
+@SuppressWarnings("serial")
 public class PantallaRegistro extends VerticalLayout implements View {
 	
-	protected static final String NAME = "";
+	protected static final String NAME = "pantallaRegistro";
 	
 	private UsuarioService usuarioService = UsuarioService.getUsuarioService();
 	
@@ -107,7 +107,7 @@ public class PantallaRegistro extends VerticalLayout implements View {
 			setMargin(true);
 			
 		logout.addClickListener(e -> {
-			getUI().getNavigator().navigateTo(SimpleLoginView.NAME);
+			getUI().getNavigator().navigateTo(PantallaLogin.NAME);
 		
 		});
 		
@@ -145,7 +145,7 @@ public class PantallaRegistro extends VerticalLayout implements View {
 				usuarioService.guardar(usuario);
 				Notification.show("Usuario Guardado", Type.TRAY_NOTIFICATION);
 				limpiarCampos(tfNombreUsuario, tfNombreReal, tfMail, password, verificacionPassword);
-				getUI().getNavigator().navigateTo(SimpleLoginView.NAME);
+				getUI().getNavigator().navigateTo(PantallaLogin.NAME);
 				}
 			
 		});

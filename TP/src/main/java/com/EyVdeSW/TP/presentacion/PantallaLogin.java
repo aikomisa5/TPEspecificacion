@@ -22,7 +22,8 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Reindeer;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class SimpleLoginView extends CustomComponent implements View,
+@SuppressWarnings("serial")
+public class PantallaLogin extends CustomComponent implements View,
     Button.ClickListener {
 
 public static final String NAME = "login";
@@ -37,7 +38,7 @@ private final Button registroButton;
 
 private UsuarioService usuarioService = UsuarioService.getUsuarioService();
 
-public SimpleLoginView() {
+public PantallaLogin() {
 	
 	//TituloPrincipal
 	Label titulo = new Label("Ingreso al Sistema");
@@ -90,18 +91,18 @@ public SimpleLoginView() {
     viewLayout.setSizeFull();
     viewLayout.setComponentAlignment(hlTitulo, Alignment.MIDDLE_CENTER);
     viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
-    viewLayout.setComponentAlignment(botones, Alignment.MIDDLE_CENTER);
-    viewLayout.setStyleName(Reindeer.LAYOUT_BLUE);
+    viewLayout.setComponentAlignment(botones, Alignment.MIDDLE_CENTER);    
     setCompositionRoot(viewLayout);
     
     registroButton.addClickListener(event -> // Java 8
-	getUI().getNavigator().navigateTo(MyUI.REGISTROVIEW));
+	getUI().getNavigator().navigateTo(PantallaRegistro.NAME));
     
 }
 
 @Override
 public void enter(ViewChangeEvent event) {
     // focus the username field when user arrives to the login view
+	((MyUI) getUI()).hideMenu();
     user.focus();
 }
 
@@ -181,7 +182,7 @@ public void buttonClick(ClickEvent event) {
         getSession().setAttribute("user", username);
 
         // Navigate to main view
-        getUI().getNavigator().navigateTo(SimpleLoginMainView.NAME);//
+        getUI().getNavigator().navigateTo(PantallaMainView.NAME);//
 
     } else {
 
