@@ -26,7 +26,7 @@ Properties p = System.getProperties();
 
 		
 		sender.enviarMensaje("deidelson@mail.com", "Soy un test", "soy el texto");
-		//sender.enviarMensaje("danilo_eidelson@hotmail.com", "Soy un test", "soy el texto");
+		sender.enviarMensaje("danilo_eidelson@hotmail.com", "Soy un test", "soy el texto");
 	}
 
 }

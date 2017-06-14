@@ -97,15 +97,21 @@ public class TestTagConPadreService {
 		assertTrue(service.modificar(original.getNombre(), modificacion.getNombre()));
 		//verificamos si se hizo el llamado al mock object
 		verify(tagDAO);
-		
-		//else no existe el tag que quiero modificar
-		EasyMock.reset(tagDAO);
+	}
+	
+	@Test 
+	public void modificarNoExisteOriginal(){
+		Tag original=new Tag("original");
+		Tag modificacion=new Tag("modificacion");
 		EasyMock.expect(tagDAO.existe(original.getNombre())).andReturn(false);
 		replay(tagDAO);
 		assertFalse(service.modificar(original.getNombre(), modificacion.getNombre()));
-		
-		//else existe el nombre nuevo del tag
-		EasyMock.reset(tagDAO);
+	}
+	
+	@Test 
+	public void modificarExisteNuevoNombre(){
+		Tag original=new Tag("original");
+		Tag modificacion=new Tag("modificacion");
 		EasyMock.expect(tagDAO.existe(original.getNombre())).andReturn(false);
 		EasyMock.expect(tagDAO.existe(modificacion.getNombre())).andReturn(true);
 		replay(tagDAO);
