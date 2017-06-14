@@ -57,7 +57,7 @@ public class CampañaService {
 		boolean ret = true;
 		if (campañaDAO.existe(nombreModificacion)) {
 			ret = false;
-		}
+		}else
 		{
 			String modificacionMinuscula = nombreModificacion.toLowerCase();
 			String descripcionMinuscula = descripcionCampañaMod.toLowerCase();
