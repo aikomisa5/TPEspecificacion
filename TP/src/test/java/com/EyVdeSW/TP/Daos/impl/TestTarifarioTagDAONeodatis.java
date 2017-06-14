@@ -3,10 +3,12 @@ package com.EyVdeSW.TP.Daos.impl;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.security.KeyStore.PrivateKeyEntry;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -48,6 +50,25 @@ public class TestTarifarioTagDAONeodatis {
 		agregarDatosDePrueba(instanciaTarifariosTag());
 		Collection<Tarifario<Tag>> tarifarios = tarifarioDAO.traerTodos();
 		assertEquals(tarifarios.size(), 4);
+	}
+	
+	@Test
+	public void modificar(){
+		agregarDatosDePrueba(instanciaTarifariosTag());
+		List<Tarifario<Tag>> tarifarios = (List<Tarifario<Tag>>) tarifarioDAO.traerTodos();
+		assertEquals(tarifarios.size(), 4);
+		
+		Tarifario<Tag>t1 = instanciaTarifariosTag().get(0);
+		
+		Tarifario<Tag>t2 = new Tarifario<Tag>(new Date(20000206));
+		t2.agregarTarifa(new Tag("sarasa"),  new BigDecimal("20.00"));
+		
+		
+		tarifarioDAO.modificar(t1, t2);
+		
+		tarifarios = (List<Tarifario<Tag>>) tarifarioDAO.traerTodos();
+		assertEquals(tarifarios.size(), 4);
+		assertEquals(t2, tarifarios.get(0));
 	}
 	
 	
