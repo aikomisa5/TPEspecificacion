@@ -100,5 +100,16 @@ public Usuario getUsuarioPorMail (String mail){
 	return (usuarioDAO.getUsuarioPorMail(mail));
 }
 
+public boolean validacionUsuarioYContraseña(String mail, String contraseña){
+	if (usuarioDAO.existeUsuarioPorMail(mail)){
+		Usuario usuario = null;
+   	 	usuario = usuarioDAO.getUsuarioPorMail(mail);
+   	 	if (usuario.getPassword().equals(contraseña)){
+   			return true;
+   		}
+   	}
+	 return false;
+}
+
 }
 

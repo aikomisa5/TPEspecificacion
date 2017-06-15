@@ -28,7 +28,7 @@ public class PantallaLogin extends CustomComponent implements View,
 
 public static final String NAME = "login";
 
-private final TextField user;
+private final TextField userMail;
 
 private final PasswordField password;
 
@@ -47,13 +47,13 @@ public PantallaLogin() {
 	
 
     // Field para el mail
-    user = new TextField("Mail:");
-    user.setWidth("300px");
-    user.setRequired(true);
-    user.setInputPrompt("Ej: joe@email.com)");
-    user.addValidator(new EmailValidator(
+    userMail = new TextField("Mail:");
+    userMail.setWidth("300px");
+    userMail.setRequired(true);
+    userMail.setInputPrompt("Ej: joe@email.com)");
+    userMail.addValidator(new EmailValidator(
             "El mail debe ser válido"));
-    user.setInvalidAllowed(false);
+    userMail.setInvalidAllowed(false);
 
     // Field para el password
     password = new PasswordField("Password:");
@@ -76,7 +76,7 @@ public PantallaLogin() {
     fields.setSizeUndefined();
     */
     
-    FormLayout fields = new FormLayout(user, password);
+    FormLayout fields = new FormLayout(userMail, password);
     fields.setCaption("Por favor, ingrese sus datos para acceder a la aplicación");
 	fields.setSpacing(true);
 	fields.setMargin(new MarginInfo(true, true, true, false));
@@ -103,7 +103,7 @@ public PantallaLogin() {
 public void enter(ViewChangeEvent event) {
     // focus the username field when user arrives to the login view
 	((MyUI) getUI()).hideMenu();
-    user.focus();
+    userMail.focus();
 }
 
 // Validator for validating the passwords
@@ -141,14 +141,14 @@ public void buttonClick(ClickEvent event) {
     // fields we reduce the amount of queries we have to use to the database
     // for wrongly entered passwords
     //
-    if (!user.isValid() || !password.isValid()) {
+    if (!userMail.isValid() || !password.isValid()) {
     	// Wrong password clear the password field and refocuses it
     	this.password.setValue(null);
         this.password.focus();
         return;
     }
 
-    String username = user.getValue();
+    String mail = userMail.getValue();
     String password = this.password.getValue();
 
     //
@@ -157,16 +157,10 @@ public void buttonClick(ClickEvent event) {
     //
     
     boolean isValid = false;
-    Usuario usuario = null;
     
-    if (usuarioService.existeUsuarioPorMail(username)){
-    	 usuario = usuarioService.getUsuarioPorMail(username);
-    	if (usuario.getPassword().equals(password)){
-    			isValid=true;
-    		}
-    	}
+    isValid = usuarioService.validacionUsuarioYContraseña(mail, password);
     
-    if (username=="" || password==""){
+    if (mail=="" || password==""){
     	Notification.show("Hay campos vacios!", Type.WARNING_MESSAGE);
     }
     
@@ -179,7 +173,7 @@ public void buttonClick(ClickEvent event) {
     if (isValid) {
 
         // Store the current user in the service session
-        getSession().setAttribute("user", username);
+        getSession().setAttribute("user", mail);
 
         // Navigate to main view
         getUI().getNavigator().navigateTo(PantallaMainView.NAME);//
