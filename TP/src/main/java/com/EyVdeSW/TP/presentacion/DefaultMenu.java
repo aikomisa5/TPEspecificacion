@@ -17,8 +17,8 @@ public class DefaultMenu extends HorizontalLayout implements View {
 		setSpacing(true);
 		addComponents(text, logout, tags, campañas);
 
-		tags.addClickListener(click -> getUI().getNavigator().navigateTo(PantallaTags.NAME));
-		campañas.addClickListener(click -> getUI().getNavigator().navigateTo(PantallaCampañas.NAME));
+		tags.addClickListener(click -> getUI().getNavigator().navigateTo(PantallaTagsAnalistaTecnico.NAME));
+		campañas.addClickListener(click -> getUI().getNavigator().navigateTo(PantallaCampañasAnalistaTecnico.NAME));
 		logout.addClickListener(event -> {
 			// "Logout" the user
 			getSession().setAttribute("user", null);

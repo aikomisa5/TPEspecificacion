@@ -21,7 +21,7 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.themes.ValoTheme;
 
 @SuppressWarnings("serial")
-public class PantallaCampañas extends VerticalLayout implements View {
+public class PantallaCampañasAnalistaTecnico extends VerticalLayout implements View {
 
 	protected static final String NAME = "pantallaCampañas";
 
@@ -31,7 +31,7 @@ public class PantallaCampañas extends VerticalLayout implements View {
 	
 	Date fechaInicio = new Date();
 	
-	public PantallaCampañas() {
+	public PantallaCampañasAnalistaTecnico() {
 		Label titulo = new Label("Gestión de Campañas");
 		titulo.setStyleName(ValoTheme.LABEL_H1);
 		HorizontalLayout hlTitulo = new HorizontalLayout(titulo);

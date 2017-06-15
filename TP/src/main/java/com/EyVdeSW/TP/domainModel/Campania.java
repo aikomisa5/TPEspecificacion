@@ -31,16 +31,18 @@ public class Campania {
 		estado = EstadoCampania.PLANIFICADA;
 		this.mensaje = null;
 		this.fechaDeInicio = null;
+		this.tagsAsociados = null;
 		idCampania = UUID.randomUUID();
 	}
 
-	public Campania(Usuario usuario, String nombre, String descripcion, List<AccionPublicitaria> accionesPublicitarias, Mensaje mensaje,
+	public Campania(Usuario usuario, String nombre, String descripcion, List<AccionPublicitaria> accionesPublicitarias, List<Tag> tagsAsociados,Mensaje mensaje,
 			Date fechaDeInicio) {
 		if (usuario.getTipoUsuario() != Usuario.TipoUsuario.CLIENTE)
 			throw new IllegalArgumentException(usuario.toString() + " no es del tipo Cliente. " + "Tipo recibido: "+ usuario.getTipoUsuario().name());
 		else
 			this.usuario = usuario;
 		this.accionesPublicitarias = accionesPublicitarias;
+		this.tagsAsociados=tagsAsociados;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.mensaje = mensaje;

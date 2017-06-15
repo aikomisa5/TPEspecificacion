@@ -22,14 +22,14 @@ import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.ValoTheme;
 
 @SuppressWarnings("serial")
-public class PantallaTags extends VerticalLayout implements View {
+public class PantallaTagsAnalistaTecnico extends VerticalLayout implements View {
 	protected static final String NAME = "pantallaTags";
 
 	private TagService tagService = TagService.getTagService();
 
 	Button logout = new Button("Logout");
 
-	public PantallaTags() {
+	public PantallaTagsAnalistaTecnico() {
 		Label titulo = new Label("Gestión de Tags");
 		titulo.setStyleName(ValoTheme.LABEL_H1);
 		HorizontalLayout hlTitulo = new HorizontalLayout(titulo);
