@@ -8,6 +8,7 @@ import java.util.UUID;
 public class Campania {
 
 	private List<AccionPublicitaria> accionesPublicitarias;
+	private List<Tag> tagsAsociados;
 	private Usuario usuario;
 	private Mensaje mensaje;
 	private String nombre;
@@ -62,6 +63,14 @@ public class Campania {
 
 	public void addAccionPublicitaria(AccionPublicitaria accion) {
 		accionesPublicitarias.add(accion);
+	}
+	
+	public List<Tag> getTagsAsociados() {
+		return tagsAsociados;
+	}
+
+	public void setTagsAsociados(List<Tag> tagsAsociados) {
+		this.tagsAsociados = tagsAsociados;
 	}
 
 	public Mensaje getMensaje() {
