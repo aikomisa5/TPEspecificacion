@@ -12,18 +12,25 @@ public class Tarifario <T> {
 	private Map<T, BigDecimal>tarifas;
 	private Date fecha;
 	private UUID idTarifario;
+	private TipoTarifario tipo;
 	
-	public Tarifario(Map<T, BigDecimal> tarifas, Date fecha) {
+	
+	
+	public Tarifario(Map<T, BigDecimal> tarifas, Date fecha, TipoTarifario tipo) {
+		super();
 		this.tarifas = tarifas;
 		this.fecha = fecha;
-		idTarifario=UUID.randomUUID();
+		this.tipo = tipo;
 	}
 
-	public Tarifario(Date fecha) {
-		tarifas=new HashMap<>();
+	public Tarifario(Date fecha, TipoTarifario tipo) {
+		super();
 		this.fecha = fecha;
-		idTarifario=UUID.randomUUID();
+		this.tipo = tipo;
+		this.tarifas=new HashMap<>();
 	}
+	
+	public Tarifario(){}
 
 	public Map<T, BigDecimal> getTarifas() {
 		return tarifas;
@@ -40,20 +47,41 @@ public class Tarifario <T> {
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
-	
-	public void agregarTarifa(T elemento, BigDecimal tarifa){
-		tarifas.put(elemento, tarifa);
-	}
-	
-	public void quitarTarifa(T elemento){
-		tarifas.remove(elemento);
+
+	public TipoTarifario getTipo() {
+		return tipo;
 	}
 
+	public void setTipo(TipoTarifario tipo) {
+		this.tipo = tipo;
+	}
+
+	public void agregarTarifa(T objeto, BigDecimal Tarifas){
+		this.tarifas.put(objeto, Tarifas);
+	}
+	
+	public void quitarTarifa(T objeto){
+		this.tarifas.remove(objeto);
+	}
+	
+	public void editarTarifa(T objeto, BigDecimal precioNuevo){
+		this.quitarTarifa(objeto);
+		this.agregarTarifa(objeto, precioNuevo);
+	}
+
+	public enum TipoTarifario{
+		Tag,
+		AccionesPublicitarias,
+		Duracion
+	}
+	
+	
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(idTarifario);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -73,21 +101,10 @@ public class Tarifario <T> {
 				return false;
 		} else if (!tarifas.equals(other.tarifas))
 			return false;
+		if (tipo != other.tipo)
+			return false;
 		return true;
 	}
-	
-	//TODO delete me please
-	public static void main(String[] args) {
-		Date f1 = new Date(20170206);
-		Date f2 = new Date(20170206);
-		Date f3 = new Date(20170202);
-		Tarifario<Tag> t1 = new Tarifario<>(f1);
-		Tarifario<Tag> t2 = new Tarifario<>(f2);
-		Tarifario<Tag> t3 = new Tarifario<>(f3);
-		System.out.println(t1.equals(t2));
-		System.out.println(t1.equals(t3));
-	}
 
-	
 
 }
