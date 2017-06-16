@@ -29,6 +29,13 @@ public class TarifarioService {
 			tarifarioDAO.guardar(tarifario);
 	}
 	
+	public void agregar(Date fecha, TipoTarifario tipo, Map<String, BigDecimal>tarifas){
+		if(!tarifarioDAO.existe(fecha, tipo)){
+			Tarifario<String>tarifario= new Tarifario<>(tarifas, fecha, tipo);
+			tarifarioDAO.guardar(tarifario);
+		}
+	}
+	
 	public void borrar(Date fecha, TipoTarifario tipo){
 		if(tarifarioDAO.existe(fecha,tipo)){
 			Tarifario<String>aBorrar=tarifarioDAO.traerPorFecha(fecha, tipo);
@@ -54,10 +61,13 @@ public class TarifarioService {
 		return ret;
 	}
 	
-	public Tarifario<String>getUltimo(TipoTarifario tipo){
+	public Tarifario<String> getUltimo(TipoTarifario tipo){
 		return tarifarioDAO.traerUltimo(tipo);
 	}
 	
+	public Tarifario<String> getPorFecha(Date fecha, TipoTarifario tipo){
+		return tarifarioDAO.traerPorFecha(fecha, tipo);
+	}
 	
 	
 }
