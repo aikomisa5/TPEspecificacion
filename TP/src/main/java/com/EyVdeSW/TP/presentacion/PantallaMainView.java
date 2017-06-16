@@ -1,5 +1,7 @@
 package com.EyVdeSW.TP.presentacion;
 
+import com.EyVdeSW.TP.domainModel.Usuario;
+import com.EyVdeSW.TP.services.UsuarioService;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.CustomComponent;
@@ -12,7 +14,10 @@ public class PantallaMainView extends CustomComponent implements View {
 
 	public static final String NAME = "";
 
+	UsuarioService usuarioService = UsuarioService.getUsuarioService();
+	
 	Label text = new Label();	
+	
 	public PantallaMainView() {
 		
 		
@@ -27,10 +32,17 @@ public class PantallaMainView extends CustomComponent implements View {
 	public void enter(ViewChangeEvent event) {
 		// Get the user name from the session
 		String username = String.valueOf(getSession().getAttribute("user"));
-
+		
+		Usuario usuario = usuarioService.getUsuarioPorMail(username);
+		
+		if (usuario.getTipoUsuario().toString().equals("CLIENTE")){
+		System.out.println("matchea!!!!!!!!!!!!!!!");
 		// And show the username
 		text.setValue("Hello " + username);
+		((MyUI) getUI()).setMenuCliente();
 		((MyUI) getUI()).showMenu();
+		
+		}
 	}
 
 }
