@@ -120,10 +120,12 @@ public class MyUI extends UI
 	}
 
 	public void setMenuAnalistaTecnico(){
+		menu.removeAllComponents();
 		menu.addComponent(new DefaultMenuAnalistaTecnico());
 	}
 	
 	public void setMenuCliente(){
+		menu.removeAllComponents();
 		menu.addComponent(new DefaultMenuCliente());
 	}
 	
