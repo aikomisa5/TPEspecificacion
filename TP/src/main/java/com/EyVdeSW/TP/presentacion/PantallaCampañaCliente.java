@@ -25,9 +25,8 @@ package com.EyVdeSW.TP.presentacion;
 
 		protected static final String NAME = "pantallaCampañas";
 
-		private CampañaService campañaService = CampañaService.getCampañaService();
+		private CampañaService campañaService = CampañaService.getCampañaService();		
 		
-		Button logout = new Button("Desloguearse"); //FIXME
 		
 		Date fechaInicio = new Date();
 		
@@ -121,14 +120,8 @@ package com.EyVdeSW.TP.presentacion;
 			hlPrincipal.setWidth("80%");
 			addComponent(hlPrincipal);
 			setComponentAlignment(hlPrincipal, Alignment.TOP_CENTER);
-			setMargin(true);
-			
-			//Para volver al main principal
-			addComponent(logout);		
-			setComponentAlignment(logout, Alignment.BOTTOM_LEFT);
-			logout.addClickListener(event -> // Java 8
-				getUI().getNavigator().navigateTo(""));
-			
+			setMargin(true);		
+				
 		}
 
 
