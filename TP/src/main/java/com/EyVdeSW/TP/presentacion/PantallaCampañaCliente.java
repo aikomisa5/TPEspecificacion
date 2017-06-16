@@ -2,8 +2,11 @@ package com.EyVdeSW.TP.presentacion;
 
 	import java.util.Date;
 
-	import com.EyVdeSW.TP.services.CampañaService;
-	import com.vaadin.event.ShortcutAction;
+import com.EyVdeSW.TP.domainModel.Campania;
+import com.EyVdeSW.TP.domainModel.Tag;
+import com.EyVdeSW.TP.services.CampañaService;
+import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.event.ShortcutAction;
 	import com.vaadin.navigator.View;
 	import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 	import com.vaadin.ui.Alignment;
@@ -23,7 +26,7 @@ package com.EyVdeSW.TP.presentacion;
 	@SuppressWarnings("serial")
 	public class PantallaCampañaCliente extends VerticalLayout implements View {
 
-		protected static final String NAME = "pantallaCampañas";
+		protected static final String NAME = "pantallaCampañasCliente";
 
 		private CampañaService campañaService = CampañaService.getCampañaService();		
 		
@@ -43,7 +46,8 @@ package com.EyVdeSW.TP.presentacion;
 			TextField tfNombreMensaje = new TextField("Nombre Mensaje");
 			TextArea taTextoMensaje = new TextArea("Texto del Mensaje");
 			
-			// Create the selection component
+			
+			//TODO crear una clase duracion de campañas.
 			ComboBox DuracionCampaña = new ComboBox("Duración de Campaña");
 			// Add some items (the given ID is used as item caption)
 			DuracionCampaña.addItem("Una semana");

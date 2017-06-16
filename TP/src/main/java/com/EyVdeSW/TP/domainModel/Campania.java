@@ -14,7 +14,11 @@ public class Campania {
 	private String nombre;
 	private String descripcion;
 	private Date fechaDeInicio;
+	private Duracion duracion;	
+	
 	private EstadoCampania estado;
+
+
 	private UUID idCampania;
 
 	public enum EstadoCampania {
@@ -35,18 +39,19 @@ public class Campania {
 		idCampania = UUID.randomUUID();
 	}
 
-	public Campania(Usuario usuario, String nombre, String descripcion, List<AccionPublicitaria> accionesPublicitarias, List<Tag> tagsAsociados,Mensaje mensaje,
-			Date fechaDeInicio) {
+	public Campania(Usuario usuario, String nombre, String descripcion, List<AccionPublicitaria> accionesPublicitarias, List<Tag> tagsAsociados, Mensaje mensaje,
+			Date fechaDeInicio, Duracion duracion) {
 		if (usuario.getTipoUsuario() != Usuario.TipoUsuario.CLIENTE)
 			throw new IllegalArgumentException(usuario.toString() + " no es del tipo Cliente. " + "Tipo recibido: "+ usuario.getTipoUsuario().name());
 		else
 			this.usuario = usuario;
 		this.accionesPublicitarias = accionesPublicitarias;
-		this.tagsAsociados=tagsAsociados;
+		this.tagsAsociados = tagsAsociados;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.mensaje = mensaje;
 		this.fechaDeInicio = fechaDeInicio;
+		this.duracion = duracion;
 		estado = EstadoCampania.PRELIMINAR;
 		idCampania = UUID.randomUUID();
 	}
@@ -113,6 +118,14 @@ public class Campania {
 
 	public void setEstado(EstadoCampania estado) {
 		this.estado = estado;
+	}
+	
+	public Duracion getDuracion() {
+		return duracion;
+	}
+
+	public void setDuracion(Duracion duracion) {
+		this.duracion = duracion;
 	}
 	
 	@Override

@@ -15,6 +15,7 @@ import com.EyVdeSW.TP.Daos.impl.CampañaDAONeodatis;
 import com.EyVdeSW.TP.Daos.impl.NeodatisLocalConnector;
 import com.EyVdeSW.TP.domainModel.Campania;
 import com.EyVdeSW.TP.domainModel.Campania.EstadoCampania;
+import com.EyVdeSW.TP.domainModel.Duracion;
 import com.EyVdeSW.TP.domainModel.Usuario;
 
 import properties.Parametros;
@@ -58,6 +59,30 @@ public class TestCampañaDAONeodatis {
 		Usuario userInvalido = new Usuario("pepe", "unUsuario", "usuario@asd.com", "1234",
 				Usuario.TipoUsuario.ANALISTATECNICO);
 		new Campania(userInvalido, "unNombre", "unaDescripcion");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)	
+	public void crearCampañaUserException3() {
+		Usuario userInvalido = new Usuario("pepe", "unUsuario", "usuario@asd.com", "1234",
+				Usuario.TipoUsuario.CLIENTE);
+		Campania c = new Campania(userInvalido, "unNombre", "unaDescripcion");
+		c.setDuracion(new Duracion("Semana", 0)); //la duración no puede ser <=0
+	}
+	
+	@Test(expected = IllegalArgumentException.class)	
+	public void crearCampañaUserException4() {
+		Usuario userInvalido = new Usuario("pepe", "unUsuario", "usuario@asd.com", "1234",
+				Usuario.TipoUsuario.CLIENTE);
+		Campania c = new Campania(userInvalido, "unNombre", "unaDescripcion");
+		c.setDuracion(new Duracion("", 1)); //la desc no puede estar vacia
+	}
+	
+	@Test(expected = NullPointerException.class)	
+	public void crearCampañaUserException5() {
+		Usuario userInvalido = new Usuario("pepe", "unUsuario", "usuario@asd.com", "1234",
+				Usuario.TipoUsuario.CLIENTE);
+		Campania c = new Campania(userInvalido, "unNombre", "unaDescripcion");
+		c.setDuracion(new Duracion(null, 1)); //la desc no puede ser nula
 	}
 
 	@Test
