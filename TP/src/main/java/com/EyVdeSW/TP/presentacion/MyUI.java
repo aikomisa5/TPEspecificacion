@@ -34,7 +34,7 @@ public class MyUI extends UI
 		final VerticalLayout rootLayout = new VerticalLayout();		
 		setContent(rootLayout);
 		menu = new HorizontalLayout();
-		menu.addComponent(new DefaultMenu());
+		//menu.addComponent(new DefaultMenuAnalistaTecnico());
 		
 		VerticalLayout content = new VerticalLayout();
 		rootLayout.addComponent(menu);
@@ -52,6 +52,7 @@ public class MyUI extends UI
 		navigator.addView(PantallaCampañasAnalistaTecnico.NAME, new PantallaCampañasAnalistaTecnico());	
 		navigator.addView(PantallaTagsAnalistaTecnico.NAME, new PantallaTagsAnalistaTecnico());	
 		navigator.addView(PantallaRegistro.NAME, new PantallaRegistro());
+		navigator.addView(PantallaCampañaCliente.NAME, new PantallaCampañaCliente());
 		
 		//navigator.addView("", new PantallaMain());	
 		
@@ -118,6 +119,16 @@ public class MyUI extends UI
 		menu.setVisible(false);
 	}
 
+	public void setMenuAnalistaTecnico(){
+		menu.removeAllComponents();
+		menu.addComponent(new DefaultMenuAnalistaTecnico());
+	}
+	
+	public void setMenuCliente(){
+		menu.removeAllComponents();
+		menu.addComponent(new DefaultMenuCliente());
+	}
+	
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
 	@VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
 	public static class MyUIServlet extends VaadinServlet

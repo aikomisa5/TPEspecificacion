@@ -7,14 +7,15 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 
 @SuppressWarnings("serial")
-public class DefaultMenu extends HorizontalLayout implements View {
+public class DefaultMenuAnalistaTecnico extends HorizontalLayout implements View {
 	private Label text = new Label();
 	private Button logout = new Button("Logout");
 	private Button tags = new Button("Tags");
 	private Button campañas = new Button("Campañas");
 
-	public DefaultMenu() {
+	public DefaultMenuAnalistaTecnico() {
 		setSpacing(true);
+		
 		addComponents(text, logout, tags, campañas);
 
 		tags.addClickListener(click -> getUI().getNavigator().navigateTo(PantallaTagsAnalistaTecnico.NAME));
