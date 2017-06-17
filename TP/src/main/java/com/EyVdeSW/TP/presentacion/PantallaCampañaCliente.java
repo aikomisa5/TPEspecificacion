@@ -98,8 +98,7 @@ import com.vaadin.event.ShortcutAction;
 		        // Put some components in it
 		        subContent.addComponent(comboBoxTag);
 		        subContent.addComponent(cerrar);
-		  
-			    sub.setHeight("400px");
+		  			    sub.setHeight("400px");
 			    sub.setWidth("500px");
 			   
 		        cerrar.addClickListener(event -> sub.close());
