@@ -36,13 +36,29 @@ public class PantallaMainView extends CustomComponent implements View {
 		Usuario usuario = usuarioService.getUsuarioPorMail(username);
 		
 		if (usuario.getTipoUsuario().toString().equals("CLIENTE")){
-		System.out.println("matchea!!!!!!!!!!!!!!!");
 		// And show the username
 		text.setValue("Hello " + username);
 		((MyUI) getUI()).setMenuCliente();
 		((MyUI) getUI()).showMenu();
 		
 		}
+		
+		else if (usuario.getTipoUsuario().toString().equals("ANALISTATECNICO")){
+			// And show the username
+			text.setValue("Hello " + username);
+			((MyUI) getUI()).setMenuAnalistaTecnico();
+			((MyUI) getUI()).showMenu();
+			
+			}
+		
+		else if (usuario.getTipoUsuario().toString().equals("ANALISTACOMERCIAL")){
+			// And show the username
+			text.setValue("Hello " + username);
+			((MyUI) getUI()).setMenuAnalistaComercial();
+			((MyUI) getUI()).showMenu();
+			
+			}
+		
 	}
 
 }

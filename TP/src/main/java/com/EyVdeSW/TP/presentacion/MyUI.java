@@ -54,6 +54,14 @@ public class MyUI extends UI
 		navigator.addView(PantallaRegistro.NAME, new PantallaRegistro());
 		navigator.addView(PantallaCampañaCliente.NAME, new PantallaCampañaCliente());
 		
+		navigator.addView(PantallaAccionesPublicitariasAnalistaTecnico.NAME, new PantallaAccionesPublicitariasAnalistaTecnico());
+		navigator.addView(PantallaAsignadorDeRolesAnalistaTecnico.NAME, new PantallaAsignadorDeRolesAnalistaTecnico());
+		navigator.addView(PantallaEstadisticasAnalistaComercial.NAME, new PantallaEstadisticasAnalistaComercial());
+		navigator.addView(PantallaReporteAccionesPersonalizadasAnalistaComercial.NAME, new PantallaReporteAccionesPersonalizadasAnalistaComercial());
+		navigator.addView(PantallaReporteDeVentasAnalistaComercial.NAME, new PantallaReporteDeVentasAnalistaComercial());
+		navigator.addView(PantallaTarifariosAnalistaComercial.NAME, new PantallaTarifariosAnalistaComercial());
+
+		
 		//navigator.addView("", new PantallaMain());	
 		
 		 // The initial log view where the user can login to the application
@@ -128,6 +136,12 @@ public class MyUI extends UI
 		menu.removeAllComponents();
 		menu.addComponent(new DefaultMenuCliente());
 	}
+	
+	public void setMenuAnalistaComercial(){
+		menu.removeAllComponents();
+		menu.addComponent(new DefaultMenuAnalistaComercial());
+	}
+	
 	
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
 	@VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
