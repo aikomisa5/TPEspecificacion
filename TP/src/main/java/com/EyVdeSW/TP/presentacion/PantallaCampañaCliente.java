@@ -5,6 +5,8 @@ package com.EyVdeSW.TP.presentacion;
 import com.EyVdeSW.TP.domainModel.Campania;
 import com.EyVdeSW.TP.domainModel.Tag;
 import com.EyVdeSW.TP.services.CampañaService;
+import com.EyVdeSW.TP.services.TagService;
+import com.EyVdeSW.TP.services.UsuarioService;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.ShortcutAction;
 	import com.vaadin.navigator.View;
@@ -29,7 +31,7 @@ import com.vaadin.event.ShortcutAction;
 		protected static final String NAME = "pantallaCampañasCliente";
 
 		private CampañaService campañaService = CampañaService.getCampañaService();		
-		
+		private TagService tagService = TagService.getTagService();
 		
 		Date fechaInicio = new Date();
 		
@@ -73,10 +75,41 @@ import com.vaadin.event.ShortcutAction;
 			System.out.print(fechaInicio.toString());
 			
 			
-			/*
-			BeanItemContainer<Campaña> tags = new BeanItemContainer<Campaña>(Campaña.class);
+			//Para el comboBox, al seleccionar tags para asociar a la campaña
+			BeanItemContainer<Tag> tags = new BeanItemContainer<Tag>(Tag.class);
 			tagService.traerTodos().forEach(tag -> tags.addBean(tag));
-			*/
+			
+			ComboBox comboBoxTag = new ComboBox("Tags", tags);
+			
+			Button btnAsociarTags = new Button("Asociar Tags a la Campaña");
+			//TODO sub-menu
+			
+			btnAsociarTags.addClickListener(e -> {
+				SubMenuTagsAsociadosCampaña sub = new SubMenuTagsAsociadosCampaña();
+
+			    // Add it to the root component
+			    MyUI.getCurrent().addWindow(sub);
+			    
+			    Button cerrar = new Button("Cerrar");
+			
+			    VerticalLayout subContent = new VerticalLayout();
+		        sub.setContent(subContent);
+
+		        // Put some components in it
+		        subContent.addComponent(comboBoxTag);
+		        subContent.addComponent(cerrar);
+		  
+			    sub.setHeight("400px");
+			    sub.setWidth("500px");
+			   
+		        cerrar.addClickListener(event -> sub.close());
+		        
+		        
+
+			});
+			
+			
+			
 			
 			
 			Button btnCrear = new Button("Crear Campaña");
@@ -110,7 +143,7 @@ import com.vaadin.event.ShortcutAction;
 
 		
 		
-			HorizontalLayout hlBotones = new HorizontalLayout(btnCrear);
+			HorizontalLayout hlBotones = new HorizontalLayout(btnCrear, btnAsociarTags);
 			hlBotones.setSpacing(true);
 
 			FormLayout flFormCampos = new FormLayout(tfNombre,taDescripcion,tfNombreMensaje,taTextoMensaje,DuracionCampaña,date);
