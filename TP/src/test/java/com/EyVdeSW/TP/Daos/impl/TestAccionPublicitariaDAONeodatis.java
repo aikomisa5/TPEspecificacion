@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -85,6 +86,18 @@ public class TestAccionPublicitariaDAONeodatis {
 		
 		assertEquals(original, modificacion);
 		assertEquals(accionDAO.traerTodos().size(), 3);
+	}
+	
+	@Test
+	public void modificarMasivo(){
+		agregarDatosDePrueba(instanciaCompleja());
+		List<AccionPublicitaria>acciones = (List<AccionPublicitaria>) accionDAO.traerTodos();
+		accionDAO.modificarMasivo(acciones, "tituloNuevo", "msgNuevo");
+		acciones = (List<AccionPublicitaria>) accionDAO.traerTodos();
+		for(AccionPublicitaria a : acciones){
+			assertEquals(a.getTitulo(), "tituloNuevo");
+			assertEquals(a.getTexto(), "msgNuevo");
+		}
 	}
 	
 	public void agregarDatosDePrueba(ArrayList<AccionPublicitaria>lista){

@@ -1,6 +1,7 @@
 package com.EyVdeSW.TP.Daos.impl;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.neodatis.odb.Objects;
 import org.neodatis.odb.core.query.IQuery;
@@ -108,6 +109,35 @@ public class AccionPublicitariaDAONeodatis extends DAONeodatis<AccionPublicitari
 				odb.close();
 		}
 		return ret;
+	}
+
+	@Override
+	public void modificarMasivo(List<AccionPublicitaria> acciones, String tituloNuevo, String msgNuevo) {
+		odb = null;
+		try
+		{
+			odb = bdConnector.getBDConnection();
+			for(AccionPublicitaria accion : acciones){
+				AccionPublicitaria modificacion = (AccionPublicitaria) odb.getObjects(new CriteriaQuery(AccionPublicitaria.class, 
+						Where.and().add(Where.equal("destinatario", accion.getDestinatario()))
+						.add(Where.equal("titulo", accion.getTitulo()))
+						.add(Where.equal("texto", accion.getTexto()))
+						)).getFirst();
+				modificacion.setTexto(msgNuevo);
+				modificacion.setTitulo(tituloNuevo);
+				odb.store(modificacion);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (odb != null)
+				odb.close();
+		}
+		
 	}
 
 }

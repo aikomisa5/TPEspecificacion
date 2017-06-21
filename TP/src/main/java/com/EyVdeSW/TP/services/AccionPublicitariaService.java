@@ -1,6 +1,7 @@
 package com.EyVdeSW.TP.services;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.EyVdeSW.TP.Daos.AccionPublicitariaDAO;
 import com.EyVdeSW.TP.Daos.impl.AccionPublicitariaDAONeodatis;
@@ -74,6 +75,10 @@ public class AccionPublicitariaService {
 	
 	public Collection<AccionPublicitaria>traerTodos(){
 		return accionDAO.traerTodos();
+	}
+	
+	public void modificarMasivo(List<AccionPublicitaria>acciones, String tituloNuevo, String msgNuevo){
+		accionDAO.modificarMasivo(acciones, tituloNuevo, msgNuevo);
 	}
 
 	//XXX ver si es necesario! (Depende de si usamos combo)
