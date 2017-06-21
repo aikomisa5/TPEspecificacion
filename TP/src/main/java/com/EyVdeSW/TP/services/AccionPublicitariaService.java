@@ -66,7 +66,6 @@ public class AccionPublicitariaService {
 		return accionDAO.traerTodos();
 	}
 
-	
 	//XXX ver si es necesario! (Depende de si usamos combo)
 	private boolean valorValido(String valor){
 		boolean ret=false;
