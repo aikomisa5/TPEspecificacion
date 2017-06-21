@@ -3,6 +3,8 @@ package com.EyVdeSW.TP.services;
 import java.util.Date;
 import java.util.List;
 
+import org.w3c.dom.ls.LSException;
+
 import com.EyVdeSW.TP.Daos.CampañaDAO;
 import com.EyVdeSW.TP.Daos.impl.CampañaDAONeodatis;
 import com.EyVdeSW.TP.domainModel.AccionPublicitaria;
@@ -30,8 +32,10 @@ public class CampañaService {
 		
 	}
 	
+	
+	//Todo pasamos la lista directamente, otra cosa seria fea, que el cliente haga push a la lista de acciones
 	public void guardar (String nombreCampaña, String descripcionCampaña, 
-			String nombreMensaje, String textoMensaje, Date fechaDeInicio){
+			String nombreMensaje, String textoMensaje, Date fechaDeInicio, List<AccionPublicitaria>acciones){
 		
 		String nombreMinuscula = nombreCampaña.toLowerCase();
 		String descripcionMinuscula = descripcionCampaña.toLowerCase();
@@ -73,7 +77,8 @@ public class CampañaService {
 			campañaDAO.modificar(orig, modi);
 		}
 		return ret;
-		
 	}
+	
+	
 		
 }

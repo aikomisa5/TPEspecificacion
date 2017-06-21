@@ -132,8 +132,9 @@ import com.vaadin.event.ShortcutAction;
 					Notification.show("El texto del mensaje está vacío!", Type.WARNING_MESSAGE);
 				}
 				else {
+					//XXX fix me please
 					campañaService.guardar(tfNombre.getValue(),taDescripcion.getData().toString(),
-							tfNombreMensaje.getValue(),taTextoMensaje.getData().toString(),fechaInicio);
+							tfNombreMensaje.getValue(),taTextoMensaje.getData().toString(),fechaInicio, null);
 					Notification.show("Campaña Guardado", Type.TRAY_NOTIFICATION);
 					limpiarCampos(tfNombre, taDescripcion, tfNombreMensaje, taTextoMensaje);
 				}
