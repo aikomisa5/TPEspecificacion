@@ -25,6 +25,8 @@ public class AccionPublicitariaDAONeodatis extends DAONeodatis<AccionPublicitari
 			AccionPublicitaria ap = resultadoQuery.getFirst();
 			ap.setDestinatario(modificacion.getDestinatario());
 			ap.setTipo(modificacion.getTipo());
+			ap.setTexto(modificacion.getTexto());
+			ap.setTitulo(modificacion.getTitulo());
 
 			odb.store(ap);
 		}
@@ -53,14 +55,18 @@ public class AccionPublicitariaDAONeodatis extends DAONeodatis<AccionPublicitari
 	}
 
 	@Override
-	public AccionPublicitaria getAccionPorDestinatario(String destinatario) {
+	public AccionPublicitaria getAccion(String destinatario, String titulo, String texto) {
 		AccionPublicitaria accion = null;
 		Objects<AccionPublicitaria> resultadoQuery = null;
 		odb = null;
 		try
 		{
 			odb = bdConnector.getBDConnection();
-			resultadoQuery = odb.getObjects(new CriteriaQuery(AccionPublicitaria.class, Where.equal("destinatario", destinatario)));
+			resultadoQuery = odb.getObjects(new CriteriaQuery(AccionPublicitaria.class, 
+					Where.and().add(Where.equal("destinatario", destinatario))
+					.add(Where.equal("titulo", titulo))
+					.add(Where.equal("texto", texto))
+					));
 			if (resultadoQuery.size() != 0)
 				accion = resultadoQuery.getFirst();
 		}
@@ -77,7 +83,7 @@ public class AccionPublicitariaDAONeodatis extends DAONeodatis<AccionPublicitari
 	}
 
 	@Override
-	public boolean existe(String destinatario) {
+	public boolean existe(String destinatario, String titulo, String texto) {
 
 		boolean ret = false;
 		Objects<AccionPublicitaria> resultadoQuery = null;
@@ -85,7 +91,11 @@ public class AccionPublicitariaDAONeodatis extends DAONeodatis<AccionPublicitari
 		try
 		{
 			odb = bdConnector.getBDConnection();
-			resultadoQuery = odb.getObjects(new CriteriaQuery(AccionPublicitaria.class, Where.equal("destinatario", destinatario)));
+			resultadoQuery = odb.getObjects(new CriteriaQuery(AccionPublicitaria.class, 
+					Where.and().add(Where.equal("destinatario", destinatario))
+					.add(Where.equal("titulo", titulo))
+					.add(Where.equal("texto", texto))
+					));
 			ret = ret || (resultadoQuery.size() != 0);
 		}
 		catch (Exception e)

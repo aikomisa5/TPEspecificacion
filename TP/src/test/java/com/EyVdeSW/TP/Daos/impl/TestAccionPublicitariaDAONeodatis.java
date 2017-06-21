@@ -45,40 +45,43 @@ public class TestAccionPublicitariaDAONeodatis {
 	}
 	
 	@Test
-	public void getAccionPorDestinatarios(){
-		agregarDatosDePrueba(instancia());
+	public void getAccion(){
+		agregarDatosDePrueba(instanciaCompleja());
 		
-		assertEquals(accionDAO.getAccionPorDestinatario("ap3"), new AccionPublicitaria("ap3", TipoAccion.particular));
-		assertEquals(accionDAO.getAccionPorDestinatario("ap1"), new AccionPublicitaria("ap1", TipoAccion.general));
-		assertEquals(accionDAO.getAccionPorDestinatario("a"), null);
-		assertEquals(accionDAO.getAccionPorDestinatario("1"), null);
+		assertEquals(accionDAO.getAccion("ap3","t3","d3"), new AccionPublicitaria("ap3","t3","d3", TipoAccion.particular));
+		assertEquals(accionDAO.getAccion("ap1", "t1", "d1"), new AccionPublicitaria("ap1","t1","d1",  TipoAccion.general));
+		assertEquals(accionDAO.getAccion("a","dsad","dsad"), null);
+		assertEquals(accionDAO.getAccion("ap1", "t2", "d1"), null);
+		assertEquals(accionDAO.getAccion("ap1", "t1", "d2"), null);
 	}
 	
 	@Test
 	public void consultarAccionesPorDestinatario(){
-		agregarDatosDePrueba(instancia());
+		agregarDatosDePrueba(instanciaSimple());
 		assertEquals(accionDAO.consultarPorDestinatario("ap").size(), 3);
 		assertEquals(accionDAO.consultarPorDestinatario("ap2").size(), 1);
 	}
 	
 	@Test
 	public void existe(){
-		agregarDatosDePrueba(instancia());
-		assertTrue(accionDAO.existe("ap1"));
-		assertTrue(accionDAO.existe("ap3"));
-		assertFalse(accionDAO.existe("ap4"));
-		assertFalse(accionDAO.existe("ap0"));
-		assertFalse(accionDAO.existe("ap"));
+		agregarDatosDePrueba(instanciaCompleja());
+		assertTrue(accionDAO.existe("ap3","t3","d3"));
+		assertTrue(accionDAO.existe("ap2","t2","d2"));
+		assertFalse(accionDAO.existe("ap1", "t2", "d1"));
+		assertFalse(accionDAO.existe("ap1", "t1", "d2"));
+		assertFalse(accionDAO.existe("ap1", "t3", "d2"));
 	}
 	
 	@Test
 	public void modificar(){
-		AccionPublicitaria modificacion = new AccionPublicitaria("modificacion",TipoAccion.particular);
+		AccionPublicitaria modificacion = new AccionPublicitaria("modificacion","Titulo","mensaje",TipoAccion.particular);
 		
-		agregarDatosDePrueba(instancia());
-		AccionPublicitaria original= accionDAO.getAccionPorDestinatario("ap2");
+		agregarDatosDePrueba(instanciaCompleja());
+		AccionPublicitaria original= accionDAO.getAccion("ap2","t2","d2");
 		accionDAO.modificar(original, modificacion);
-		original=accionDAO.getAccionPorDestinatario(modificacion.getDestinatario());
+		//Traigo de la bd esperando que este modificada
+		
+		original=accionDAO.getAccion("modificacion","Titulo","mensaje");
 		
 		assertEquals(original, modificacion);
 		assertEquals(accionDAO.traerTodos().size(), 3);
@@ -88,11 +91,19 @@ public class TestAccionPublicitariaDAONeodatis {
 		lista.forEach(ap -> accionDAO.guardar(ap));
 	}
 	
-	public ArrayList<AccionPublicitaria>instancia(){
+	public ArrayList<AccionPublicitaria>instanciaSimple(){
 		ArrayList<AccionPublicitaria>ret= new ArrayList<>();
 		ret.add(new AccionPublicitaria("ap1", TipoAccion.general));
 		ret.add(new AccionPublicitaria("ap2", TipoAccion.general));
 		ret.add(new AccionPublicitaria("ap3", TipoAccion.particular));
+		return ret;
+	}
+	
+	public ArrayList<AccionPublicitaria>instanciaCompleja(){
+		ArrayList<AccionPublicitaria>ret= new ArrayList<>();
+		ret.add(new AccionPublicitaria("ap1","t1","d1", TipoAccion.general));
+		ret.add(new AccionPublicitaria("ap2","t2","d2",  TipoAccion.general));
+		ret.add(new AccionPublicitaria("ap3","t3","d3", TipoAccion.particular));
 		return ret;
 	}
 

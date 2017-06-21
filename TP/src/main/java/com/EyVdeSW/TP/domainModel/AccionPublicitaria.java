@@ -8,7 +8,20 @@ public class AccionPublicitaria
 
 	private String destinatario;
 	private TipoAccion tipo;
+	private String titulo;
+	private String texto;
 	private UUID idAccion;	
+	
+	
+
+	public AccionPublicitaria(String destinatario, String titulo, String texto, TipoAccion tipo) {
+		this.destinatario = destinatario;
+		this.tipo = tipo;
+		this.titulo = titulo;
+		this.texto = texto;
+		this.idAccion=UUID.randomUUID();
+	}
+
 
 	public AccionPublicitaria(String destinatario, TipoAccion tipo) {
 		this.destinatario = destinatario;
@@ -38,15 +51,30 @@ public class AccionPublicitaria
 	public void setTipo(TipoAccion tipo) {
 		this.tipo = tipo;
 	}
-
 	
+	public String getTitulo() {
+		return titulo;
+	}
+
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+
+	public String getTexto() {
+		return texto;
+	}
+
+
+	public void setTexto(String texto) {
+		this.texto = texto;
+	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(idAccion);
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -62,13 +90,21 @@ public class AccionPublicitaria
 				return false;
 		} else if (!destinatario.equals(other.destinatario))
 			return false;
+		if (texto == null) {
+			if (other.texto != null)
+				return false;
+		} else if (!texto.equals(other.texto))
+			return false;
 		if (tipo != other.tipo)
+			return false;
+		if (titulo == null) {
+			if (other.titulo != null)
+				return false;
+		} else if (!titulo.equals(other.titulo))
 			return false;
 		return true;
 	}
-
-
-
+	
 	public enum TipoAccion{
 		general,
 		particular

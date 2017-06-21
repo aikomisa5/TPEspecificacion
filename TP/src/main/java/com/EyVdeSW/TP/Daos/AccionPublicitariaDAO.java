@@ -10,6 +10,6 @@ public interface AccionPublicitariaDAO extends DAO<AccionPublicitaria>{
 	public void modificar(AccionPublicitaria original, AccionPublicitaria modificacion);
 	public Collection<AccionPublicitaria>traerTodos();
 	public Collection<AccionPublicitaria>consultarPorDestinatario(String destinatario);
-	public AccionPublicitaria getAccionPorDestinatario(String destinatario);
-	public boolean existe(String destinatario);
+	public AccionPublicitaria getAccion(String destinatario, String titulo, String descripcion);
+	public boolean existe(String destinatario, String titulo, String descripcion);
 }

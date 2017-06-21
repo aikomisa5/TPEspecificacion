@@ -30,33 +30,43 @@ public class AccionPublicitariaService {
 		sender.enviarMensaje(mensaje, encabezado,destinatario);
 	}
 	
-	public void guardar(String destinatario, String tipo){
+	public void guardar(String destinatario,String titulo,String msg, String tipo){
 		String destMinuscula = destinatario.toLowerCase();
-		if(!accionDAO.existe(destMinuscula)){
-			AccionPublicitaria ap = new AccionPublicitaria(destMinuscula, TipoAccion.valueOf(tipo));
+		String tituloMinuscula=titulo.toLowerCase();
+		String msgMinuscula=msg.toLowerCase();
+		if(!accionDAO.existe(destMinuscula, tituloMinuscula, msgMinuscula)){
+			AccionPublicitaria ap = new AccionPublicitaria(destMinuscula,tituloMinuscula,msgMinuscula, TipoAccion.valueOf(tipo));
 			accionDAO.guardar(ap);
 		}
 	}
 	
-	public void borrar(String destinatario){
+	public void borrar(String destinatario, String titulo,String msg, String tipo){
 		String destMinuscula = destinatario.toLowerCase();
-		if(accionDAO.existe(destMinuscula)){
-			AccionPublicitaria ap = accionDAO.getAccionPorDestinatario(destMinuscula);
+		String tituloMinuscula=titulo.toLowerCase();
+		String msgMinuscula=msg.toLowerCase();
+		if(accionDAO.existe(destMinuscula, tituloMinuscula, msgMinuscula)){
+			AccionPublicitaria ap = accionDAO.getAccion(destMinuscula, tituloMinuscula, msgMinuscula);
 			accionDAO.borrar(ap);
 		}
 	}
 	
-	public boolean modificar(String orig, String modi, String tipo){
+	public boolean modificar(String oDest,String oTitulo,String oMsg, String mDest,String mTitulo,String mMsg, String mTipo){
 		boolean ret=true;
-		orig=orig.toLowerCase();
-		modi=modi.toLowerCase();
-		if(!accionDAO.existe(orig) || accionDAO.existe(modi)){
+		oDest=oDest.toLowerCase();
+		oTitulo=oTitulo.toLowerCase();
+		oMsg=oMsg.toLowerCase();
+		mDest=mDest.toLowerCase();
+		mTitulo=mTitulo.toLowerCase();
+		mMsg=mMsg.toLowerCase();
+		if(!accionDAO.existe(oDest, oTitulo, oMsg) || accionDAO.existe(mDest, mTitulo, mMsg)){
 			ret=false; 
 		}else{
-			AccionPublicitaria original = accionDAO.getAccionPorDestinatario(orig);
-			AccionPublicitaria modificacion = accionDAO.getAccionPorDestinatario(orig);
-			modificacion.setDestinatario(modi);
-			modificacion.setTipo(TipoAccion.valueOf(tipo));
+			AccionPublicitaria original = accionDAO.getAccion(oDest, oTitulo, oMsg);
+			AccionPublicitaria modificacion = accionDAO.getAccion(oDest, oTitulo, oMsg);
+			modificacion.setDestinatario(mDest);
+			modificacion.setTipo(TipoAccion.valueOf(mTipo));
+			modificacion.setTitulo(mTitulo);
+			modificacion.setTexto(mMsg);
 			accionDAO.modificar(original, modificacion);
 		}
 		return ret;
