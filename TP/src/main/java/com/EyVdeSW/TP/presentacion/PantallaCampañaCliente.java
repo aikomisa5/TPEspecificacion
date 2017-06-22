@@ -20,7 +20,8 @@ import com.vaadin.event.ShortcutAction;
 	import com.vaadin.ui.Label;
 	import com.vaadin.ui.Notification;
 	import com.vaadin.ui.TextField;
-	import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Tree;
+import com.vaadin.ui.VerticalLayout;
 	import com.vaadin.ui.Notification.Type;
 	import com.vaadin.ui.TextArea;
 	import com.vaadin.ui.themes.ValoTheme;
@@ -33,9 +34,14 @@ import com.vaadin.event.ShortcutAction;
 		private CampañaService campañaService = CampañaService.getCampañaService();		
 		private TagService tagService = TagService.getTagService();
 		
+		private TagTree tagTree = new TagTree();
+		
+		
 		Date fechaInicio = new Date();
 		
 		public PantallaCampañaCliente() {
+			
+						
 			Label titulo = new Label("Gestión de Campañas");
 			titulo.setStyleName(ValoTheme.LABEL_H1);
 			HorizontalLayout hlTitulo = new HorizontalLayout(titulo);
@@ -91,17 +97,26 @@ import com.vaadin.event.ShortcutAction;
 			    MyUI.getCurrent().addWindow(sub);
 			    
 			    Button cerrar = new Button("Cerrar");
+			    Button agregar = new Button("Agregar");
+			    
+			    
 			
 			    VerticalLayout subContent = new VerticalLayout();
 		        sub.setContent(subContent);
-
+		        
+		        tagTree.updateTree();
 		        // Put some components in it
-		        subContent.addComponent(comboBoxTag);
+		        subContent.addComponent(tagTree);
+		        
+		      //  subContent.addComponent(comboBoxTag);
 		        subContent.addComponent(cerrar);
+		        subContent.addComponent(agregar);
 		  			    sub.setHeight("400px");
 			    sub.setWidth("500px");
 			   
 		        cerrar.addClickListener(event -> sub.close());
+		        
+		        agregar.addClickListener(event -> {});
 		        
 		        
 
