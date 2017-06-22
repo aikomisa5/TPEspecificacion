@@ -11,6 +11,12 @@ import javax.servlet.annotation.WebListener;
 import org.neodatis.odb.ODBFactory;
 import org.neodatis.odb.ODBServer;
 
+import com.EyVdeSW.TP.Daos.DuracionDAO;
+import com.EyVdeSW.TP.Daos.UsuarioDAO;
+import com.EyVdeSW.TP.Daos.impl.UsuarioDAONeodatis;
+import com.EyVdeSW.TP.domainModel.Duracion;
+import com.EyVdeSW.TP.domainModel.Usuario;
+
 /**
  * Application Lifecycle Listener implementation class MiListener
  *
@@ -56,6 +62,15 @@ public class WebAppListener implements ServletContextListener
 	{
 		levantarServerNeodatis();
 		cargarProperties();
+		añadirAnalistas();		
+	}
+
+	
+
+	private void añadirAnalistas() {
+		UsuarioDAO usuarioDAO= new UsuarioDAONeodatis();
+		usuarioDAO.guardar(new Usuario("analista técnico", "Pepe", "analista.tecnico@analistas.com", "qwerty123", Usuario.TipoUsuario.ANALISTATECNICO));
+		usuarioDAO.guardar(new Usuario("analista comercial", "Pepe", "analista.comercial@analistas.com", "qwerty123", Usuario.TipoUsuario.ANALISTACOMERCIAL));
 	}
 
 	private void cargarProperties()

@@ -88,18 +88,18 @@ public class PantallaRegistro extends VerticalLayout implements View {
 			
 		 
 		 
-		 FormLayout fields = new FormLayout(tfNombreUsuario, tfNombreReal, tfMail, password, verificacionPassword, registroButton);
+		FormLayout fields = new FormLayout(tfNombreUsuario, tfNombreReal, tfMail, password, verificacionPassword, registroButton);
 		    fields.setCaption("Por favor registrese para acceder a la aplicación");
 		    fields.setSpacing(true);
 		    
-		 HorizontalLayout botones = new HorizontalLayout(registroButton, logout);
+		HorizontalLayout botones = new HorizontalLayout(registroButton, logout);
 		 	botones.setSpacing(true);
 		    
-		 VerticalLayout viewLayout = new VerticalLayout(fields,botones);
+		VerticalLayout viewLayout = new VerticalLayout(fields,botones);
 		 	viewLayout.setSpacing(true);
 		    viewLayout.setStyleName(Reindeer.LAYOUT_BLUE);
 			
-		 HorizontalLayout hlPrincipal = new HorizontalLayout(viewLayout);
+		HorizontalLayout hlPrincipal = new HorizontalLayout(viewLayout);
 			hlPrincipal.setSpacing(true);
 			hlPrincipal.setWidth("80%");
 			addComponent(hlPrincipal);
@@ -165,8 +165,7 @@ public class PantallaRegistro extends VerticalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		tfNombreUsuario.focus();
-		
-		
+				
 	}
 	
 	private static final class PasswordValidator extends
@@ -179,8 +178,7 @@ public class PantallaRegistro extends VerticalLayout implements View {
 	@Override
 	protected boolean isValidValue(String value) {
     //
-    // Password must be at least 8 characters long and contain at least
-    // one number
+    // La contraseña debe tener 8 digitos como minimo y al menos un numero
     //
     if (value != null
             && (value.length() < 8 || !value.matches(".*\\d.*"))) {
@@ -195,48 +193,5 @@ public class PantallaRegistro extends VerticalLayout implements View {
 		return String.class;
 		}
 	}
-	
-	/*
-	//A PARTIR DE ACA ME PARECE QUE NO SIRVE
-		//@Override
-	public void buttonClick(ClickEvent event) {
-	
-	//
-	// Validate the fields using the navigator. By using validors for the
-	// fields we reduce the amount of queries we have to use to the database
-	// for wrongly entered passwords
-	//
-	if (!tfMail.isValid() || !password.isValid()) {
-	    return;
-	}
-	
-	String username = tfMail.getValue();
-	String password = this.password.getValue();
-	
-	//
-	// Validate username and password with database here. For examples sake
-	// I use a dummy username and password.
-	//
-	boolean isValid = username.equals("test@test.com")
-	        && password.equals("passw0rd");
-	
-	if (isValid) {
-	
-	    // Store the current user in the service session
-	    getSession().setAttribute("user", username);
-	
-	    // Navigate to main view
-	    getUI().getNavigator().navigateTo(SimpleLoginMainView.NAME);//
-	
-	} else {
-	
-	    // Wrong password clear the password field and refocuses it
-	    this.password.setValue(null);
-	    this.password.focus();
-	
-	}
-	
-	}
-	*/
 
 }

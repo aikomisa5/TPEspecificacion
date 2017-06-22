@@ -3,11 +3,16 @@ package com.EyVdeSW.TP.services;
 import java.util.Date;
 import java.util.List;
 
+import org.w3c.dom.ls.LSException;
+
 import com.EyVdeSW.TP.Daos.CampañaDAO;
 import com.EyVdeSW.TP.Daos.impl.CampañaDAONeodatis;
 import com.EyVdeSW.TP.domainModel.AccionPublicitaria;
 import com.EyVdeSW.TP.domainModel.Campania;
+import com.EyVdeSW.TP.domainModel.Duracion;
 import com.EyVdeSW.TP.domainModel.Mensaje;
+import com.EyVdeSW.TP.domainModel.Tag;
+import com.EyVdeSW.TP.domainModel.Usuario;
 
 public class CampañaService {
 
@@ -30,17 +35,15 @@ public class CampañaService {
 		
 	}
 	
-	public void guardar (String nombreCampaña, String descripcionCampaña, 
-			String nombreMensaje, String textoMensaje, Date fechaDeInicio){
+	public void guardar (Usuario usuario, String nombre, String descripcion, List<AccionPublicitaria> accionesPublicitarias, List<Tag> tagsAsociados, String tituloMensaje,
+			String cuerpoMensaje ,Date fechaDeInicio, Duracion duracion){
 		
-		String nombreMinuscula = nombreCampaña.toLowerCase();
-		String descripcionMinuscula = descripcionCampaña.toLowerCase();
+		nombre=nombre.toLowerCase();
 		
-		if (!campañaDAO.existe(nombreMinuscula)){
-			List<AccionPublicitaria> accionesPublicitarias = null;
-			//TODO
-			//campañaDAO.guardar(new Campania(accionesPublicitarias, nombreMinuscula, descripcionMinuscula, new Mensaje(nombreMensaje, textoMensaje), fechaDeInicio));
-			
+		if (!campañaDAO.existe(nombre)){
+			Mensaje mensaje=new Mensaje(tituloMensaje, cuerpoMensaje);
+			campañaDAO.guardar(new Campania(usuario, nombre,descripcion, accionesPublicitarias, tagsAsociados, mensaje,
+					fechaDeInicio, duracion));
 		}
 	}
 	
@@ -55,7 +58,7 @@ public class CampañaService {
 	public boolean modificar (String nombreCampañaOriginal, String nombreModificacion, 
 			String descripcionCampañaMod, String nombreMensajeMod, String textoMensajeMod, Date fechaDeInicioMod){
 		boolean ret = true;
-		if (campañaDAO.existe(nombreModificacion)) {
+		if (campañaDAO.existe(nombreModificacion) || !campañaDAO.existe(nombreCampañaOriginal)) {
 			ret = false;
 		}else
 		{
@@ -73,7 +76,42 @@ public class CampañaService {
 			campañaDAO.modificar(orig, modi);
 		}
 		return ret;
-		
 	}
-		
+	
+	public boolean agregarTags(String nombreCampaña, List<Tag>tags){
+		boolean ret=true;
+		nombreCampaña=nombreCampaña.toLowerCase();
+		if (!campañaDAO.existe(nombreCampaña)) {
+			ret = false;
+		}else
+		{
+			
+			
+			Campania orig = campañaDAO.getCampañaPorNombre(nombreCampaña);
+			Campania modi = campañaDAO.getCampañaPorNombre(nombreCampaña);
+			
+			tags.forEach(t -> modi.addTag(t));
+			
+			campañaDAO.modificar(orig, modi);
+		}
+		return ret;
+	}
+	
+	public boolean agregarAcciones(String nombreCampaña, List<AccionPublicitaria>acciones){
+		boolean ret=true;
+		nombreCampaña=nombreCampaña.toLowerCase();
+		if (!campañaDAO.existe(nombreCampaña)) {
+			ret = false;
+		}else
+		{
+			Campania orig = campañaDAO.getCampañaPorNombre(nombreCampaña);
+			Campania modi = campañaDAO.getCampañaPorNombre(nombreCampaña);
+			
+			acciones.forEach(a -> modi.addAccionPublicitaria(a));
+			
+			campañaDAO.modificar(orig, modi);
+		}
+		return ret;
+	}
+	
 }

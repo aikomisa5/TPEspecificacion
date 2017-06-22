@@ -1,6 +1,7 @@
 package com.EyVdeSW.TP.Daos.impl;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.neodatis.odb.Objects;
 import org.neodatis.odb.core.query.IQuery;
@@ -25,6 +26,8 @@ public class AccionPublicitariaDAONeodatis extends DAONeodatis<AccionPublicitari
 			AccionPublicitaria ap = resultadoQuery.getFirst();
 			ap.setDestinatario(modificacion.getDestinatario());
 			ap.setTipo(modificacion.getTipo());
+			ap.setTexto(modificacion.getTexto());
+			ap.setTitulo(modificacion.getTitulo());
 
 			odb.store(ap);
 		}
@@ -53,14 +56,18 @@ public class AccionPublicitariaDAONeodatis extends DAONeodatis<AccionPublicitari
 	}
 
 	@Override
-	public AccionPublicitaria getAccionPorDestinatario(String destinatario) {
+	public AccionPublicitaria getAccion(String destinatario, String titulo, String texto) {
 		AccionPublicitaria accion = null;
 		Objects<AccionPublicitaria> resultadoQuery = null;
 		odb = null;
 		try
 		{
 			odb = bdConnector.getBDConnection();
-			resultadoQuery = odb.getObjects(new CriteriaQuery(AccionPublicitaria.class, Where.equal("destinatario", destinatario)));
+			resultadoQuery = odb.getObjects(new CriteriaQuery(AccionPublicitaria.class, 
+					Where.and().add(Where.equal("destinatario", destinatario))
+					.add(Where.equal("titulo", titulo))
+					.add(Where.equal("texto", texto))
+					));
 			if (resultadoQuery.size() != 0)
 				accion = resultadoQuery.getFirst();
 		}
@@ -77,7 +84,7 @@ public class AccionPublicitariaDAONeodatis extends DAONeodatis<AccionPublicitari
 	}
 
 	@Override
-	public boolean existe(String destinatario) {
+	public boolean existe(String destinatario, String titulo, String texto) {
 
 		boolean ret = false;
 		Objects<AccionPublicitaria> resultadoQuery = null;
@@ -85,7 +92,11 @@ public class AccionPublicitariaDAONeodatis extends DAONeodatis<AccionPublicitari
 		try
 		{
 			odb = bdConnector.getBDConnection();
-			resultadoQuery = odb.getObjects(new CriteriaQuery(AccionPublicitaria.class, Where.equal("destinatario", destinatario)));
+			resultadoQuery = odb.getObjects(new CriteriaQuery(AccionPublicitaria.class, 
+					Where.and().add(Where.equal("destinatario", destinatario))
+					.add(Where.equal("titulo", titulo))
+					.add(Where.equal("texto", texto))
+					));
 			ret = ret || (resultadoQuery.size() != 0);
 		}
 		catch (Exception e)
@@ -98,6 +109,35 @@ public class AccionPublicitariaDAONeodatis extends DAONeodatis<AccionPublicitari
 				odb.close();
 		}
 		return ret;
+	}
+
+	@Override
+	public void modificarMasivo(List<AccionPublicitaria> acciones, String tituloNuevo, String msgNuevo) {
+		odb = null;
+		try
+		{
+			odb = bdConnector.getBDConnection();
+			for(AccionPublicitaria accion : acciones){
+				AccionPublicitaria modificacion = (AccionPublicitaria) odb.getObjects(new CriteriaQuery(AccionPublicitaria.class, 
+						Where.and().add(Where.equal("destinatario", accion.getDestinatario()))
+						.add(Where.equal("titulo", accion.getTitulo()))
+						.add(Where.equal("texto", accion.getTexto()))
+						)).getFirst();
+				modificacion.setTexto(msgNuevo);
+				modificacion.setTitulo(tituloNuevo);
+				odb.store(modificacion);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (odb != null)
+				odb.close();
+		}
+		
 	}
 
 }

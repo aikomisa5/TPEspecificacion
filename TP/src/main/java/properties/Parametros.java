@@ -11,9 +11,10 @@ public class Parametros {
 	public static final String PARAM_FILE = "C:\\TP\\TP.properties";
 	
 	//legacy code, ahora asigno las properties directamente
-	public static final String dbPath = "ubicacion.bd";	
+	public static final String dbTestPath = "ubicacion.bd.test";	
 	
 	public static void SetearParametros() {		
+		p.setProperty("ubicacion.bd.test", "C:\\TP\\bdTest");
 		p.setProperty("ubicacion.bd", "C:\\TP\\TPbd");		
 		p.setProperty("email.user", "tpmailsender@mail.com");
 		p.setProperty("email.pass", "especificacion");
@@ -35,6 +36,9 @@ public class Parametros {
 			System.err.println(PARAM_FILE + ":archivo no encontrado.");
 		}
 
+		if (p.getProperty(key) == null){
+			SetearParametros();
+		}
 		return p.getProperty(key);
 	}
 

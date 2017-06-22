@@ -24,20 +24,20 @@ public class TestAccionPublicitariaService {
 	
 	@Test
 	public void guardarHappyPath() {
-		AccionPublicitaria accion = new AccionPublicitaria("sarasa", TipoAccion.general);
-		EasyMock.expect(accionDAO.existe("sarasa")).andReturn(false);
+		AccionPublicitaria accion = new AccionPublicitaria("sarasa","t1","te1", TipoAccion.general);
+		EasyMock.expect(accionDAO.existe("sarasa","t1","te1")).andReturn(false);
 		accionDAO.guardar(accion);
 		EasyMock.replay(accionDAO);
-		service.guardar("sarasa", "general");
+		service.guardar("sarasa","t1","te1", "general");
 		EasyMock.verify(accionDAO);
 	}
 	
 	@Test
 	public void guardarExisteTag(){
 		EasyMock.reset(accionDAO);
-		EasyMock.expect(accionDAO.existe("sarasa")).andReturn(true);
+		EasyMock.expect(accionDAO.existe("sarasa","t1","te1")).andReturn(true);
 		EasyMock.replay(accionDAO);
-		service.guardar("sarasa", "general");
+		service.guardar("sarasa","t1","te1", "general");
 		EasyMock.verify(accionDAO);
 	}
 	
@@ -45,73 +45,70 @@ public class TestAccionPublicitariaService {
 	
 	@Test 
 	public void borrarHappyPath(){
-		AccionPublicitaria accion = new AccionPublicitaria("sarasa", TipoAccion.general);
+		AccionPublicitaria accion = new AccionPublicitaria("sarasa","t1","te1", TipoAccion.general);
 		//happy path
-		EasyMock.expect(accionDAO.existe("sarasa")).andReturn(true);
-		EasyMock.expect(accionDAO.getAccionPorDestinatario("sarasa")).andReturn(accion);
+		EasyMock.expect(accionDAO.existe("sarasa","t1","te1")).andReturn(true);
+		EasyMock.expect(accionDAO.getAccion("sarasa","t1","te1")).andReturn(accion);
 		accionDAO.borrar(accion);
 		EasyMock.replay(accionDAO);
-		service.borrar("sarasa");
+		service.borrar("sarasa","t1","te1", "general");
 		EasyMock.verify(accionDAO);
 	}
 	
 	@Test
 	public void borrarNoExiste(){
 		//veo que pasa si no existe sarasa
-		EasyMock.expect(accionDAO.existe("sarasa")).andReturn(false);
+		EasyMock.expect(accionDAO.existe("sarasa","t1","te1")).andReturn(false);
 		EasyMock.replay(accionDAO);
-		service.borrar("sarasa");
+		service.borrar("sarasa","t1","te1", "general");
 		EasyMock.verify(accionDAO);
 	}
 	
 	
 	@Test
 	public void modificarHappyPath(){
-		AccionPublicitaria original = new AccionPublicitaria("orig", TipoAccion.general);
-		AccionPublicitaria modificacion = new AccionPublicitaria("modi", TipoAccion.particular);
+		AccionPublicitaria original = new AccionPublicitaria("odest","otitulo","omsg", TipoAccion.general);
+		AccionPublicitaria modificacion = new AccionPublicitaria("mdest","mtitulo","mmsg", TipoAccion.particular);
 		
 		//happy path
-		EasyMock.expect(accionDAO.existe(original.getDestinatario())).andReturn(true);
-		EasyMock.expect(accionDAO.existe(modificacion.getDestinatario())).andReturn(false);
-		EasyMock.expect(accionDAO.getAccionPorDestinatario(original.getDestinatario())).andReturn(original);
-		EasyMock.expect(accionDAO.getAccionPorDestinatario(original.getDestinatario())).andReturn(original);
+		EasyMock.expect(accionDAO.existe("odest","otitulo","omsg")).andReturn(true);
+		EasyMock.expect(accionDAO.existe("mdest","mtitulo","mmsg")).andReturn(false);
+		EasyMock.expect(accionDAO.getAccion("odest","otitulo","omsg")).andReturn(original);
+		EasyMock.expect(accionDAO.getAccion("odest","otitulo","omsg")).andReturn(original);
 		
 		accionDAO.modificar(original, modificacion);
 		
 		EasyMock.replay(accionDAO);
-		assertTrue(service.modificar(original.getDestinatario(), modificacion.getDestinatario(), modificacion.getTipo().toString()));
+		assertTrue(service.modificar(original.getDestinatario(), original.getTitulo(), original.getTexto(),
+				modificacion.getDestinatario(),modificacion.getTitulo(), modificacion.getTexto(), modificacion.getTipo().toString()));
 		EasyMock.verify(accionDAO);
 		
 		
 		
-		//si la modificacion ya existe
-		EasyMock.reset(accionDAO);
-		EasyMock.expect(accionDAO.existe(original.getDestinatario())).andReturn(true);
-		EasyMock.expect(accionDAO.existe(modificacion.getDestinatario())).andReturn(true);
-		EasyMock.replay(accionDAO);
-		assertFalse(service.modificar(original.getDestinatario(), modificacion.getDestinatario(), modificacion.getTipo().toString()));
-		EasyMock.verify(accionDAO);
+	
 	}
 	
 	@Test
 	public void modificarOriginaNoExiste(){
-		AccionPublicitaria original = new AccionPublicitaria("orig", TipoAccion.general);
-		AccionPublicitaria modificacion = new AccionPublicitaria("modi", TipoAccion.particular);
+		AccionPublicitaria original = new AccionPublicitaria("odest","otitulo","omsg", TipoAccion.general);
+		AccionPublicitaria modificacion = new AccionPublicitaria("mdest","mtitulo","mmsg", TipoAccion.particular);
 		EasyMock.reset(accionDAO);
-		EasyMock.expect(accionDAO.existe(original.getDestinatario())).andReturn(false);
+		EasyMock.expect(accionDAO.existe("odest","otitulo","omsg")).andReturn(false);
 		EasyMock.replay(accionDAO);
-		assertFalse(service.modificar(original.getDestinatario(), modificacion.getDestinatario(), modificacion.getTipo().toString()));
+		assertFalse(service.modificar(original.getDestinatario(), original.getTitulo(), original.getTexto(),
+				modificacion.getDestinatario(),modificacion.getTitulo(), modificacion.getTexto(), modificacion.getTipo().toString()));
 		EasyMock.verify(accionDAO);
 	}
 	
 	@Test
 	public void modificarModificacionExiste(){
-		AccionPublicitaria original = new AccionPublicitaria("orig", TipoAccion.general);
-		AccionPublicitaria modificacion = new AccionPublicitaria("modi", TipoAccion.particular);
-		EasyMock.expect(accionDAO.existe(original.getDestinatario())).andReturn(true);
-		EasyMock.expect(accionDAO.existe(modificacion.getDestinatario())).andReturn(true);
+		AccionPublicitaria original = new AccionPublicitaria("odest","otitulo","omsg", TipoAccion.general);
+		AccionPublicitaria modificacion = new AccionPublicitaria("mdest","mtitulo","mmsg", TipoAccion.particular);
+		EasyMock.expect(accionDAO.existe("odest","otitulo","omsg")).andReturn(true);
+		EasyMock.expect(accionDAO.existe("mdest","mtitulo","mmsg")).andReturn(true);
 		EasyMock.replay(accionDAO);
-		assertFalse(service.modificar(original.getDestinatario(), modificacion.getDestinatario(), modificacion.getTipo().toString()));
+		assertFalse(service.modificar(original.getDestinatario(), original.getTitulo(), original.getTexto(),
+				modificacion.getDestinatario(),modificacion.getTitulo(), modificacion.getTexto(), modificacion.getTipo().toString()));
 		EasyMock.verify(accionDAO);
 	}
 	

@@ -97,8 +97,9 @@ public class PantallaCampañasAnalistaTecnico extends VerticalLayout implements 
 				Notification.show("El texto del mensaje está vacío!", Type.WARNING_MESSAGE);
 			}
 			else {
-				campañaService.guardar(tfNombre.getValue(),taDescripcion.getData().toString(),
-						tfNombreMensaje.getValue(),taTextoMensaje.getData().toString(),fechaInicio);
+				//XXX fix me please
+//				campañaService.guardar(tfNombre.getValue(),taDescripcion.getData().toString(),
+//						tfNombreMensaje.getValue(),taTextoMensaje.getData().toString(),fechaInicio, null);
 				Notification.show("Campaña Guardado", Type.TRAY_NOTIFICATION);
 				limpiarCampos(tfNombre, taDescripcion, tfNombreMensaje, taTextoMensaje);
 			}
