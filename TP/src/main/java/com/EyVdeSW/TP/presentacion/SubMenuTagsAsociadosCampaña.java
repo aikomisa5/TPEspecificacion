@@ -11,7 +11,5 @@ public class SubMenuTagsAsociadosCampaña extends Window {
 
         // Disable the close button
         setClosable(false);
-       
-
     }
 }
