@@ -27,8 +27,8 @@ public class TestAccionPublicitariaDAONeodatis {
 	@BeforeClass
 	public static void setUpClass() {
 		accionDAO = new AccionPublicitariaDAONeodatis();
-		accionDAO.setBdConnector(new NeodatisLocalConnector());
-		dbFilePath = Parametros.getProperty(Parametros.dbPath);
+		accionDAO.setBdConnector(new NeodatisLocalTestConnector());
+		dbFilePath = Parametros.getProperty(Parametros.dbTestPath);
 	}
 
 	@Before

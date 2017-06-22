@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.EyVdeSW.TP.Daos.impl.NeodatisLocalConnector;
+import com.EyVdeSW.TP.Daos.impl.NeodatisLocalTestConnector;
 import com.EyVdeSW.TP.Daos.impl.TagDAONeodatis;
 import com.EyVdeSW.TP.domainModel.Tag;
 
@@ -26,8 +26,8 @@ public class TestTagDAONeodatis {
 	@BeforeClass
 	public static void setUpClass() {
 		tagDAO = new TagDAONeodatis();
-		tagDAO.setBdConnector(new NeodatisLocalConnector());
-		dbFilePath = Parametros.getProperty(Parametros.dbPath);
+		tagDAO.setBdConnector(new NeodatisLocalTestConnector());
+		dbFilePath = Parametros.getProperty(Parametros.dbTestPath);
 	}
 
 	@Before

@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.EyVdeSW.TP.Daos.impl.NeodatisLocalConnector;
+import com.EyVdeSW.TP.Daos.impl.NeodatisLocalTestConnector;
 import com.EyVdeSW.TP.Daos.impl.UsuarioDAONeodatis;
 import com.EyVdeSW.TP.domainModel.Usuario;
 import com.EyVdeSW.TP.domainModel.Usuario.TipoUsuario;
@@ -26,8 +26,8 @@ public class TestUsuarioDAONeodatis {
 	@BeforeClass
 	public static void setUpClass(){
 		usuarioDAO = new UsuarioDAONeodatis();		
-		usuarioDAO.setBdConnector( new NeodatisLocalConnector());
-		dbFilePath = Parametros.getProperty(Parametros.dbPath);
+		usuarioDAO.setBdConnector( new NeodatisLocalTestConnector());
+		dbFilePath = Parametros.getProperty(Parametros.dbTestPath);
 	}
 	
 	@Before

@@ -5,11 +5,11 @@ import org.neodatis.odb.ODBFactory;
 
 import properties.Parametros;
 
-public class NeodatisLocalConnector implements neodatisBDConnector {
+public class NeodatisLocalTestConnector implements neodatisBDConnector {
 
 	@Override
 	public ODB getBDConnection() {
-		return ODBFactory.open(Parametros.getProperty("ubicacion.bd"));
+		return ODBFactory.open(Parametros.getProperty(Parametros.dbTestPath));
 	}
 
 }

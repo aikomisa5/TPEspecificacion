@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.EyVdeSW.TP.Daos.impl.CampañaDAONeodatis;
-import com.EyVdeSW.TP.Daos.impl.NeodatisLocalConnector;
+import com.EyVdeSW.TP.Daos.impl.NeodatisLocalTestConnector;
 import com.EyVdeSW.TP.domainModel.Campania;
 import com.EyVdeSW.TP.domainModel.Campania.EstadoCampania;
 import com.EyVdeSW.TP.domainModel.Duracion;
@@ -28,8 +28,8 @@ public class TestCampañaDAONeodatis {
 	@BeforeClass
 	public static void setUpClass() {
 		campañaDAO = new CampañaDAONeodatis();
-		campañaDAO.setBdConnector(new NeodatisLocalConnector());
-		dbFilePath = Parametros.getProperty(Parametros.dbPath);
+		campañaDAO.setBdConnector(new NeodatisLocalTestConnector());
+		dbFilePath = Parametros.getProperty(Parametros.dbTestPath);
 		File f = new File(dbFilePath);
 		if (f.exists())
 			f.delete();

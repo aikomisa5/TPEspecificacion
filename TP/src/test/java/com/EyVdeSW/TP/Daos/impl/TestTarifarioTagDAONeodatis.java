@@ -25,8 +25,8 @@ public class TestTarifarioTagDAONeodatis {
 	@BeforeClass
 	public static void setUpClass(){
 		tarifarioDAO = new TarifarioDAONeodatis();		
-		tarifarioDAO.setBdConnector( new NeodatisLocalConnector());
-		dbFilePath = Parametros.getProperty(Parametros.dbPath);
+		tarifarioDAO.setBdConnector( new NeodatisLocalTestConnector());
+		dbFilePath = Parametros.getProperty(Parametros.dbTestPath);
 	}
 	
 	@Before
