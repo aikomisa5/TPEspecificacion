@@ -55,6 +55,14 @@ public class Campania {
 		estado = EstadoCampania.PRELIMINAR;
 		idCampania = UUID.randomUUID();
 	}
+	
+	public void addAccionPublicitaria(AccionPublicitaria accion) {
+		accionesPublicitarias.add(accion);
+	}
+	
+	public void addTag(Tag tag){
+		tagsAsociados.add(tag);
+	}
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -68,10 +76,6 @@ public class Campania {
 		this.accionesPublicitarias = accionesPublicitarias;
 	}
 
-	public void addAccionPublicitaria(AccionPublicitaria accion) {
-		accionesPublicitarias.add(accion);
-	}
-	
 	public List<Tag> getTagsAsociados() {
 		return tagsAsociados;
 	}

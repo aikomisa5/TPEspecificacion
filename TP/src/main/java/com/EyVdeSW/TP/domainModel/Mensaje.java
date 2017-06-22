@@ -5,31 +5,31 @@ import java.util.UUID;
 
 public class Mensaje {
 	
-	private String nombre; 
-	private String textoMensaje;
+	private String titulo; 
+	private String cuerpo;
 	private UUID idMensaje;
 
 	public Mensaje(String nombre,String textoMensaje)
 	{
-		this.nombre=nombre;
-		this.textoMensaje=textoMensaje;
+		this.titulo=nombre;
+		this.cuerpo=textoMensaje;
 		idMensaje=UUID.randomUUID();
 	}
 
 	public String getNombre() {
-		return nombre;
+		return titulo;
 	}
 
 	public void setNombre(String nombre) {
-		this.nombre = nombre;
+		this.titulo = nombre;
 	}
 
 	public String getTextoMensaje() {
-		return textoMensaje;
+		return cuerpo;
 	}
 
 	public void setTextoMensaje(String textoMensaje) {
-		this.textoMensaje = textoMensaje;
+		this.cuerpo = textoMensaje;
 	}
 
 	@Override
@@ -46,15 +46,15 @@ public class Mensaje {
 		if (getClass() != obj.getClass())
 			return false;
 		Mensaje other = (Mensaje) obj;
-		if (nombre == null) {
-			if (other.nombre != null)
+		if (titulo == null) {
+			if (other.titulo != null)
 				return false;
-		} else if (!nombre.equals(other.nombre))
+		} else if (!titulo.equals(other.titulo))
 			return false;
-		if (textoMensaje == null) {
-			if (other.textoMensaje != null)
+		if (cuerpo == null) {
+			if (other.cuerpo != null)
 				return false;
-		} else if (!textoMensaje.equals(other.textoMensaje))
+		} else if (!cuerpo.equals(other.cuerpo))
 			return false;
 		return true;
 	}

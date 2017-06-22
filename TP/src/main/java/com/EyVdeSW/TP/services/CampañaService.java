@@ -35,12 +35,13 @@ public class CampañaService {
 		
 	}
 	
-	public void guardar (Usuario usuario, String nombre, String descripcion, List<AccionPublicitaria> accionesPublicitarias, List<Tag> tagsAsociados, Mensaje mensaje,
-			Date fechaDeInicio, Duracion duracion){
+	public void guardar (Usuario usuario, String nombre, String descripcion, List<AccionPublicitaria> accionesPublicitarias, List<Tag> tagsAsociados, String tituloMensaje,
+			String cuerpoMensaje ,Date fechaDeInicio, Duracion duracion){
 		
 		nombre=nombre.toLowerCase();
 		
 		if (!campañaDAO.existe(nombre)){
+			Mensaje mensaje=new Mensaje(tituloMensaje, cuerpoMensaje);
 			campañaDAO.guardar(new Campania(usuario, nombre,descripcion, accionesPublicitarias, tagsAsociados, mensaje,
 					fechaDeInicio, duracion));
 		}
@@ -57,7 +58,7 @@ public class CampañaService {
 	public boolean modificar (String nombreCampañaOriginal, String nombreModificacion, 
 			String descripcionCampañaMod, String nombreMensajeMod, String textoMensajeMod, Date fechaDeInicioMod){
 		boolean ret = true;
-		if (campañaDAO.existe(nombreModificacion)) {
+		if (campañaDAO.existe(nombreModificacion) || !campañaDAO.existe(nombreCampañaOriginal)) {
 			ret = false;
 		}else
 		{
@@ -77,6 +78,40 @@ public class CampañaService {
 		return ret;
 	}
 	
+	public boolean agregarTags(String nombreCampaña, List<Tag>tags){
+		boolean ret=true;
+		nombreCampaña=nombreCampaña.toLowerCase();
+		if (!campañaDAO.existe(nombreCampaña)) {
+			ret = false;
+		}else
+		{
+			
+			
+			Campania orig = campañaDAO.getCampañaPorNombre(nombreCampaña);
+			Campania modi = campañaDAO.getCampañaPorNombre(nombreCampaña);
+			
+			tags.forEach(t -> modi.addTag(t));
+			
+			campañaDAO.modificar(orig, modi);
+		}
+		return ret;
+	}
 	
-		
+	public boolean agregarAcciones(String nombreCampaña, List<AccionPublicitaria>acciones){
+		boolean ret=true;
+		nombreCampaña=nombreCampaña.toLowerCase();
+		if (!campañaDAO.existe(nombreCampaña)) {
+			ret = false;
+		}else
+		{
+			Campania orig = campañaDAO.getCampañaPorNombre(nombreCampaña);
+			Campania modi = campañaDAO.getCampañaPorNombre(nombreCampaña);
+			
+			acciones.forEach(a -> modi.addAccionPublicitaria(a));
+			
+			campañaDAO.modificar(orig, modi);
+		}
+		return ret;
+	}
+	
 }
