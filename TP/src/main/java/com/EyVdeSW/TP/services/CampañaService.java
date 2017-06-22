@@ -9,7 +9,10 @@ import com.EyVdeSW.TP.Daos.CampañaDAO;
 import com.EyVdeSW.TP.Daos.impl.CampañaDAONeodatis;
 import com.EyVdeSW.TP.domainModel.AccionPublicitaria;
 import com.EyVdeSW.TP.domainModel.Campania;
+import com.EyVdeSW.TP.domainModel.Duracion;
 import com.EyVdeSW.TP.domainModel.Mensaje;
+import com.EyVdeSW.TP.domainModel.Tag;
+import com.EyVdeSW.TP.domainModel.Usuario;
 
 public class CampañaService {
 
@@ -32,19 +35,14 @@ public class CampañaService {
 		
 	}
 	
-	
-	//Todo pasamos la lista directamente, otra cosa seria fea, que el cliente haga push a la lista de acciones
-	public void guardar (String nombreCampaña, String descripcionCampaña, 
-			String nombreMensaje, String textoMensaje, Date fechaDeInicio, List<AccionPublicitaria>acciones){
+	public void guardar (Usuario usuario, String nombre, String descripcion, List<AccionPublicitaria> accionesPublicitarias, List<Tag> tagsAsociados, Mensaje mensaje,
+			Date fechaDeInicio, Duracion duracion){
 		
-		String nombreMinuscula = nombreCampaña.toLowerCase();
-		String descripcionMinuscula = descripcionCampaña.toLowerCase();
+		nombre=nombre.toLowerCase();
 		
-		if (!campañaDAO.existe(nombreMinuscula)){
-			List<AccionPublicitaria> accionesPublicitarias = null;
-			//TODO
-			//campañaDAO.guardar(new Campania(accionesPublicitarias, nombreMinuscula, descripcionMinuscula, new Mensaje(nombreMensaje, textoMensaje), fechaDeInicio));
-			
+		if (!campañaDAO.existe(nombre)){
+			campañaDAO.guardar(new Campania(usuario, nombre,descripcion, accionesPublicitarias, tagsAsociados, mensaje,
+					fechaDeInicio, duracion));
 		}
 	}
 	

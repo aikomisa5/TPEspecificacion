@@ -133,8 +133,9 @@ import com.vaadin.event.ShortcutAction;
 				}
 				else {
 					//XXX fix me please
-					campañaService.guardar(tfNombre.getValue(),taDescripcion.getData().toString(),
-							tfNombreMensaje.getValue(),taTextoMensaje.getData().toString(),fechaInicio, null);
+//					campañaService.guardar(null,tfNombre.getValue(),taDescripcion.getData().toString(),null,null,
+//							tfNombreMensaje.getValue(),taTextoMensaje.getData().toString(),fechaInicio, null);
+					
 					Notification.show("Campaña Guardado", Type.TRAY_NOTIFICATION);
 					limpiarCampos(tfNombre, taDescripcion, tfNombreMensaje, taTextoMensaje);
 				}
