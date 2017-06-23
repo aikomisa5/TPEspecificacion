@@ -90,7 +90,7 @@ public class MailScheduler {
 		MailScheduler ms=MailScheduler.getMailScheduler();
 		ms.encender();
 		String startDateStr = "2017-06-23 00:00:00.0";
-        String endDateStr = "2017-06-24 00:00:00.0";
+        String endDateStr = "2017-06-24 00:00:00.0";//sad
         
 		try {
 			ms.agregarAccion(startDateStr, endDateStr, "deidelson@mail.com", 
