@@ -48,7 +48,7 @@ public class MyUI extends UI
 			navigator = new Navigator(this, content);
 		// Y creamos y registramos las views (pantallas)
 		
-		
+			navigator.addView(PantallaDuracionAnalistaTecnico.NAME, new PantallaDuracionAnalistaTecnico());
 		navigator.addView(PantallaCampañasAnalistaTecnico.NAME, new PantallaCampañasAnalistaTecnico());	
 		navigator.addView(PantallaTagsAnalistaTecnico.NAME, new PantallaTagsAnalistaTecnico());	
 		navigator.addView(PantallaRegistro.NAME, new PantallaRegistro());
