@@ -12,14 +12,16 @@ public class DefaultMenuAnalistaTecnico extends HorizontalLayout implements View
 	private Button logout = new Button("Logout");
 	private Button tags = new Button("Tags");
 	private Button campañas = new Button("Campañas");
+	private Button duraciones = new Button("Duraciones");
 
 	public DefaultMenuAnalistaTecnico() {
 		setSpacing(true);
 		
-		addComponents(text, logout, tags, campañas);
+		addComponents(text, logout, tags, campañas, duraciones);
 
 		tags.addClickListener(click -> getUI().getNavigator().navigateTo(PantallaTagsAnalistaTecnico.NAME));
 		campañas.addClickListener(click -> getUI().getNavigator().navigateTo(PantallaCampañasAnalistaTecnico.NAME));
+		duraciones.addClickListener(click -> getUI().getNavigator().navigateTo(PantallaDuracionAnalistaTecnico.NAME));
 		logout.addClickListener(event -> {
 			// "Logout" the user
 			getSession().setAttribute("user", null);
