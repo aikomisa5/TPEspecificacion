@@ -55,5 +55,17 @@ public class TagService {
 	public Collection<Tag> traerTodos() {
 		return tagDAO.traerTodos();
 	}
+	
+	public Tag getTagPorNombre(String padreTag){
+		return tagDAO.getTagPorNombre(padreTag);
+	}
+	
+	public Collection<Tag> traerHijosDe(Tag padre){
+		return tagDAO.traerHijosDe(padre);
+	}
+	
+	public Collection <Tag> traerRaices(){
+		return tagDAO.traerRaices();
+	}
 
 }

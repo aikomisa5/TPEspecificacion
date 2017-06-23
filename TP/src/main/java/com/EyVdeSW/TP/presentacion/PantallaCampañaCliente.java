@@ -1,9 +1,14 @@
 package com.EyVdeSW.TP.presentacion;
 
-	import java.util.Date;
+	import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
+import com.EyVdeSW.TP.domainModel.AccionPublicitaria;
 import com.EyVdeSW.TP.domainModel.Campania;
+import com.EyVdeSW.TP.domainModel.Duracion;
 import com.EyVdeSW.TP.domainModel.Tag;
+import com.EyVdeSW.TP.domainModel.Usuario;
 import com.EyVdeSW.TP.services.CampañaService;
 import com.EyVdeSW.TP.services.TagService;
 import com.EyVdeSW.TP.services.UsuarioService;
@@ -33,15 +38,18 @@ import com.vaadin.ui.VerticalLayout;
 
 		private CampañaService campañaService = CampañaService.getCampañaService();		
 		private TagService tagService = TagService.getTagService();
-		
+		private UsuarioService usuarioService = UsuarioService.getUsuarioService();
 		private TagTree tagTree = new TagTree();
 		
-		
+		String username = "";
 		Date fechaInicio = new Date();
 		
 		public PantallaCampañaCliente() {
 			
-						
+			
+			
+			List<Tag> tagsParaAsociar = null;
+			
 			Label titulo = new Label("Gestión de Campañas");
 			titulo.setStyleName(ValoTheme.LABEL_H1);
 			HorizontalLayout hlTitulo = new HorizontalLayout(titulo);
@@ -116,7 +124,44 @@ import com.vaadin.ui.VerticalLayout;
 			   
 		        cerrar.addClickListener(event -> sub.close());
 		        
-		        agregar.addClickListener(event -> {});
+		        agregar.addClickListener(event -> {
+		   
+		        	String nombreTag = tagTree.getValue().toString();
+		        	
+		        	Tag tag = tagService.getTagPorNombre(nombreTag);
+		        	
+		        	Collection <Tag> hijos =  tagService.traerHijosDe(tag);
+		        	
+		        	//Me tira error, revisar
+		        	
+		        	boolean estado = verificadorTagYaAsociado(nombreTag,tagsParaAsociar);
+		        	
+		        	if (estado){
+		        		Notification.show("El tag ya se encuentra asociado!", Type.WARNING_MESSAGE);
+		           	}
+		        	
+		        	else {
+		        		tagsParaAsociar.add(tag);
+		        		for (Tag t : hijos){
+		        			tagsParaAsociar.add(t);
+		        		}
+		        	}
+		        	
+		        	//XXX No puedo hacer eso porque todavia no existe esa campaña
+		        	//en la base de datos
+		        	//una opcion es agregar todos los tags asociados
+		        	//al momento de crear la campaña
+		        	
+		        	//campañaService.getNombreCampañaSarasa();
+		        	
+		        	
+		        	//esto va en la parte cuando se crea la campaña
+		        	//campañaService.agregarTags(nombreCampaña, tags);
+		        	
+		        	
+		        	System.out.println(tagTree.getValue().toString());
+		        
+		        });
 		        
 		        
 
@@ -135,19 +180,28 @@ import com.vaadin.ui.VerticalLayout;
 					Notification.show("El nombre está vacío!", Type.WARNING_MESSAGE);
 				} 
 				
-				if (taDescripcion.getData().toString() == "") {
+				else if (taDescripcion.getData().toString() == "") {
 					Notification.show("La descripción está vacía!", Type.WARNING_MESSAGE);
 				}
 				
-				if (tfNombreMensaje.getValue() == ""){
+				else if (tfNombreMensaje.getValue() == ""){
 					Notification.show("El nombre del mensaje está vacío!", Type.WARNING_MESSAGE);
 				}
 				
-				if (taTextoMensaje.getData().toString() == ""){
+				else if (taTextoMensaje.getData().toString() == ""){
 					Notification.show("El texto del mensaje está vacío!", Type.WARNING_MESSAGE);
 				}
 				else {
 					//XXX fix me please
+					Usuario usuario = usuarioService.getUsuarioPorMail(username);
+					String nombre = tfNombre.getValue();
+					String descripcion = taDescripcion.getData().toString();
+					String tituloMensaje = tfNombreMensaje.getValue();
+					String cuerpoMensaje = taTextoMensaje.getData().toString();
+					
+					campañaService.guardar(usuario, nombre , descripcion, null, tagsParaAsociar , tituloMensaje,
+							cuerpoMensaje , fechaInicio, null);
+					
 //					campañaService.guardar(null,tfNombre.getValue(),taDescripcion.getData().toString(),null,null,
 //							tfNombreMensaje.getValue(),taTextoMensaje.getData().toString(),fechaInicio, null);
 					
@@ -186,6 +240,16 @@ import com.vaadin.ui.VerticalLayout;
 			tagService.traerTodos().forEach(tag -> tags.addBean(tag));
 			comboBoxTag.setContainerDataSource(tags);
 		} */
+		
+		public boolean verificadorTagYaAsociado(String nombreTag, List<Tag>tags){
+			boolean estado = false;
+			
+			for (Tag t : tags){
+				estado = t.getNombre().equals(nombreTag);
+			}
+			
+			return estado;
+		}
 
 		private void limpiarCampos(TextField textFieldNombre, TextArea textAreaDescripcion, 
 				TextField textFieldNombreMensaje, TextArea textAreaTextoMensaje) {
@@ -198,7 +262,8 @@ import com.vaadin.ui.VerticalLayout;
 		@Override
 		public void enter(ViewChangeEvent event) {
 			// TODO Auto-generated method stub
-
+			String usernameMail = String.valueOf(getSession().getAttribute("user"));
+			username=usernameMail;
 		}
 
 		

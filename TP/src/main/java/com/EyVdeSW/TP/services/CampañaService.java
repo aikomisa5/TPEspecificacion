@@ -114,4 +114,24 @@ public class CampañaService {
 		return ret;
 	}
 	
+	//XXX Esta sin usar, sirve o no?
+	public boolean verificadorTagYaAsociado(String nombreCampaña, String nombreTag){
+		
+		boolean estadoFinal = false;
+		//XXX Que opinan de este condicional?
+		if (campañaDAO.existe(nombreCampaña)) {
+		
+			Campania campaña = campañaDAO.getCampañaPorNombre(nombreCampaña);
+			List<Tag> tags = campaña.getTagsAsociados();
+		
+			for (Tag t : tags){
+				estadoFinal = t.getNombre().equals(nombreTag);
+			}
+				
+		}
+		
+		return estadoFinal;
+	
+	}
+	
 }
