@@ -22,8 +22,8 @@ public class TestDuracionDAONeodatis {
 	@BeforeClass
 	public static void setUpClass() {
 		duracionDAO = new DuracionDAONeodatis();
-		duracionDAO.setBdConnector(new NeodatisLocalConnector());
-		dbFilePath = Parametros.getProperty(Parametros.dbPath);
+		duracionDAO.setBdConnector(new NeodatisLocalTestConnector());
+		dbFilePath = Parametros.getProperty(Parametros.dbTestPath);
 	}
 
 	@Before

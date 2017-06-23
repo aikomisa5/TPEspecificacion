@@ -5,7 +5,6 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
@@ -18,7 +17,7 @@ public class PantallaDuracionAnalistaTecnico extends VerticalLayout implements V
 
 	private DuracionService duracionService = DuracionService.getDuracionService();
 
-	Button logout = new Button("Logout");
+	
 
 	public PantallaDuracionAnalistaTecnico() {
 		Label titulo = new Label("Gestión de Duraciones");
