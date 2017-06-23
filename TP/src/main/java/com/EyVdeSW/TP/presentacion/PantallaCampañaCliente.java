@@ -43,6 +43,8 @@ import com.vaadin.ui.VerticalLayout;
 		private UsuarioService usuarioService = UsuarioService.getUsuarioService();
 		private TagTree tagTree = new TagTree();
 		
+		private List <AccionPublicitaria> accionesPublicitarias;
+		
 		String username = "";
 		Date fechaInicio = new Date();
 		
@@ -75,6 +77,17 @@ import com.vaadin.ui.VerticalLayout;
 			duracionCampaña.addItem("Un semestre");
 			// User may not select a "null" item
 			duracionCampaña.setNullSelectionAllowed(false);
+			
+			ComboBox hora = new ComboBox("Hora de inicio");
+			
+			for (int i = 0; i < 24; i++) {
+				hora.addItem(i);				
+			}
+			ComboBox minuto = new ComboBox ("Minuto de inicio");
+			
+			for (int i = 0; i < 60; i++) {
+				minuto.addItem(i);				
+			}
 			
 
 			//Calendario
@@ -181,7 +194,7 @@ import com.vaadin.ui.VerticalLayout;
 			    MyUI.getCurrent().addWindow(sub);
 			    
 			    Button cerrar = new Button("Cerrar");
-			    Button agregar = new Button("Agregar");
+			    Button asociar = new Button("Agregar");
 			    
 				TextField tfDestinatario = new TextField("Nombre destinatario");
 				TextField tfTitulo = new TextField("Nombre titulo");
@@ -201,13 +214,25 @@ import com.vaadin.ui.VerticalLayout;
 		        subContent.addComponent(taTexto);
 		        
 		        subContent.addComponent(cerrar);
-		        subContent.addComponent(agregar);
+		        subContent.addComponent(asociar);
 		  			    sub.setHeight("400px");
 			    sub.setWidth("500px");
 			   
 		        cerrar.addClickListener(event -> sub.close());
 		        
+				asociar.addClickListener(event -> {
 				
+					if (tfDestinatario.getValue() == "") {
+						Notification.show("El destinatario está vacío!", Type.WARNING_MESSAGE);
+					}
+					
+					else if (tfTitulo.getValue() == "") {
+						Notification.show("El titulo está vacío!", Type.WARNING_MESSAGE);
+					}
+					
+											
+						
+				});
 			
 				    
 				
