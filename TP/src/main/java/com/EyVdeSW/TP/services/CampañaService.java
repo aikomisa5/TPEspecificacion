@@ -36,14 +36,14 @@ public class CampañaService {
 	}
 	
 	public void guardar (Usuario usuario, String nombre, String descripcion, List<AccionPublicitaria> accionesPublicitarias, List<Tag> tagsAsociados, String tituloMensaje,
-			String cuerpoMensaje ,Date fechaDeInicio, Duracion duracion){
+			String cuerpoMensaje ,Date fechaDeInicio, Date fechaDeFin){
 		
 		nombre=nombre.toLowerCase();
 		
 		if (!campañaDAO.existe(nombre)){
 			Mensaje mensaje=new Mensaje(tituloMensaje, cuerpoMensaje);
 			campañaDAO.guardar(new Campania(usuario, nombre,descripcion, accionesPublicitarias, tagsAsociados, mensaje,
-					fechaDeInicio, duracion));
+					fechaDeInicio, fechaDeFin));
 		}
 	}
 	

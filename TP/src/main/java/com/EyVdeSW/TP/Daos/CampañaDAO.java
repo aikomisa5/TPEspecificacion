@@ -14,4 +14,5 @@ public interface CampañaDAO extends DAO<Campania>{
 	public boolean existe(String nombreCampaña);
 	public Usuario getOwner(String nombreCampaña);
 	public Collection<Campania> getCampañasDe(Usuario user);
+	public Collection<Campania> getCampañasVigentes();
 }

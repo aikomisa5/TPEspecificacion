@@ -120,4 +120,13 @@ public class CampañaDAONeodatis extends DAONeodatis<Campania> implements Campa�
 		return ret;
 	}
 
+	@Override
+	public Collection<Campania> getCampañasVigentes() {
+		return consultar(new SimpleNativeQuery(){
+			public boolean match(Campania campaña){
+				return campaña.getEstado().equals(Campania.EstadoCampania.PLANIFICADA);
+			}
+		});
+	}
+
 }

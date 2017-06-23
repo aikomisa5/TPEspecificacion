@@ -14,7 +14,7 @@ public class Campania {
 	private String nombre;
 	private String descripcion;
 	private Date fechaDeInicio;
-	private Duracion duracion;	
+	private Date fechaDeFin;
 	
 	private EstadoCampania estado;
 
@@ -35,12 +35,13 @@ public class Campania {
 		estado = EstadoCampania.PLANIFICADA;
 		this.mensaje = null;
 		this.fechaDeInicio = null;
+		this.fechaDeFin = null;
 		this.tagsAsociados = null;
 		idCampania = UUID.randomUUID();
 	}
 
 	public Campania(Usuario usuario, String nombre, String descripcion, List<AccionPublicitaria> accionesPublicitarias, List<Tag> tagsAsociados, Mensaje mensaje,
-			Date fechaDeInicio, Duracion duracion) {
+			Date fechaDeInicio, Date fechaDeFin) {
 		if (usuario.getTipoUsuario() != Usuario.TipoUsuario.CLIENTE)
 			throw new IllegalArgumentException(usuario.toString() + " no es del tipo Cliente. " + "Tipo recibido: "+ usuario.getTipoUsuario().name());
 		else
@@ -51,7 +52,7 @@ public class Campania {
 		this.descripcion = descripcion;
 		this.mensaje = mensaje;
 		this.fechaDeInicio = fechaDeInicio;
-		this.duracion = duracion;
+		this.fechaDeFin = fechaDeFin;
 		estado = EstadoCampania.PRELIMINAR;
 		idCampania = UUID.randomUUID();
 	}
@@ -116,21 +117,21 @@ public class Campania {
 		this.fechaDeInicio = fechaDeInicio;
 	}
 
+	public Date getFechaDeFin() {
+		return fechaDeFin;
+	}
+
+	public void setFechaDeFin(Date fechaDeFin) {
+		this.fechaDeFin = fechaDeFin;
+	}
+
 	public EstadoCampania getEstado() {
 		return estado;
 	}
 
 	public void setEstado(EstadoCampania estado) {
 		this.estado = estado;
-	}
-	
-	public Duracion getDuracion() {
-		return duracion;
-	}
-
-	public void setDuracion(Duracion duracion) {
-		this.duracion = duracion;
-	}
+	}	
 	
 	@Override
 	public int hashCode() {

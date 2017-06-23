@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -15,7 +17,6 @@ import com.EyVdeSW.TP.Daos.impl.CampañaDAONeodatis;
 import com.EyVdeSW.TP.Daos.impl.NeodatisLocalTestConnector;
 import com.EyVdeSW.TP.domainModel.Campania;
 import com.EyVdeSW.TP.domainModel.Campania.EstadoCampania;
-import com.EyVdeSW.TP.domainModel.Duracion;
 import com.EyVdeSW.TP.domainModel.Usuario;
 
 import properties.Parametros;
@@ -60,31 +61,14 @@ public class TestCampañaDAONeodatis {
 				Usuario.TipoUsuario.ANALISTATECNICO);
 		new Campania(userInvalido, "unNombre", "unaDescripcion");
 	}
-	
-	@Test(expected = IllegalArgumentException.class)	
+	//TODO fechaDeInicio<FechaDeFin
+	//@Test(expected = IllegalArgumentException.class)	
 	public void crearCampañaUserException3() {
 		Usuario userInvalido = new Usuario("pepe", "unUsuario", "usuario@asd.com", "1234",
 				Usuario.TipoUsuario.CLIENTE);
-		Campania c = new Campania(userInvalido, "unNombre", "unaDescripcion");
-		c.setDuracion(new Duracion("Semana", 0)); //la duración no puede ser <=0
+		Campania c = new Campania(userInvalido, "unNombre", "unaDescripcion");		
 	}
 	
-	@Test(expected = IllegalArgumentException.class)	
-	public void crearCampañaUserException4() {
-		Usuario userInvalido = new Usuario("pepe", "unUsuario", "usuario@asd.com", "1234",
-				Usuario.TipoUsuario.CLIENTE);
-		Campania c = new Campania(userInvalido, "unNombre", "unaDescripcion");
-		c.setDuracion(new Duracion("", 1)); //la desc no puede estar vacia
-	}
-	
-	@Test(expected = NullPointerException.class)	
-	public void crearCampañaUserException5() {
-		Usuario userInvalido = new Usuario("pepe", "unUsuario", "usuario@asd.com", "1234",
-				Usuario.TipoUsuario.CLIENTE);
-		Campania c = new Campania(userInvalido, "unNombre", "unaDescripcion");
-		c.setDuracion(new Duracion(null, 1)); //la desc no puede ser nula
-	}
-
 	@Test
 	public void crearCampañaUser() {
 		Usuario userValido = new Usuario("pepe", "unUsuario", "usuario@asd.com", "1234", Usuario.TipoUsuario.CLIENTE);
@@ -176,6 +160,19 @@ public class TestCampañaDAONeodatis {
 		assertFalse(campañasDePepe2.contains(campañas.get(2)));
 		assertTrue(campañasDePepe2.contains(campañas.get(3)));
 	}
+	
+	@Test
+	public void getCampañasVigentes() {
+		ArrayList<Campania> campañas = instanciaCampañasVigentes();
+		agregarDatosDePrueba(campañas);
+		Collection<Campania> campañasVigentes = campañaDAO.getCampañasVigentes();
+		assertEquals(3, campañasVigentes.size());
+		assertFalse(campañasVigentes.contains(campañas.get(2)));
+		assertFalse(campañasVigentes.contains(campañas.get(4)));
+		assertTrue(campañasVigentes.contains(campañas.get(0)));
+		assertTrue(campañasVigentes.contains(campañas.get(1)));
+		assertTrue(campañasVigentes.contains(campañas.get(3)));
+	}
 
 
 	private void agregarDatosDePrueba(ArrayList<Campania> instancia) {
@@ -192,6 +189,31 @@ public class TestCampañaDAONeodatis {
 		ret.add(new Campania(pepe, "c3", "d3"));
 		ret.add(new Campania(pepe2, "c4", "d4"));
 		ret.add(new Campania(pepe, "c5", "d5"));
+		return ret;
+	}
+	
+	private ArrayList<Campania> instanciaCampañasVigentes() {		
+		Usuario pepe = new Usuario("pepe", "unUsuario", "usuario@asd.com", "1234", Usuario.TipoUsuario.CLIENTE);
+		Usuario pepe2 = new Usuario("pepe2", "unUsuario2", "usuario2@asd.com", "1234", Usuario.TipoUsuario.CLIENTE);
+
+		Campania c1 = new Campania(pepe, "c1", "d1");
+		c1.setEstado(Campania.EstadoCampania.PLANIFICADA);
+		Campania c2 = new Campania(pepe, "c2", "d2");
+		c2.setEstado(Campania.EstadoCampania.PLANIFICADA);
+		Campania c3 = new Campania(pepe, "c3", "d3");
+		c3.setEstado(Campania.EstadoCampania.CANCELADA);
+		Campania c4 = new Campania(pepe2, "c4", "d4");
+		c4.setEstado(Campania.EstadoCampania.PLANIFICADA);
+		Campania c5 = new Campania(pepe2, "c5", "d5");
+		c5.setEstado(Campania.EstadoCampania.PRELIMINAR);
+		
+		ArrayList<Campania> ret = new ArrayList<>();
+		ret.add(c1);
+		ret.add(c2);
+		ret.add(c3);
+		ret.add(c4);
+		ret.add(c5);
+		
 		return ret;
 	}
 
