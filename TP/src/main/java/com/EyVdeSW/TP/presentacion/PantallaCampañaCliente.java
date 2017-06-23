@@ -102,6 +102,8 @@ import com.vaadin.ui.VerticalLayout;
 			Button btnAsociarTags = new Button("Asociar Tags a la Campaña");
 			//TODO sub-menu
 			
+			Button btnAsociarAcciones = new Button("Asociar Acciones a la Campaña");
+			
 			btnAsociarTags.addClickListener(e -> {
 				SubMenuTagsAsociadosCampaña sub = new SubMenuTagsAsociadosCampaña();
 
@@ -169,6 +171,47 @@ import com.vaadin.ui.VerticalLayout;
 		        
 		        
 
+			});
+			
+
+			btnAsociarAcciones.addClickListener(e -> {
+				SubMenuAccionesPublicitariasPersonalizadas sub = new SubMenuAccionesPublicitariasPersonalizadas();
+
+			    // Add it to the root component
+			    MyUI.getCurrent().addWindow(sub);
+			    
+			    Button cerrar = new Button("Cerrar");
+			    Button agregar = new Button("Agregar");
+			    
+				TextField tfDestinatario = new TextField("Nombre destinatario");
+				TextField tfTitulo = new TextField("Nombre titulo");
+				TextArea taTexto = new TextArea("Texto");
+				
+			
+			    VerticalLayout subContent = new VerticalLayout();
+		        sub.setContent(subContent);
+		        
+		       
+		        // Put some components in it
+		    
+		        
+		      //  subContent.addComponent(comboBoxTag);
+		        subContent.addComponent(tfDestinatario);
+		        subContent.addComponent(tfTitulo);
+		        subContent.addComponent(taTexto);
+		        
+		        subContent.addComponent(cerrar);
+		        subContent.addComponent(agregar);
+		  			    sub.setHeight("400px");
+			    sub.setWidth("500px");
+			   
+		        cerrar.addClickListener(event -> sub.close());
+		        
+				
+			
+				    
+				
+				
 			});
 			
 			
