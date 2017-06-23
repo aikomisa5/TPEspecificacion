@@ -9,9 +9,15 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.quartz.Job;
+import org.quartz.JobDataMap;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.quartz.JobKey;
+
 import properties.Parametros;
 
-public class MailSender implements MessageSender {
+public class MailSender implements MessageSender, Job {
 
 	@Override
 	public void enviarMensaje(String destinatario, String encabezado, String mensaje) {		
@@ -61,6 +67,22 @@ public class MailSender implements MessageSender {
 	      }catch (MessagingException mex) {
 	         mex.printStackTrace();
 	      }
+		
+	}
+
+	@Override
+	public void execute(JobExecutionContext context) throws JobExecutionException {
+		JobKey key = context.getJobDetail().getKey();
+		 JobDataMap dataMap = context.getJobDetail().getJobDataMap();
+		 if(dataMap.size() != 0){
+			 String destinatario = dataMap.getString("destinatario");
+			 String encabezado = dataMap.getString("encabezado");
+			 String mensaje = dataMap.getString("mensaje");
+			 
+			 enviarMensaje(destinatario, encabezado, mensaje);
+		 }else{
+			 System.out.println("algo salio mal");
+		 }
 		
 	}
 		

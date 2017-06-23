@@ -1,5 +1,9 @@
 package com.EyVdeSW.TP.services;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
@@ -17,7 +21,8 @@ public class SchedulerPropio {
 	public static void main(String[] args) throws SchedulerException {
 		//prueba1();
 		//prueba2();
-		pruebaPasando2Jobs();
+		pruebaMail("deidelson@mail.com", "Scheduler", "Exito!");
+		
 	}
 	
 	public static void prueba1() throws SchedulerException{
@@ -40,13 +45,31 @@ public class SchedulerPropio {
 				.usingJobData("texto2","hola soy el segundo texto")
 				.build();
 		//Trigger t = TriggerBuilder.newTrigger().withIdentity("SimpleTrigger").startNow().build();
-		Trigger t = TriggerBuilder.newTrigger().withIdentity("CronTrigger")
-				.withSchedule(CronScheduleBuilder.cronSchedule("0 0/1 * 1/1 * ? *")).build();
+		String startDateStr = "2017-06-23 00:00:00.0";
+        String endDateStr = "2017-06-24 00:00:00.0";
+
+        Date startDate;
+        Date endDate;
+		try {
+			startDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(startDateStr);
+			endDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(endDateStr);
+			Trigger t = TriggerBuilder.newTrigger().withIdentity("CronTrigger1")
+					.startAt(startDate)
+					.withSchedule(CronScheduleBuilder.cronSchedule("0 0/1 * 1/1 * ? *"))
+					.endAt(endDate)
+					.build();
+			
+			Scheduler sc = StdSchedulerFactory.getDefaultScheduler();
+			
+			sc.start();
+			sc.scheduleJob(j1, t);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		Scheduler sc = StdSchedulerFactory.getDefaultScheduler();
-		
-		sc.start();
-		sc.scheduleJob(j1, t);
+		//Trigger t = TriggerBuilder.newTrigger().withIdentity("SimpleTrigger").startNow().build();
+	
 	}
 	
 	public static void pruebaPasando2Jobs() throws SchedulerException{
@@ -56,9 +79,12 @@ public class SchedulerPropio {
 				.build();
 		
 		JobDetail j2=JobBuilder.newJob(JobToDelete.class).build();
+		
+		
 		//Trigger t = TriggerBuilder.newTrigger().withIdentity("SimpleTrigger").startNow().build();
 		Trigger t = TriggerBuilder.newTrigger().withIdentity("CronTrigger1")
-				.withSchedule(CronScheduleBuilder.cronSchedule("0 0/1 * 1/1 * ? *")).build();
+				.withSchedule(CronScheduleBuilder.cronSchedule("0 0/1 * 1/1 * ? *"))
+				.build();
 		
 		Scheduler sc = StdSchedulerFactory.getDefaultScheduler();
 		
@@ -66,6 +92,38 @@ public class SchedulerPropio {
 		sc.scheduleJob(j1, t);
 		sc.scheduleJob(j2, TriggerBuilder.newTrigger().withIdentity("CronTrigger2")
 				.withSchedule(CronScheduleBuilder.cronSchedule("0 0/1 * 1/1 * ? *")).build());
+		
+	}
+	
+	public static void pruebaMail(String destinatario, String encabezado, String mensaje ) throws SchedulerException{
+		JobDetail j1=JobBuilder.newJob(MailSender.class)
+				.usingJobData("destinatario",destinatario)
+				.usingJobData("encabezado",encabezado)
+				.usingJobData("mensaje", mensaje)
+				.build();
+		//Trigger t = TriggerBuilder.newTrigger().withIdentity("SimpleTrigger").startNow().build();
+		String startDateStr = "2017-06-23 00:00:00.0";
+        String endDateStr = "2017-06-24 00:00:00.0";
+
+        Date startDate;
+        Date endDate;
+		try {
+			startDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(startDateStr);
+			endDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(endDateStr);
+			Trigger t = TriggerBuilder.newTrigger().withIdentity("CronTrigger1")
+					.startAt(startDate)
+					.withSchedule(CronScheduleBuilder.cronSchedule("0 0/1 * 1/1 * ? *"))
+					.endAt(endDate)
+					.build();
+			
+			Scheduler sc = StdSchedulerFactory.getDefaultScheduler();
+			
+			sc.start();
+			sc.scheduleJob(j1, t);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
