@@ -30,7 +30,6 @@ public class DuracionService {
 		if (existe(descripcion)) {
 			duracionDAO.borrar(duracionDAO.getDuracionPorDescripcion(descripcion));
 		}
-
 	}
 
 	public Duracion getDuracionPorDescripcion(String descripcion) {

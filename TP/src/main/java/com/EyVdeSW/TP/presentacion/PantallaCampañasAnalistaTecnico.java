@@ -2,7 +2,10 @@ package com.EyVdeSW.TP.presentacion;
 
 import java.util.Date;
 
+import com.EyVdeSW.TP.domainModel.Duracion;
+import com.EyVdeSW.TP.domainModel.Tag;
 import com.EyVdeSW.TP.services.CampañaService;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -43,6 +46,10 @@ public class PantallaCampañasAnalistaTecnico extends VerticalLayout implements 
 		TextArea taDescripcion = new TextArea("Descripción Campaña");
 		TextField tfNombreMensaje = new TextField("Nombre Mensaje");
 		TextArea taTextoMensaje = new TextArea("Texto del Mensaje");
+		
+		
+		BeanItemContainer<Duracion> duraciones = new BeanItemContainer<Duracion>(Duracion.class);
+		
 		
 		// Create the selection component
 		ComboBox DuracionCampaña = new ComboBox("Duración de Campaña");
