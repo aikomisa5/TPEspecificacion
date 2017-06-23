@@ -2,6 +2,7 @@ package com.EyVdeSW.TP.services;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.w3c.dom.ls.LSException;
 
@@ -132,6 +133,10 @@ public class CampañaService {
 		
 		return estadoFinal;
 	
+	}
+	
+	public List<Campania> getCampañasVigentes(){
+		return campañaDAO.getCampañasVigentes().stream().collect(Collectors.toList());
 	}
 	
 }
