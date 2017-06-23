@@ -10,6 +10,7 @@ import com.EyVdeSW.TP.domainModel.Duracion;
 import com.EyVdeSW.TP.domainModel.Tag;
 import com.EyVdeSW.TP.domainModel.Usuario;
 import com.EyVdeSW.TP.services.CampañaService;
+import com.EyVdeSW.TP.services.DuracionService;
 import com.EyVdeSW.TP.services.TagService;
 import com.EyVdeSW.TP.services.UsuarioService;
 import com.vaadin.data.util.BeanItemContainer;
@@ -36,7 +37,8 @@ import com.vaadin.ui.VerticalLayout;
 
 		protected static final String NAME = "pantallaCampañasCliente";
 
-		private CampañaService campañaService = CampañaService.getCampañaService();		
+		private CampañaService campañaService = CampañaService.getCampañaService();
+		private DuracionService duracionService = DuracionService.getDuracionService();
 		private TagService tagService = TagService.getTagService();
 		private UsuarioService usuarioService = UsuarioService.getUsuarioService();
 		private TagTree tagTree = new TagTree();
@@ -62,29 +64,31 @@ import com.vaadin.ui.VerticalLayout;
 			TextField tfNombreMensaje = new TextField("Nombre Mensaje");
 			TextArea taTextoMensaje = new TextArea("Texto del Mensaje");
 			
-			
+			BeanItemContainer<Duracion> duraciones = new BeanItemContainer<Duracion>(Duracion.class);
+			duraciones.addAll(duracionService.traerDuraciones());
 			//TODO crear una clase duracion de campañas.
-			ComboBox DuracionCampaña = new ComboBox("Duración de Campaña");
+			ComboBox duracionCampaña = new ComboBox("Duración de Campaña");
 			// Add some items (the given ID is used as item caption)
-			DuracionCampaña.addItem("Una semana");
-			DuracionCampaña.addItem("Un mes");
-			DuracionCampaña.addItem("Un bimestre");
-			DuracionCampaña.addItem("Un semestre");
+			duracionCampaña.addItem("Una semana");
+			duracionCampaña.addItem("Un mes");
+			duracionCampaña.addItem("Un bimestre");
+			duracionCampaña.addItem("Un semestre");
 			// User may not select a "null" item
-			DuracionCampaña.setNullSelectionAllowed(false);
+			duracionCampaña.setNullSelectionAllowed(false);
 			
 
 			//Calendario
 			
 			// Create a DateField with the default style
-			DateField date = new DateField();
+			DateField datePickerInicio = new DateField();
+			datePickerInicio.setCaption("Fecha de Inicio");
 
 			// Set the date to present
-			date.setValue(new Date());
+			datePickerInicio.setValue(new Date());
 			
-			date.setDescription("Calendario para elegir la fecha de inicio de la campaña");
+			datePickerInicio.setDescription("Calendario para elegir la fecha de inicio de la campaña");
 						
-			fechaInicio=date.getValue();
+			fechaInicio=datePickerInicio.getValue();
 					
 			System.out.print(fechaInicio.toString());
 			
@@ -200,7 +204,7 @@ import com.vaadin.ui.VerticalLayout;
 					String cuerpoMensaje = taTextoMensaje.getData().toString();
 					
 					campañaService.guardar(usuario, nombre , descripcion, null, tagsParaAsociar , tituloMensaje,
-							cuerpoMensaje , fechaInicio, null);
+							cuerpoMensaje , fechaInicio, duracionService.getDuracionPorDescripcion(duracionCampaña.getValue().toString()));
 					
 //					campañaService.guardar(null,tfNombre.getValue(),taDescripcion.getData().toString(),null,null,
 //							tfNombreMensaje.getValue(),taTextoMensaje.getData().toString(),fechaInicio, null);
@@ -216,7 +220,7 @@ import com.vaadin.ui.VerticalLayout;
 			HorizontalLayout hlBotones = new HorizontalLayout(btnCrear, btnAsociarTags);
 			hlBotones.setSpacing(true);
 
-			FormLayout flFormCampos = new FormLayout(tfNombre,taDescripcion,tfNombreMensaje,taTextoMensaje,DuracionCampaña,date);
+			FormLayout flFormCampos = new FormLayout(tfNombre,taDescripcion,tfNombreMensaje,taTextoMensaje,duracionCampaña,datePickerInicio);
 			flFormCampos.setSpacing(true);
 			
 			VerticalLayout vlFormTags = new VerticalLayout(flFormCampos, hlBotones);

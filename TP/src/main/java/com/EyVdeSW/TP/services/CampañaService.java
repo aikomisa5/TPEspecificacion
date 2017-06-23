@@ -1,5 +1,6 @@
 package com.EyVdeSW.TP.services;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,7 +38,12 @@ public class CampañaService {
 	}
 	
 	public void guardar (Usuario usuario, String nombre, String descripcion, List<AccionPublicitaria> accionesPublicitarias, List<Tag> tagsAsociados, String tituloMensaje,
-			String cuerpoMensaje ,Date fechaDeInicio, Date fechaDeFin){
+			String cuerpoMensaje ,Date fechaDeInicio, Duracion duracion){
+		Calendar c = Calendar.getInstance();
+		c.setTime(fechaDeInicio);
+		c.add(Calendar.DATE,duracion.getDuracion());
+		
+		Date fechaDeFin = c.getTime();
 		
 		nombre=nombre.toLowerCase();
 		
