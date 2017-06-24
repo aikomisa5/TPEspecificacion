@@ -1,10 +1,12 @@
 package com.EyVdeSW.TP.presentacion;
 
-	import java.util.Collection;
+	import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import com.EyVdeSW.TP.domainModel.AccionPublicitaria;
+import com.EyVdeSW.TP.domainModel.AccionPublicitaria.TipoAccion;
 import com.EyVdeSW.TP.domainModel.Campania;
 import com.EyVdeSW.TP.domainModel.Duracion;
 import com.EyVdeSW.TP.domainModel.Tag;
@@ -43,7 +45,8 @@ import com.vaadin.ui.VerticalLayout;
 		private UsuarioService usuarioService = UsuarioService.getUsuarioService();
 		private TagTree tagTree = new TagTree();
 		
-		private List <AccionPublicitaria> accionesPublicitarias;
+		private List <AccionPublicitaria> accionesPublicitarias = new ArrayList<>();
+		List<Tag> tagsParaAsociar = new ArrayList<>();
 		
 		String username = "";
 		Date fechaInicio = new Date();
@@ -52,7 +55,7 @@ import com.vaadin.ui.VerticalLayout;
 			
 			
 			
-			List<Tag> tagsParaAsociar = null;
+			
 			
 			Label titulo = new Label("Gestión de Campañas");
 			titulo.setStyleName(ValoTheme.LABEL_H1);
@@ -78,16 +81,6 @@ import com.vaadin.ui.VerticalLayout;
 			// User may not select a "null" item
 			duracionCampaña.setNullSelectionAllowed(false);
 			
-			ComboBox hora = new ComboBox("Hora de inicio");
-			
-			for (int i = 0; i < 24; i++) {
-				hora.addItem(i);				
-			}
-			ComboBox minuto = new ComboBox ("Minuto de inicio");
-			
-			for (int i = 0; i < 60; i++) {
-				minuto.addItem(i);				
-			}
 			
 
 			//Calendario
@@ -116,6 +109,9 @@ import com.vaadin.ui.VerticalLayout;
 			//TODO sub-menu
 			
 			Button btnAsociarAcciones = new Button("Asociar Acciones a la Campaña");
+			
+			
+			//Asociar tags a la campaña
 			
 			btnAsociarTags.addClickListener(e -> {
 				SubMenuTagsAsociadosCampaña sub = new SubMenuTagsAsociadosCampaña();
@@ -159,6 +155,9 @@ import com.vaadin.ui.VerticalLayout;
 		        		Notification.show("El tag ya se encuentra asociado!", Type.WARNING_MESSAGE);
 		           	}
 		        	
+		        	else if (nombreTag == ""){
+		        		Notification.show("No has seleccionado ningun tag!", Type.WARNING_MESSAGE);
+		        	}
 		        	else {
 		        		tagsParaAsociar.add(tag);
 		        		for (Tag t : hijos){
@@ -186,7 +185,9 @@ import com.vaadin.ui.VerticalLayout;
 
 			});
 			
-
+			
+			//Asociar acciones a la campaña
+			
 			btnAsociarAcciones.addClickListener(e -> {
 				SubMenuAccionesPublicitariasPersonalizadas sub = new SubMenuAccionesPublicitariasPersonalizadas();
 
@@ -200,6 +201,24 @@ import com.vaadin.ui.VerticalLayout;
 				TextField tfTitulo = new TextField("Nombre titulo");
 				TextArea taTexto = new TextArea("Texto");
 				
+				ComboBox comboBoxPeriodicidad = new ComboBox("Periodicidad");
+				
+				for (int i = 1; i < 8; i++) {
+					comboBoxPeriodicidad.addItem(i);
+				}
+				
+				ComboBox hora = new ComboBox("Hora de inicio");
+				
+				for (int i = 0; i < 24; i++) {
+					hora.addItem(i);				
+				}
+				ComboBox minuto = new ComboBox ("Minuto de inicio");
+				
+				for (int i = 0; i < 60; i++) {
+					minuto.addItem(i);				
+				}
+				
+				
 			
 			    VerticalLayout subContent = new VerticalLayout();
 		        sub.setContent(subContent);
@@ -212,6 +231,10 @@ import com.vaadin.ui.VerticalLayout;
 		        subContent.addComponent(tfDestinatario);
 		        subContent.addComponent(tfTitulo);
 		        subContent.addComponent(taTexto);
+		        
+		        subContent.addComponent(comboBoxPeriodicidad);
+		        subContent.addComponent(hora);
+		        subContent.addComponent(minuto);
 		        
 		        subContent.addComponent(cerrar);
 		        subContent.addComponent(asociar);
@@ -230,6 +253,21 @@ import com.vaadin.ui.VerticalLayout;
 						Notification.show("El titulo está vacío!", Type.WARNING_MESSAGE);
 					}
 					
+					else if (taTexto.getValue().toString() == ""){
+						Notification.show("El texto está vacío!", Type.WARNING_MESSAGE);
+					}
+					
+					else{
+						
+						String destinatario = tfDestinatario.getValue();
+						String tituloAccion = tfTitulo.getValue();
+						String texto = taTexto.getValue().toString();
+						AccionPublicitaria accion = new AccionPublicitaria(destinatario, tituloAccion, texto, TipoAccion.particular);
+						
+						accionesPublicitarias.add(accion);
+						Notification.show("Accion guardada", Type.TRAY_NOTIFICATION);
+						sub.close();
+					}
 											
 						
 				});
@@ -252,7 +290,7 @@ import com.vaadin.ui.VerticalLayout;
 					Notification.show("El nombre está vacío!", Type.WARNING_MESSAGE);
 				} 
 				
-				else if (taDescripcion.getData().toString() == "") {
+				else if (taDescripcion.getValue().toString() == "") {
 					Notification.show("La descripción está vacía!", Type.WARNING_MESSAGE);
 				}
 				
@@ -260,19 +298,19 @@ import com.vaadin.ui.VerticalLayout;
 					Notification.show("El nombre del mensaje está vacío!", Type.WARNING_MESSAGE);
 				}
 				
-				else if (taTextoMensaje.getData().toString() == ""){
+				else if (taTextoMensaje.getValue().toString() == ""){
 					Notification.show("El texto del mensaje está vacío!", Type.WARNING_MESSAGE);
 				}
 				else {
 					//XXX fix me please
 					Usuario usuario = usuarioService.getUsuarioPorMail(username);
 					String nombre = tfNombre.getValue();
-					String descripcion = taDescripcion.getData().toString();
+					String descripcion = taDescripcion.getValue().toString();
 					String tituloMensaje = tfNombreMensaje.getValue();
-					String cuerpoMensaje = taTextoMensaje.getData().toString();
+					String cuerpoMensaje = taTextoMensaje.getValue().toString();
 					
-					campañaService.guardar(usuario, nombre , descripcion, null, tagsParaAsociar , tituloMensaje,
-							cuerpoMensaje , fechaInicio, duracionService.getDuracionPorDescripcion(duracionCampaña.getValue().toString()));
+					campañaService.guardar(usuario, nombre , descripcion, accionesPublicitarias, tagsParaAsociar , tituloMensaje,
+							cuerpoMensaje , fechaInicio, new Duracion ("Semanal",7));
 					
 //					campañaService.guardar(null,tfNombre.getValue(),taDescripcion.getData().toString(),null,null,
 //							tfNombreMensaje.getValue(),taTextoMensaje.getData().toString(),fechaInicio, null);
@@ -285,7 +323,7 @@ import com.vaadin.ui.VerticalLayout;
 
 		
 		
-			HorizontalLayout hlBotones = new HorizontalLayout(btnCrear, btnAsociarTags);
+			HorizontalLayout hlBotones = new HorizontalLayout(btnCrear, btnAsociarTags, btnAsociarAcciones);
 			hlBotones.setSpacing(true);
 
 			FormLayout flFormCampos = new FormLayout(tfNombre,taDescripcion,tfNombreMensaje,taTextoMensaje,duracionCampaña,datePickerInicio);
