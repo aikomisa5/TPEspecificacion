@@ -10,4 +10,5 @@ public interface DuracionDAO extends DAO<Duracion>{
 	public Collection<Duracion>traerDuraciones();	
 	public Duracion getDuracionPorDescripcion(String descripcion);
 	public boolean existe(String descripcion);
+	public void borrarDuraciones();
 }

@@ -1,7 +1,10 @@
 package com.EyVdeSW.TP.Daos.impl;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
+import org.neodatis.odb.OID;
 import org.neodatis.odb.Objects;
 import org.neodatis.odb.core.query.IQuery;
 import org.neodatis.odb.core.query.criteria.Where;
@@ -69,6 +72,33 @@ public class DuracionDAONeodatis  extends DAONeodatis<Duracion> implements Durac
 			d.setDuracion(duracionModificada.getDuracion());			
 
 			odb.store(d);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (odb != null)
+				odb.close();
+		}
+		
+	}
+	
+	@Override
+	public void guardar(Duracion duracion) {
+		if (!existe(duracion.getDescripcion())){
+			super.guardar(duracion);
+		}
+	}
+
+	@Override
+	public void borrarDuraciones() {
+		Collection<Duracion> todasLasDuraciones = traerDuraciones();
+		
+		odb = null;
+		try {
+			odb = bdConnector.getBDConnection();
+			Set<OID> oids = new HashSet<>();
+			todasLasDuraciones.forEach(duracion -> oids.add(odb.getObjectId(duracion)));
+			oids.forEach(odb::deleteObjectWithId);
+			odb.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
