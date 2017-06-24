@@ -57,11 +57,14 @@ public class MailScheduler {
 		}
 	}
 	
-	public void agregarAccion(String fechaInicio, String fechaFin, String destinatario, String encabezado, String mensaje, String hora){
+	public void agregarAccion(String fechaInicio, String fechaFin, String destinatario, String encabezado, String mensaje, String hora,
+			String minuto, String perioricidad){
 	
 		try {
-			String horan="0 "+hora;
-			horan=horan+" 1/1 * ? *";
+			String horan="0 "+minuto+" "+hora;
+			//horan=horan+" 1/1 * ? *";
+			horan=horan+" 1/"+perioricidad;
+			horan=horan+" * ? *";
 			JobDetail j1=JobBuilder.newJob(MailSender.class)
 					.usingJobData("destinatario",destinatario)
 					.usingJobData("encabezado",encabezado)
@@ -98,7 +101,7 @@ public class MailScheduler {
         
 		try {
 			ms.agregarAccion(startDateStr, endDateStr, "deidelson@mail.com", 
-						"Prueba del service", "exito", "43 14");
+						"Prueba del service", "exito", "14","43","1");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

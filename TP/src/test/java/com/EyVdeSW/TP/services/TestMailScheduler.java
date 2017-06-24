@@ -19,8 +19,9 @@ public class TestMailScheduler {
         
 		try {
 			ms.agregarAccion(startDateStr, endDateStr, "deidelson@mail.com", 
-						"Prueba del service", "exito", "41 10");
+						"Prueba del service", "exito", "12","54", "1");
 			//Cambiame de acuerdo al horario
+			
 			 TimeUnit.SECONDS.sleep(300);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
