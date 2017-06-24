@@ -16,7 +16,7 @@ public class Parametros {
 	public static void SetearParametros() {		
 		p.setProperty("ubicacion.bd.test", "C:\\TP\\bdTest");
 		p.setProperty("ubicacion.bd", "C:\\TP\\TPbd");		
-		p.setProperty("email.user", "tpmailsender@mail.com");
+		p.setProperty("email.user", "tpmailsender1@mail.com");
 		p.setProperty("email.pass", "especificacion");
 		try {
 			p.store(new FileOutputStream(PARAM_FILE), "");

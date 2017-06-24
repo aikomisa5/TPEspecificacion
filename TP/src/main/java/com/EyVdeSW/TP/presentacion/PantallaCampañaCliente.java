@@ -136,33 +136,42 @@ import com.vaadin.ui.VerticalLayout;
 		        cerrar.addClickListener(event -> sub.close());
 		        
 		        agregar.addClickListener(event -> {
-		   
-		        	String nombreTag = tagTree.getValue().toString();
-		        	
-		        	Tag tag = tagService.getTagPorNombre(nombreTag);
-		        	
-		        	Collection <Tag> hijos =  tagService.traerHijosDe(tag);
+		        	//Collection <Tag> hijos =  tagService.traerHijosDe(tag);
 		        	
 		        	//Me tira error, revisar
 		        	
-		        	boolean estado = verificadorTagYaAsociado(nombreTag,tagsParaAsociar);
+		        	//boolean estado = verificadorTagYaAsociado(nombreTag,tagsParaAsociar);
 		        	
-		        	if (estado){
+		        	/*if (estado){
 		        		Notification.show("El tag ya se encuentra asociado!", Type.WARNING_MESSAGE);
-		           	}
+		           	}*/
 		        	
-		        	else if (nombreTag == ""){
+		        	if (tagTree.getValue() == null){
 		        		Notification.show("No has seleccionado ningun tag!", Type.WARNING_MESSAGE);
 		        	}
 		        	else {
-		        		tagsParaAsociar.add(tag);
+		        		
+
+			        	String nombreTag = tagTree.getValue().toString();
+			        	
+			        	Tag tag = tagService.getTagPorNombre(nombreTag);
+			        	
+		        		
+		        		updateTree(tagsAgregadosHastaElMomento,tag);
+		        		
+		        		/*tagsParaAsociar.add(tag);
 		        		for (Tag t : hijos){
 		        			tagsParaAsociar.add(t);
 		        		}
-		        		
+		        		*/
+		        		//Despues al momento de crear la campaña lo que hariamos
+		        		//es recorrer el arbol y pasar cada tag a una lista y persistir
+		        		//esa lista
 		        		Notification.show("Tags guardados", Type.TRAY_NOTIFICATION);
 						sub.close();
 						//TODO
+						
+						
 					
 		        	}
 		        	
@@ -179,6 +188,7 @@ import com.vaadin.ui.VerticalLayout;
 		        	
 		        	
 		        	System.out.println(tagTree.getValue().toString());
+		        
 		        
 		        });
 		        
@@ -411,6 +421,40 @@ import com.vaadin.ui.VerticalLayout;
 			username=usernameMail;
 		}
 		
+		private void updateTree(Tree arbol, Tag tagSeleccionado) {
+			arbol.removeAllItems();
+			cargarTree(arbol,tagSeleccionado);
+			expandirArbol(arbol);
+		}
+		
+		private void expandirArbol(Tree arbol) {
+			arbol.getItemIds().forEach(item -> arbol.expandItem(item));
+		}
+
+		private void cargarTree(Tree arbol, Tag tagSeleccionado) {
+			HierarchicalContainer tagContainer = new HierarchicalContainer();
+			
+			tagContainer.addItem(tagSeleccionado);
+			tagService.traerHijosDe(tagSeleccionado).forEach(tag -> {
+				tagContainer.addItem(tag);
+				tagContainer.setChildrenAllowed(tag, false);
+			});
+
+			/*
+			tagService.traerTodos().forEach(tag -> {
+				tagContainer.addItem(tag);
+				tagContainer.setChildrenAllowed(tag, false);
+			});
+			*/
+
+			tagContainer.getItemIds().forEach(item -> {
+				Tag tagPadre = ((Tag) item).getPadre();
+				tagContainer.setChildrenAllowed(tagPadre, true);
+				tagContainer.setParent(item, tagPadre);
+			});
+
+			arbol.setContainerDataSource(tagContainer);
+		}
 		
 		
 		

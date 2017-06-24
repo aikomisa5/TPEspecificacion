@@ -39,7 +39,7 @@ public class MailSender implements MessageSender, Job {
 	      properties.remove("mail.smtps.auth");
 	      properties.remove("mail.user", from);
 	      properties.remove("mail.password", pass);
-	      //properties.setProperty("mail.smtp.port", "25"); Mail.com SMTP: port: 587 (alternatives: 465 and 25)
+	      properties.setProperty("mail.smtp.port", "587"); //Mail.com SMTP: port: 587 (alternatives: 465 and 25)
 	      
 	      // Get the default Session object.
 	      Session session = Session.getDefaultInstance(properties);
