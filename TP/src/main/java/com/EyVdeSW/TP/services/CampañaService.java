@@ -145,4 +145,7 @@ public class CampañaService {
 		return campañaDAO.getCampañasVigentes().stream().collect(Collectors.toList());
 	}
 	
+	public List<Campania> getCampañasDeUsuario(Usuario usuario){
+		return campañaDAO.getCampañasDe(usuario).stream().collect(Collectors.toList());
+	}
 }
