@@ -58,4 +58,9 @@ public class Duracion {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return descripcion;
+	}
+
 }
