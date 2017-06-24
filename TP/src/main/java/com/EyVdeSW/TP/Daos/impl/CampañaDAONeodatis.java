@@ -11,6 +11,7 @@ import org.neodatis.odb.impl.core.query.criteria.CriteriaQuery;
 import com.EyVdeSW.TP.Daos.CampañaDAO;
 import com.EyVdeSW.TP.Daos.UsuarioDAO;
 import com.EyVdeSW.TP.domainModel.Campania;
+import com.EyVdeSW.TP.domainModel.Campania.EstadoCampania;
 import com.EyVdeSW.TP.domainModel.Usuario;
 
 public class CampañaDAONeodatis extends DAONeodatis<Campania> implements CampañaDAO {
@@ -122,11 +123,7 @@ public class CampañaDAONeodatis extends DAONeodatis<Campania> implements Campa�
 
 	@Override
 	public Collection<Campania> getCampañasVigentes() {
-		return consultar(new SimpleNativeQuery(){
-			public boolean match(Campania campaña){
-				return campaña.getEstado().equals(Campania.EstadoCampania.PLANIFICADA);
-			}
-		});
+		return consultar(new CriteriaQuery(Campania.class, Where.equal("estado", EstadoCampania.PLANIFICADA)));
 	}
 
 }
