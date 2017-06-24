@@ -311,11 +311,13 @@ import com.vaadin.ui.VerticalLayout;
 					String cuerpoMensaje = taTextoMensaje.getValue().toString();
 					fechaInicio = datePickerInicio.getValue();
 					Duracion duracion = duracionService.getDuracionPorDescripcion(duracionCampaña.getValue().toString());
-					campañaService.guardar(usuario, nombre, descripcion, null, tagsParaAsociar, tituloMensaje,
+					campañaService.guardar(usuario, nombre, descripcion, accionesPublicitarias, tagsParaAsociar, tituloMensaje,
 							cuerpoMensaje, fechaInicio, duracion);
 
 					Notification.show("Campaña Guardado", Type.TRAY_NOTIFICATION);
 					limpiarCampos(tfNombre, taDescripcion, tfNombreMensaje, taTextoMensaje);
+					limpiarListas(tagsParaAsociar,accionesPublicitarias,accionesAgregadasHastaElMomento,tagsAgregadosHastaElMomento);
+					
 				}
 				tfNombre.focus();
 			});
@@ -364,6 +366,13 @@ import com.vaadin.ui.VerticalLayout;
 			textAreaDescripcion.clear();
 			textFieldNombreMensaje.clear();
 			textAreaTextoMensaje.clear();
+		}
+		
+		private void limpiarListas(List<Tag> tags, List<AccionPublicitaria> acciones, Tree arbolTags, Tree arbolAcciones){
+			tags.clear();
+			acciones.clear();
+			arbolTags.removeAllItems();
+			arbolAcciones.removeAllItems();
 		}
 		
 		@Override
