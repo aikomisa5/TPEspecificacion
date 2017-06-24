@@ -76,9 +76,7 @@ import com.vaadin.ui.VerticalLayout;
 			duraciones.addAll(duracionService.traerDuraciones());
 			ComboBox duracionCampaña = new ComboBox("Duración de Campaña", duraciones);
 			// User may not select a "null" item
-			duracionCampaña.setNullSelectionAllowed(false);
-			
-			
+			duracionCampaña.setNullSelectionAllowed(false);			
 
 			//Calendario
 			
