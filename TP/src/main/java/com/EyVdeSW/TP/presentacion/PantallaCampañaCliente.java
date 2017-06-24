@@ -293,6 +293,7 @@ import com.vaadin.ui.VerticalLayout;
 						String horaInicio = hora.getValue().toString();
 						String minutoInicio = minuto.getValue().toString();
 						
+						
 						AccionPublicitaria accion = new AccionPublicitaria(destinatario, tituloAccion, texto, TipoAccion.particular
 								,periodicidad, horaInicio, minutoInicio);
 						
