@@ -308,10 +308,7 @@ import com.vaadin.ui.VerticalLayout;
 				    
 				
 				
-			});
-			
-			
-			
+			});		
 			
 			
 			Button btnCrear = new Button("Crear Campaña");
@@ -321,33 +318,30 @@ import com.vaadin.ui.VerticalLayout;
 			btnCrear.addClickListener(e -> {
 				if (tfNombre.getValue() == "") {
 					Notification.show("El nombre está vacío!", Type.WARNING_MESSAGE);
-				} 
-				
+				}
+
 				else if (taDescripcion.getValue().toString() == "") {
 					Notification.show("La descripción está vacía!", Type.WARNING_MESSAGE);
 				}
-				
-				else if (tfNombreMensaje.getValue() == ""){
+
+				else if (tfNombreMensaje.getValue() == "") {
 					Notification.show("El nombre del mensaje está vacío!", Type.WARNING_MESSAGE);
 				}
-				
-				else if (taTextoMensaje.getValue().toString() == ""){
+
+				else if (taTextoMensaje.getValue().toString() == "") {
 					Notification.show("El texto del mensaje está vacío!", Type.WARNING_MESSAGE);
-				}
-				else {
-					//XXX fix me please
+				} else {
+					
 					Usuario usuario = usuarioService.getUsuarioPorMail(username);
 					String nombre = tfNombre.getValue();
 					String descripcion = taDescripcion.getValue().toString();
-					String tituloMensaje = tfNombreMensaje.getValue().toString();
+					String tituloMensaje = tfNombreMensaje.getValue();
 					String cuerpoMensaje = taTextoMensaje.getValue().toString();
-					
-					campañaService.guardar(usuario, nombre , descripcion, accionesPublicitarias, tagsParaAsociar , tituloMensaje,
-							cuerpoMensaje , fechaInicio, new Duracion ("Semanal",7));
-					
-//					campañaService.guardar(null,tfNombre.getValue(),taDescripcion.getData().toString(),null,null,
-//							tfNombreMensaje.getValue(),taTextoMensaje.getData().toString(),fechaInicio, null);
-					
+					fechaInicio = datePickerInicio.getValue();
+					Duracion duracion = duracionService.getDuracionPorDescripcion(duracionCampaña.getValue().toString());
+					campañaService.guardar(usuario, nombre, descripcion, null, tagsParaAsociar, tituloMensaje,
+							cuerpoMensaje, fechaInicio, duracion);
+
 					Notification.show("Campaña Guardado", Type.TRAY_NOTIFICATION);
 					limpiarCampos(tfNombre, taDescripcion, tfNombreMensaje, taTextoMensaje);
 				}
