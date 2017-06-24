@@ -49,8 +49,8 @@ public class TestAccionPublicitariaDAONeodatis {
 	public void getAccion(){
 		agregarDatosDePrueba(instanciaCompleja());
 		
-		assertEquals(accionDAO.getAccion("ap3","t3","d3"), new AccionPublicitaria("ap3","t3","d3", TipoAccion.particular));
-		assertEquals(accionDAO.getAccion("ap1", "t1", "d1"), new AccionPublicitaria("ap1","t1","d1",  TipoAccion.general));
+		assertEquals(accionDAO.getAccion("ap3","t3","d3"), new AccionPublicitaria("ap3","t3","d3", TipoAccion.particular, 7, "12","34"));
+		assertEquals(accionDAO.getAccion("ap1", "t1", "d1"), new AccionPublicitaria("ap1","t1","d1",  TipoAccion.general, 7, "17","35"));
 		assertEquals(accionDAO.getAccion("a","dsad","dsad"), null);
 		assertEquals(accionDAO.getAccion("ap1", "t2", "d1"), null);
 		assertEquals(accionDAO.getAccion("ap1", "t1", "d2"), null);
@@ -75,7 +75,7 @@ public class TestAccionPublicitariaDAONeodatis {
 	
 	@Test
 	public void modificar(){
-		AccionPublicitaria modificacion = new AccionPublicitaria("modificacion","Titulo","mensaje",TipoAccion.particular);
+		AccionPublicitaria modificacion = new AccionPublicitaria("modificacion","Titulo","mensaje",TipoAccion.particular, 7, "12","44");
 		
 		agregarDatosDePrueba(instanciaCompleja());
 		AccionPublicitaria original= accionDAO.getAccion("ap2","t2","d2");
@@ -114,9 +114,9 @@ public class TestAccionPublicitariaDAONeodatis {
 	
 	public ArrayList<AccionPublicitaria>instanciaCompleja(){
 		ArrayList<AccionPublicitaria>ret= new ArrayList<>();
-		ret.add(new AccionPublicitaria("ap1","t1","d1", TipoAccion.general));
-		ret.add(new AccionPublicitaria("ap2","t2","d2",  TipoAccion.general));
-		ret.add(new AccionPublicitaria("ap3","t3","d3", TipoAccion.particular));
+		ret.add(new AccionPublicitaria("ap1","t1","d1", TipoAccion.general,7, "12","31"));
+		ret.add(new AccionPublicitaria("ap2","t2","d2",  TipoAccion.general, 3, "12","34"));
+		ret.add(new AccionPublicitaria("ap3","t3","d3", TipoAccion.particular, 2, "12","34"));
 		return ret;
 	}
 

@@ -31,12 +31,14 @@ public class AccionPublicitariaService {
 		sender.enviarMensaje(mensaje, encabezado,destinatario);
 	}
 	
-	public void guardar(String destinatario,String titulo,String msg, String tipo){
+	public void guardar(String destinatario,String titulo,String msg, String tipo, int periodicidad
+			, String horaInicio, String minutoInicio){
 		String destMinuscula = destinatario.toLowerCase();
 		String tituloMinuscula=titulo.toLowerCase();
 		String msgMinuscula=msg.toLowerCase();
 		if(!accionDAO.existe(destMinuscula, tituloMinuscula, msgMinuscula)){
-			AccionPublicitaria ap = new AccionPublicitaria(destMinuscula,tituloMinuscula,msgMinuscula, TipoAccion.valueOf(tipo));
+			AccionPublicitaria ap = new AccionPublicitaria(destMinuscula,tituloMinuscula,msgMinuscula, TipoAccion.valueOf(tipo),
+					periodicidad, horaInicio, minutoInicio);
 			accionDAO.guardar(ap);
 		}
 	}

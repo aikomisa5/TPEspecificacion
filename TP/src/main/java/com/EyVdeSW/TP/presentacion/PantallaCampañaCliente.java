@@ -16,6 +16,7 @@ import com.EyVdeSW.TP.services.DuracionService;
 import com.EyVdeSW.TP.services.TagService;
 import com.EyVdeSW.TP.services.UsuarioService;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.util.HierarchicalContainer;
 import com.vaadin.event.ShortcutAction;
 	import com.vaadin.navigator.View;
 	import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -53,7 +54,9 @@ import com.vaadin.ui.VerticalLayout;
 		
 		public PantallaCampañaCliente() {
 			
+			Tree accionesAgregadasHastaElMomento = new Tree("Acciones Agregadas Hasta El Momento");
 			
+			Tree tagsAgregadosHastaElMomento = new Tree("Tags Agregados Hasta El Momento");
 			
 			
 			
@@ -115,7 +118,7 @@ import com.vaadin.ui.VerticalLayout;
 			
 			btnAsociarTags.addClickListener(e -> {
 				SubMenuTagsAsociadosCampaña sub = new SubMenuTagsAsociadosCampaña();
-
+				
 			    // Add it to the root component
 			    MyUI.getCurrent().addWindow(sub);
 			    
@@ -136,6 +139,7 @@ import com.vaadin.ui.VerticalLayout;
 		        subContent.addComponent(agregar);
 		  			    sub.setHeight("400px");
 			    sub.setWidth("500px");
+			    setMargin(true);
 			   
 		        cerrar.addClickListener(event -> sub.close());
 		        
@@ -163,6 +167,11 @@ import com.vaadin.ui.VerticalLayout;
 		        		for (Tag t : hijos){
 		        			tagsParaAsociar.add(t);
 		        		}
+		        		
+		        		Notification.show("Tags guardados", Type.TRAY_NOTIFICATION);
+						sub.close();
+						//TODO
+					
 		        	}
 		        	
 		        	//XXX No puedo hacer eso porque todavia no existe esa campaña
@@ -207,18 +216,23 @@ import com.vaadin.ui.VerticalLayout;
 					comboBoxPeriodicidad.addItem(i);
 				}
 				
+				comboBoxPeriodicidad.setNullSelectionAllowed(false);
+				
 				ComboBox hora = new ComboBox("Hora de inicio");
 				
 				for (int i = 0; i < 24; i++) {
 					hora.addItem(i);				
 				}
+				
+				hora.setNullSelectionAllowed(false);
+				
 				ComboBox minuto = new ComboBox ("Minuto de inicio");
 				
 				for (int i = 0; i < 60; i++) {
 					minuto.addItem(i);				
 				}
 				
-				
+				minuto.setNullSelectionAllowed(false);
 			
 			    VerticalLayout subContent = new VerticalLayout();
 		        sub.setContent(subContent);
@@ -240,7 +254,8 @@ import com.vaadin.ui.VerticalLayout;
 		        subContent.addComponent(asociar);
 		  			    sub.setHeight("400px");
 			    sub.setWidth("500px");
-			   
+			    setMargin(true);
+			    
 		        cerrar.addClickListener(event -> sub.close());
 		        
 				asociar.addClickListener(event -> {
@@ -257,15 +272,41 @@ import com.vaadin.ui.VerticalLayout;
 						Notification.show("El texto está vacío!", Type.WARNING_MESSAGE);
 					}
 					
+					else if (comboBoxPeriodicidad.getValue() == null){
+						Notification.show("La periodicidad está vacía!", Type.WARNING_MESSAGE);
+					}	
+					else if (hora.getValue() == null){
+							Notification.show("La hora está vacía!", Type.WARNING_MESSAGE);
+					}
+					else if (minuto.getValue() == null){
+							Notification.show("Los minutos estan vacíos!", Type.WARNING_MESSAGE);
+					}
+					//TODO verificar si la accion ya existe
 					else{
 						
 						String destinatario = tfDestinatario.getValue();
 						String tituloAccion = tfTitulo.getValue();
 						String texto = taTexto.getValue().toString();
-						AccionPublicitaria accion = new AccionPublicitaria(destinatario, tituloAccion, texto, TipoAccion.particular);
+						int periodicidad = (int) comboBoxPeriodicidad.getValue();
+						String horaInicio = hora.getValue().toString();
+						String minutoInicio = minuto.getValue().toString();
+						
+						AccionPublicitaria accion = new AccionPublicitaria(destinatario, tituloAccion, texto, TipoAccion.particular
+								,periodicidad, horaInicio, minutoInicio);
 						
 						accionesPublicitarias.add(accion);
+						accionesAgregadasHastaElMomento.addItem(accion.getTitulo());
 						Notification.show("Accion guardada", Type.TRAY_NOTIFICATION);
+
+						
+						
+						
+						//SE BORRA UNA VEZ CREADO LA CAMPAÑA
+						//accionesPublicitarias.clear();
+						
+						//cargarTreeAcciones(accionesAgregadasHastaElMomento);
+						//updateTreeAcciones(accionesAgregadasHastaElMomento);
+						
 						sub.close();
 					}
 											
@@ -306,7 +347,7 @@ import com.vaadin.ui.VerticalLayout;
 					Usuario usuario = usuarioService.getUsuarioPorMail(username);
 					String nombre = tfNombre.getValue();
 					String descripcion = taDescripcion.getValue().toString();
-					String tituloMensaje = tfNombreMensaje.getValue();
+					String tituloMensaje = tfNombreMensaje.getValue().toString();
 					String cuerpoMensaje = taTextoMensaje.getValue().toString();
 					
 					campañaService.guardar(usuario, nombre , descripcion, accionesPublicitarias, tagsParaAsociar , tituloMensaje,
@@ -331,8 +372,16 @@ import com.vaadin.ui.VerticalLayout;
 			
 			VerticalLayout vlFormTags = new VerticalLayout(flFormCampos, hlBotones);
 			vlFormTags.setSpacing(true);
-		
-			HorizontalLayout hlPrincipal = new HorizontalLayout(vlFormTags);
+			
+			FormLayout flFormArboles = new FormLayout(accionesAgregadasHastaElMomento, tagsAgregadosHastaElMomento);
+			flFormArboles.setSpacing(true);
+			
+			VerticalLayout vlFormArboles = new VerticalLayout(flFormArboles);
+			vlFormArboles.setSpacing(true);
+			
+			
+			
+			HorizontalLayout hlPrincipal = new HorizontalLayout(vlFormTags, vlFormArboles);
 			hlPrincipal.setSpacing(true);
 			hlPrincipal.setWidth("80%");
 			addComponent(hlPrincipal);
@@ -375,7 +424,8 @@ import com.vaadin.ui.VerticalLayout;
 			String usernameMail = String.valueOf(getSession().getAttribute("user"));
 			username=usernameMail;
 		}
-
+		
+		
 		
 		
 	

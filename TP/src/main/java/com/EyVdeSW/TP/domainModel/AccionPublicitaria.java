@@ -10,16 +10,23 @@ public class AccionPublicitaria
 	private TipoAccion tipo;
 	private String titulo;
 	private String texto;
-	private UUID idAccion;	
+	private UUID idAccion;
+	private int periodicidad;
+	private String horaInicio;
+	private String minutoInicio;
 	
 	
 
-	public AccionPublicitaria(String destinatario, String titulo, String texto, TipoAccion tipo) {
+	public AccionPublicitaria(String destinatario, String titulo, String texto, TipoAccion tipo,
+			int periodicidad, String horaInicio, String minutoInicio) {
 		this.destinatario = destinatario;
 		this.tipo = tipo;
 		this.titulo = titulo;
 		this.texto = texto;
 		this.idAccion=UUID.randomUUID();
+		this.periodicidad=periodicidad;
+		this.horaInicio=horaInicio;
+		this.minutoInicio=minutoInicio;
 	}
 
 
@@ -75,6 +82,36 @@ public class AccionPublicitaria
 	public int hashCode() {
 		return Objects.hash(idAccion);
 	}
+	
+	public int getPeriodicidad() {
+		return periodicidad;
+	}
+
+
+	public void setPeriodicidad(int periodicidad) {
+		this.periodicidad = periodicidad;
+	}
+
+
+	public String getHoraInicio() {
+		return horaInicio;
+	}
+
+
+	public void setHoraInicio(String horaInicio) {
+		this.horaInicio = horaInicio;
+	}
+
+
+	public String getMinutoInicio() {
+		return minutoInicio;
+	}
+
+
+	public void setMinutoInicio(String minutoInicio) {
+		this.minutoInicio = minutoInicio;
+	}
+
 
 	@Override
 	public boolean equals(Object obj) {
