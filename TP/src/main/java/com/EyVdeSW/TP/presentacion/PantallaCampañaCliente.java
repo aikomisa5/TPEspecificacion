@@ -74,13 +74,7 @@ import com.vaadin.ui.VerticalLayout;
 			
 			BeanItemContainer<Duracion> duraciones = new BeanItemContainer<Duracion>(Duracion.class);
 			duraciones.addAll(duracionService.traerDuraciones());
-			//TODO crear una clase duracion de campañas.
-			ComboBox duracionCampaña = new ComboBox("Duración de Campaña");
-			// Add some items (the given ID is used as item caption)
-			duracionCampaña.addItem("Una semana");
-			duracionCampaña.addItem("Un mes");
-			duracionCampaña.addItem("Un bimestre");
-			duracionCampaña.addItem("Un semestre");
+			ComboBox duracionCampaña = new ComboBox("Duración de Campaña", duraciones);
 			// User may not select a "null" item
 			duracionCampaña.setNullSelectionAllowed(false);
 			
