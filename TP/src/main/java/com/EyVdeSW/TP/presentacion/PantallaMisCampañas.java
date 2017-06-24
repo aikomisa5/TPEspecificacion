@@ -1,6 +1,7 @@
 package com.EyVdeSW.TP.presentacion;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import com.EyVdeSW.TP.domainModel.Campania;
@@ -16,9 +17,10 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
+@SuppressWarnings("serial")
 public class PantallaMisCampañas extends VerticalLayout implements View {
 
-	protected static final String NAME = "pantallaMisCampañas";
+	protected static final String NAME = "misCampanias";
 	
 	CampañaService campañaService = CampañaService.getCampañaService();
 	UsuarioService usuarioService = UsuarioService.getUsuarioService();
@@ -38,8 +40,7 @@ public class PantallaMisCampañas extends VerticalLayout implements View {
 		Button editar = new Button("Editar campaña seleccionada");
 		Button borrar = new Button("Borrar campaña seleccionada");
 		
-		Usuario usuario = usuarioService.getUsuarioPorMail(username);
-		campañas = campañaService.getCampañasDeUsuario(usuario);
+		
 		
 	}
 
@@ -48,6 +49,8 @@ public class PantallaMisCampañas extends VerticalLayout implements View {
 		// TODO Auto-generated method stub
 		String usernameMail = String.valueOf(getSession().getAttribute("user"));
 		username=usernameMail;
+		Usuario usuario = usuarioService.getUsuarioPorMail(username);
+		campañas = campañaService.getCampañasDeUsuario(usuario);
 		
 	}
 
