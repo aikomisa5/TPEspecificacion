@@ -31,14 +31,16 @@ public class MailSender implements MessageSender, Job {
 	      String host = "smtp.mail.com";
 	      	
 	      // Get system properties
-	      Properties properties = System.getProperties();
-
+	      //Properties properties = System.getProperties();
+	      Properties properties = new Properties();
+	      
 	      // Setup mail server
 	      properties.setProperty("mail.smtp.host", host);
 	      properties.remove("mail.smtps.auth");
 	      properties.remove("mail.user", from);
 	      properties.remove("mail.password", pass);
-
+	      //properties.setProperty("mail.smtp.port", "25"); Mail.com SMTP: port: 587 (alternatives: 465 and 25)
+	      
 	      // Get the default Session object.
 	      Session session = Session.getDefaultInstance(properties);
 
