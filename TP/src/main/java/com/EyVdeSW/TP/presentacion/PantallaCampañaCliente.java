@@ -45,9 +45,11 @@ import com.vaadin.ui.VerticalLayout;
 		private TagService tagService = TagService.getTagService();
 		private UsuarioService usuarioService = UsuarioService.getUsuarioService();
 		private TagTree tagTree = new TagTree();
+		HierarchicalContainer tagContainer = new HierarchicalContainer();
 		
 		private List <AccionPublicitaria> accionesPublicitarias = new ArrayList<>();
 		List<Tag> tagsParaAsociar = new ArrayList<>();
+		boolean estado = false;
 		
 		String username = "";
 		Date fechaInicio = new Date();
@@ -109,6 +111,7 @@ import com.vaadin.ui.VerticalLayout;
 			//Asociar tags a la campaña
 			
 			btnAsociarTags.addClickListener(e -> {
+				
 				SubMenuTagsAsociadosCampaña sub = new SubMenuTagsAsociadosCampaña();
 				
 			    // Add it to the root component
@@ -116,9 +119,7 @@ import com.vaadin.ui.VerticalLayout;
 			    
 			    Button cerrar = new Button("Cerrar");
 			    Button agregar = new Button("Agregar");
-			    
-			    
-			
+			    			    			
 			    VerticalLayout subContent = new VerticalLayout();
 		        sub.setContent(subContent);
 		        
@@ -126,74 +127,51 @@ import com.vaadin.ui.VerticalLayout;
 		        // Put some components in it
 		        subContent.addComponent(tagTree);
 		        
-		      //  subContent.addComponent(comboBoxTag);
+		        // subContent.addComponent(comboBoxTag);
 		        subContent.addComponent(cerrar);
 		        subContent.addComponent(agregar);
-		  			    sub.setHeight("400px");
+		  		sub.setHeight("400px");
 			    sub.setWidth("500px");
 			    setMargin(true);
 			   
 		        cerrar.addClickListener(event -> sub.close());
 		        
 		        agregar.addClickListener(event -> {
-		        	//Collection <Tag> hijos =  tagService.traerHijosDe(tag);
-		        	
-		        	//Me tira error, revisar
-		        	
-		        	//boolean estado = verificadorTagYaAsociado(nombreTag,tagsParaAsociar);
-		        	
-		        	/*if (estado){
-		        		Notification.show("El tag ya se encuentra asociado!", Type.WARNING_MESSAGE);
-		           	}*/
-		        	
+		        
 		        	if (tagTree.getValue() == null){
 		        		Notification.show("No has seleccionado ningun tag!", Type.WARNING_MESSAGE);
 		        	}
+		        	
+		        	else if (tagYaAsociado(tagsAgregadosHastaElMomento, tagTree.getValue().toString())){
+		        		Notification.show("Ya asociaste ese tag!", Type.WARNING_MESSAGE);
+		        		estado=false;
+		        	}
 		        	else {
 		        		
-
 			        	String nombreTag = tagTree.getValue().toString();
 			        	
 			        	Tag tag = tagService.getTagPorNombre(nombreTag);
-			        	
-		        		
+			        			        		
 		        		updateTree(tagsAgregadosHastaElMomento,tag);
 		        		
-		        		/*tagsParaAsociar.add(tag);
+		        		//En este punto ya se sabe que el tag que se quiere asociar
+		        		//todavia no esta asociado
+		        		
+		        		
+		        		List<Tag> hijos = (List<Tag>) tagService.traerHijosDe(tag);
+		        				        		
+		        		tagsParaAsociar.add(tag);
 		        		for (Tag t : hijos){
 		        			tagsParaAsociar.add(t);
 		        		}
-		        		*/
-		        		//Despues al momento de crear la campaña lo que hariamos
-		        		//es recorrer el arbol y pasar cada tag a una lista y persistir
-		        		//esa lista
+		        		
 		        		Notification.show("Tags guardados", Type.TRAY_NOTIFICATION);
 						sub.close();
-						//TODO
-						
-						
-					
-		        	}
-		        	
-		        	//XXX No puedo hacer eso porque todavia no existe esa campaña
-		        	//en la base de datos
-		        	//una opcion es agregar todos los tags asociados
-		        	//al momento de crear la campaña
-		        	
-		        	//campañaService.getNombreCampañaSarasa();
-		        	
-		        	
-		        	//esto va en la parte cuando se crea la campaña
-		        	//campañaService.agregarTags(nombreCampaña, tags);
-		        	
-		        	
-		        	System.out.println(tagTree.getValue().toString());
-		        
-		        
+															
+		        	}       	
+		        	 		        
 		        });
 		        
-		        
-
 			});
 			
 			
@@ -213,37 +191,29 @@ import com.vaadin.ui.VerticalLayout;
 				TextArea taTexto = new TextArea("Texto");
 				
 				ComboBox comboBoxPeriodicidad = new ComboBox("Periodicidad");
-				
 				for (int i = 1; i < 8; i++) {
-					comboBoxPeriodicidad.addItem(i);
-				}
-				
+						comboBoxPeriodicidad.addItem(i);
+					}
 				comboBoxPeriodicidad.setNullSelectionAllowed(false);
 				
 				ComboBox hora = new ComboBox("Hora de inicio");
-				
 				for (int i = 0; i < 24; i++) {
-					hora.addItem(i);				
-				}
-				
+						hora.addItem(i);				
+					}
 				hora.setNullSelectionAllowed(false);
 				
 				ComboBox minuto = new ComboBox ("Minuto de inicio");
-				
 				for (int i = 0; i < 60; i++) {
-					minuto.addItem(i);				
-				}
-				
+						minuto.addItem(i);				
+					}				
 				minuto.setNullSelectionAllowed(false);
 			
 			    VerticalLayout subContent = new VerticalLayout();
 		        sub.setContent(subContent);
-		        
-		       
+		      
 		        // Put some components in it
-		    
-		        
-		      //  subContent.addComponent(comboBoxTag);
+		    		        
+		        // subContent.addComponent(comboBoxTag);
 		        subContent.addComponent(tfDestinatario);
 		        subContent.addComponent(tfTitulo);
 		        subContent.addComponent(taTexto);
@@ -254,7 +224,7 @@ import com.vaadin.ui.VerticalLayout;
 		        
 		        subContent.addComponent(cerrar);
 		        subContent.addComponent(asociar);
-		  			    sub.setHeight("400px");
+		        sub.setHeight("400px");
 			    sub.setWidth("500px");
 			    setMargin(true);
 			    
@@ -301,23 +271,14 @@ import com.vaadin.ui.VerticalLayout;
 						accionesAgregadasHastaElMomento.addItem(accion.getTitulo());
 						Notification.show("Accion guardada", Type.TRAY_NOTIFICATION);
 
-						
-						
-						
 						//SE BORRA UNA VEZ CREADO LA CAMPAÑA
 						//accionesPublicitarias.clear();
-						
-						//cargarTreeAcciones(accionesAgregadasHastaElMomento);
-						//updateTreeAcciones(accionesAgregadasHastaElMomento);
 						
 						sub.close();
 					}
 											
 						
-				});
-			
-				    
-				
+				});				
 				
 			});		
 			
@@ -396,16 +357,6 @@ import com.vaadin.ui.VerticalLayout;
 			tagService.traerTodos().forEach(tag -> tags.addBean(tag));
 			comboBoxTag.setContainerDataSource(tags);
 		} */
-		
-		public boolean verificadorTagYaAsociado(String nombreTag, List<Tag>tags){
-			boolean estado = false;
-			
-			for (Tag t : tags){
-				estado = t.getNombre().equals(nombreTag);
-			}
-			
-			return estado;
-		}
 
 		private void limpiarCampos(TextField textFieldNombre, TextArea textAreaDescripcion, 
 				TextField textFieldNombreMensaje, TextArea textAreaTextoMensaje) {
@@ -417,23 +368,33 @@ import com.vaadin.ui.VerticalLayout;
 		
 		@Override
 		public void enter(ViewChangeEvent event) {
-			// TODO Auto-generated method stub
 			String usernameMail = String.valueOf(getSession().getAttribute("user"));
 			username=usernameMail;
 		}
 		
+		private boolean tagYaAsociado(Tree arbol, String tagSelect){
+								
+			arbol.getContainerDataSource().getItemIds().forEach(item -> {
+				Tag tag= ((Tag) item);
+				estado = estado || tagSelect.equals(tag.getNombre());
+				
+			});
+				
+			return estado;
+		}
+		
 		private void updateTree(Tree arbol, Tag tagSeleccionado) {
-			arbol.removeAllItems();
 			cargarTree(arbol,tagSeleccionado);
 			expandirArbol(arbol);
-		}
+			}
+		
 		
 		private void expandirArbol(Tree arbol) {
 			arbol.getItemIds().forEach(item -> arbol.expandItem(item));
 		}
 
 		private void cargarTree(Tree arbol, Tag tagSeleccionado) {
-			HierarchicalContainer tagContainer = new HierarchicalContainer();
+			
 			
 			tagContainer.addItem(tagSeleccionado);
 			tagService.traerHijosDe(tagSeleccionado).forEach(tag -> {
