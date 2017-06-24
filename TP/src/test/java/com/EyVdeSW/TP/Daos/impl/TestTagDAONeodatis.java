@@ -72,14 +72,15 @@ public class TestTagDAONeodatis {
 		List<Tag> tags = instanciaSimple();
 		guardarInstanciaEnBD(tags);
 		Collection<Tag> hijosDeRaiz = tagDAO.traerHijosDe(tags.get(0));
-		assertEquals(3, hijosDeRaiz.size());
+		hijosDeRaiz.forEach(h -> System.out.println(h.getNombre()));
+		assertEquals(7, hijosDeRaiz.size());
 		assertTrue(hijosDeRaiz.contains(tags.get(1)));
 		assertTrue(hijosDeRaiz.contains(tags.get(2)));
 		assertTrue(hijosDeRaiz.contains(tags.get(3)));
-		assertFalse(hijosDeRaiz.contains(tags.get(4)));
+		assertTrue(hijosDeRaiz.contains(tags.get(4)));
 
 		Collection<Tag> hijosDe2 = tagDAO.traerHijosDe(tags.get(2));
-		assertEquals(1, hijosDe2.size());
+		assertEquals(2, hijosDe2.size());
 		assertTrue(hijosDe2.contains(tags.get(4)));
 		assertFalse(hijosDe2.contains(tags.get(3)));
 	}
@@ -127,7 +128,7 @@ public class TestTagDAONeodatis {
 		hijo2.setPadre(raiz);
 		hijo3.setPadre(raiz);
 		hijo21.setPadre(hijo2);
-		hijo31.setPadre(hijo31);
+		hijo31.setPadre(hijo3);
 		hijo311.setPadre(hijo31);
 
 		return Arrays.asList(raiz, hijo1, hijo2, hijo3, hijo21, hijo31, hijo311);

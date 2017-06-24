@@ -1,5 +1,6 @@
 package com.EyVdeSW.TP.services;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -55,7 +56,7 @@ public class MailScheduler {
 		}
 	}
 	
-	public void agregarAccion(String fechaInicio, String fechaFin, String destinatario, String encabezado, String mensaje, String hora) throws ParseException{
+	public void agregarAccion(String fechaInicio, String fechaFin, String destinatario, String encabezado, String mensaje, String hora){
 	
 		try {
 			String horan="0 "+hora;
@@ -75,7 +76,7 @@ public class MailScheduler {
 					.endAt(endDate)
 					.build();
 			sc.scheduleJob(j1, t);
-		} catch (SchedulerException e) {
+		} catch (SchedulerException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -90,15 +91,17 @@ public class MailScheduler {
 		MailScheduler ms=MailScheduler.getMailScheduler();
 		ms.encender();
 		String startDateStr = "2017-06-23 00:00:00.0";
-        String endDateStr = "2017-06-24 00:00:00.0";//sad
+        String endDateStr = "2017-06-24 00:00:00.0";
         
 		try {
 			ms.agregarAccion(startDateStr, endDateStr, "deidelson@mail.com", 
 						"Prueba del service", "exito", "43 14");
-		} catch (ParseException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		
 		
 		
 	}

@@ -2,7 +2,9 @@ package com.EyVdeSW.TP.services;
 
 import static org.junit.Assert.*;
 
+import java.text.ParseException;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
 
@@ -10,10 +12,20 @@ public class TestMailScheduler {
 	MailScheduler ms=MailScheduler.getMailScheduler();
 	
 	@Test
-	public void pruebaRunTime() {
+	public void pruebaRunTime() throws ParseException {
 		ms.encender();
-		//ms.agregarAccion(new Date(20170623), new Date(20170624), "deidelson@mail.com", 
-				//"Prueba del service", "exito", "20 14");
+		String startDateStr = "2017-06-24 00:00:00.0";
+        String endDateStr = "2017-06-25 00:00:00.0";
+        
+		try {
+			ms.agregarAccion(startDateStr, endDateStr, "deidelson@mail.com", 
+						"Prueba del service", "exito", "41 10");
+			//Cambiame de acuerdo al horario
+			 TimeUnit.SECONDS.sleep(300);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

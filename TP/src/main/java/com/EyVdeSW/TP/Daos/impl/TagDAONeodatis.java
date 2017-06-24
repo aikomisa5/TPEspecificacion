@@ -88,8 +88,15 @@ public class TagDAONeodatis extends DAONeodatis<Tag> implements TagDAO {
 
 	@Override
 	public Collection<Tag> traerHijosDe(Tag padre) {
-		return consultar(new CriteriaQuery(Tag.class, Where.equal("padre.nombre", padre.getNombre()))).stream()
-				.collect(Collectors.toSet());
+		Collection<Tag> todosLosTags = traerTodos();
+		List<Tag> ret = new ArrayList<>();
+		Queue<Tag> colaDeTags = new LinkedList<>();
+		colaDeTags.add(padre);
+		while (!colaDeTags.isEmpty()) {
+			todosLosTags.stream().filter(tag -> colaDeTags.peek().equals(tag.getPadre())).forEach(colaDeTags::add);
+			ret.add(colaDeTags.poll());
+		}
+		return ret;
 	}
 
 	@Override
