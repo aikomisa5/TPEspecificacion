@@ -13,6 +13,7 @@ import org.neodatis.odb.ODBServer;
 
 import com.EyVdeSW.TP.Daos.DuracionDAO;
 import com.EyVdeSW.TP.Daos.UsuarioDAO;
+import com.EyVdeSW.TP.Daos.impl.DuracionDAONeodatis;
 import com.EyVdeSW.TP.Daos.impl.UsuarioDAONeodatis;
 import com.EyVdeSW.TP.domainModel.Duracion;
 import com.EyVdeSW.TP.domainModel.Usuario;
@@ -62,15 +63,28 @@ public class WebAppListener implements ServletContextListener
 	{
 		levantarServerNeodatis();
 		cargarProperties();
-		añadirAnalistas();		
+		añadirAnalistas();
+		añadirDuraciones();
 	}
 
-	
+	private void añadirDuraciones() {
+		DuracionDAO duracionDAO = new DuracionDAONeodatis();
+		if (duracionDAO.traerDuraciones().size() >= 4){
+			duracionDAO.borrarDuraciones();
+			duracionDAO.guardar(new Duracion("semana", 7));
+			duracionDAO.guardar(new Duracion("mes", 28));
+			duracionDAO.guardar(new Duracion("bimestre", 56));
+			duracionDAO.guardar(new Duracion("semestre", 168));			
+		}
+		
+	}
 
 	private void añadirAnalistas() {
 		UsuarioDAO usuarioDAO= new UsuarioDAONeodatis();
-		usuarioDAO.guardar(new Usuario("analista técnico", "Pepe", "analista.tecnico@analistas.com", "qwerty123", Usuario.TipoUsuario.ANALISTATECNICO));
-		usuarioDAO.guardar(new Usuario("analista comercial", "Pepe", "analista.comercial@analistas.com", "qwerty123", Usuario.TipoUsuario.ANALISTACOMERCIAL));
+		if (!(usuarioDAO.existeUsuarioPorMail("analista.tecnico@analistas.com") && usuarioDAO.existeUsuarioPorMail("analista.comercial@analistas.com"))){
+			usuarioDAO.guardar(new Usuario("analista técnico", "Pepe", "analista.tecnico@analistas.com", "qwerty123", Usuario.TipoUsuario.ANALISTATECNICO));
+			usuarioDAO.guardar(new Usuario("analista comercial", "Pepe", "analista.comercial@analistas.com", "qwerty123", Usuario.TipoUsuario.ANALISTACOMERCIAL));
+		}
 	}
 
 	private void cargarProperties()
