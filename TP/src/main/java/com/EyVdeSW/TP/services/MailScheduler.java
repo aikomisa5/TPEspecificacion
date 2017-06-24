@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 import org.junit.Test;
 import org.quartz.CronScheduleBuilder;
@@ -70,7 +71,9 @@ public class MailScheduler {
 			Date startDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(fechaInicio);
 			Date endDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(fechaFin);
 			
-			Trigger t = TriggerBuilder.newTrigger().withIdentity("CronTrigger1")
+			String nombreUnico=UUID.randomUUID().toString();
+			
+			Trigger t = TriggerBuilder.newTrigger().withIdentity(nombreUnico)
 					.startAt(startDate)
 					.withSchedule(CronScheduleBuilder.cronSchedule(horan))
 					.endAt(endDate)
