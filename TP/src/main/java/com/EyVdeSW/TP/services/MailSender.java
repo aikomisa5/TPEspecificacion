@@ -17,7 +17,7 @@ import org.quartz.JobKey;
 
 import properties.Parametros;
 
-public class MailSender implements MessageSender, Job {
+public class MailSender implements MessageSender {
 
 	@Override
 	public void enviarMensaje(String destinatario, String encabezado, String mensaje) {		

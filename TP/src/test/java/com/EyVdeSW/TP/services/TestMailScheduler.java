@@ -85,7 +85,7 @@ public class TestMailScheduler {
 		}
 	}
 	
-	//@Test
+	@Test
 	public void agregarAccionesDeCampañas(){
 		agregarDatos(instanciaCampañas());
 		assertEquals(campañaDAO.getCampañasDe(new Usuario("misael", "britos", "misa@mail.com", "bases de datos", TipoUsuario.CLIENTE))
@@ -104,13 +104,13 @@ public class TestMailScheduler {
 		borrarTodo();
 	}
 	
-	@Test
+	//@Test
 	public void campañasVacias(){
 		List<Campania>campañasVigentes= new ArrayList<>();
 		ms.encender();
 		ms.agregarAccionesDeCampañas(campañasVigentes);
 		try {
-			TimeUnit.SECONDS.sleep(300);//lo que necesite
+			TimeUnit.SECONDS.sleep(360);//lo que necesite
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -123,8 +123,8 @@ public class TestMailScheduler {
 	
 	public ArrayList<Campania> instanciaCampañas(){
 		ArrayList<Campania>ret= new ArrayList<>();
-		String startDateStr = "2017-06-24 00:00:00.0";
-        String endDateStr = "2017-06-25 00:00:00.0";
+		String startDateStr = "2017-06-25 00:00:00.0";
+        String endDateStr = "2017-06-26 00:00:00.0";
         Date startDate=null;
         Date endDate=null;
 		try {
@@ -137,9 +137,9 @@ public class TestMailScheduler {
 		
 		Usuario unico= new Usuario("misael", "britos", "misa@mail.com", "bases de datos", TipoUsuario.CLIENTE);
 		AccionPublicitaria ac1 = new AccionPublicitaria("deidelson@mail.com", "titulo1", "texto1", TipoAccion.particular,
-			1, "16", "5");
+			1, "14", "47");
 		AccionPublicitaria ac2 = new AccionPublicitaria("deidelson@mail.com", "titulo2", "texto2", TipoAccion.particular,
-				1, "16", "5");
+				1, "14", "49");
 		Tag t= new Tag("Deportes");
 		List<AccionPublicitaria>acciones = new ArrayList<>();
 		List<Tag>tags= new ArrayList<>();
