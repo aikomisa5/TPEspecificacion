@@ -25,7 +25,11 @@ public class itemMisCampañas extends HorizontalLayout {
 		
 		editar = new Button();
 		editar.setIcon(FontAwesome.EDIT);		
-		editar.setDescription("Editar esta campaña");		
+		editar.setDescription("Editar esta campaña");
+		editar.addClickListener(e ->{
+			getUI().getNavigator().navigateTo(PantallaCampañaCliente.NAME + "/"+ campaña.getIdCampania().toString());
+			
+		});
 		
 		pagar = new Button();
 		pagar.setIcon(FontAwesome.MONEY);

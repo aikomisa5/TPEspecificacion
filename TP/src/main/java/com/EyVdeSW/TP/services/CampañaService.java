@@ -3,6 +3,7 @@ package com.EyVdeSW.TP.services;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.w3c.dom.ls.LSException;
@@ -148,5 +149,9 @@ public class CampañaService {
 	
 	public List<Campania> getCampañasDeUsuario(Usuario usuario){
 		return campañaDAO.getCampañasDe(usuario).stream().collect(Collectors.toList());
+	}
+	
+	public Campania getCampañaPorId(UUID idCampaña){
+		return campañaDAO.getCampañaPorId(idCampaña);
 	}
 }
