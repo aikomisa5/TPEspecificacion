@@ -1,11 +1,15 @@
 package com.EyVdeSW.TP.presentacion;
 
 import com.EyVdeSW.TP.domainModel.Campania;
+import com.EyVdeSW.TP.domainModel.Campania.EstadoCampania;
+import com.EyVdeSW.TP.services.CampañaService;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.ValoTheme;
 
 public class itemMisCampañas extends HorizontalLayout {
@@ -15,12 +19,13 @@ public class itemMisCampañas extends HorizontalLayout {
 	private Button pagar;
 	private Button cancelar;
 	private Button borrar;
+	private CampañaService campañaService = CampañaService.getCampañaService();
 
 	public itemMisCampañas(Campania campaña) {		
 		setWidth("700px");
 		this.campaña = campaña;
 		lblCampaña = new Label();
-		lblCampaña.setCaption("Nombre: " + campaña.getNombre() + " Descripción: " + campaña.getDescripcion());
+		updateLblCampaña(campaña);
 		
 		
 		editar = new Button();
@@ -35,6 +40,16 @@ public class itemMisCampañas extends HorizontalLayout {
 		pagar.setIcon(FontAwesome.MONEY);
 		pagar.setDescription("Pagar esta campaña");
 		pagar.setStyleName(ValoTheme.BUTTON_FRIENDLY);
+		pagar.addClickListener(e ->{
+			campaña.setEstado(EstadoCampania.PLANIFICADA);
+//			campañaService.modificar(campaña.getIdCampania(), campaña);
+			updateLblCampaña(campaña);
+			//TODO integrar a scheduler.
+			Notification.show("Campaña Planificada", Type.TRAY_NOTIFICATION);
+			editar.setEnabled(false);
+			pagar.setEnabled(false);
+		});
+		
 		
 		cancelar = new Button();
 		cancelar.setIcon(FontAwesome.HAND_STOP_O);
@@ -49,5 +64,9 @@ public class itemMisCampañas extends HorizontalLayout {
 		lblCampaña.setWidth("100%");		
 		addComponents(lblCampaña, editar, pagar, cancelar, borrar);
 		setExpandRatio(lblCampaña, 1.0f);
+	}
+
+	private void updateLblCampaña(Campania campaña) {
+		lblCampaña.setCaption("Nombre: " + campaña.getNombre() + " Descripción: " + campaña.getDescripcion() + "Estado: " + campaña.getEstado());
 	}
 }

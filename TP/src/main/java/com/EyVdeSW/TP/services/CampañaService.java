@@ -154,4 +154,8 @@ public class CampañaService {
 	public Campania getCampañaPorId(UUID idCampaña){
 		return campañaDAO.getCampañaPorId(idCampaña);
 	}
+
+	public void modificar(UUID idCampania, Campania campaña) {
+		campañaDAO.modificar(idCampania, campaña);		
+	}
 }

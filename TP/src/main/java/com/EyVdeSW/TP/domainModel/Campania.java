@@ -25,6 +25,11 @@ public class Campania {
 
 	public enum EstadoCampania {
 		PLANIFICADA, PRELIMINAR, CANCELADA;
+		
+		@Override
+		public String toString(){
+			return this.name().toLowerCase();
+		}
 	}
 
 	public Campania(Usuario usuario, String nombre, String descripcion) {

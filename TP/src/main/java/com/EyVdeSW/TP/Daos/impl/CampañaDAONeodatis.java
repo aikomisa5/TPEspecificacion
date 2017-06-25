@@ -141,4 +141,32 @@ public class CampañaDAONeodatis extends DAONeodatis<Campania> implements Campa�
 		return ret;
 	}
 
+	@Override
+	public void modificar(UUID idCampania, Campania campaña) {
+		odb = null;
+		try {
+			odb = bdConnector.getBDConnection();
+			IQuery query = new SimpleNativeQuery(){
+				public boolean match(Campania campania){
+					return campania.getIdCampania().equals(idCampania);
+				}
+			};
+			Objects<Campania> resultadoQuery = odb.getObjects(query);
+
+			Campania t = resultadoQuery.getFirst();
+			t.setMensaje(campaña.getMensaje());
+			t.setAccionesPublicitarias(campaña.getAccionesPublicitarias());
+			t.setNombre(campaña.getNombre());
+			t.setDescripcion(campaña.getDescripcion());
+			t.setFechaDeInicio(campaña.getFechaDeInicio());
+
+			odb.store(t);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (odb != null)
+				odb.close();
+		}
+	}
+
 }
