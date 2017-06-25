@@ -16,7 +16,6 @@ import com.EyVdeSW.TP.services.CampañaService;
 import com.EyVdeSW.TP.services.DuracionService;
 import com.EyVdeSW.TP.services.TagService;
 import com.EyVdeSW.TP.services.UsuarioService;
-import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.HierarchicalContainer;
 import com.vaadin.event.ShortcutAction;
@@ -394,15 +393,13 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 		tfNombre.setValue(campaña.getNombre());
 		taDescripcion.setValue(campaña.getDescripcion());
 		tfNombreMensaje.setValue(campaña.getMensaje().getNombre());
-		taTextoMensaje.setValue(campaña.getMensaje().getTextoMensaje());
-		// TODO calcular la duracion de la campaña y en base a ello, elegir la
-		// duracion preseleccionada.
-		Item duracion = duraciones.getItem(duracionService.getDuracionPorCantidadDeDias(campaña.getDuracion()));
-		duracionCampaña.setValue(duracion);		
-		datePickerInicio.setValue(campaña.getFechaDeInicio());
-		
+		taTextoMensaje.setValue(campaña.getMensaje().getTextoMensaje());		
+		Duracion d = duracionService.getDuracionPorCantidadDeDias(campaña.getDuracion());		
+		duracionCampaña.select(d);		
+		datePickerInicio.setValue(campaña.getFechaDeInicio());		
 		System.out.println("Duracion de campaña: "+ campaña.getDuracion() + " dias.");
 	}
+	
 
 	private boolean tagYaAsociado(Tree arbol, String tagSelect) {
 
