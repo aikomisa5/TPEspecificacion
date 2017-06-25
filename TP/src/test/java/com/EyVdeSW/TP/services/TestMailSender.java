@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.Properties;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.EyVdeSW.TP.domainModel.AccionPublicitaria;
@@ -14,20 +15,19 @@ public class TestMailSender {
 	MailSender sender = new MailSender();
 	AccionPublicitariaService accionService=AccionPublicitariaService.getAccionPublicitariaService();
 	
-	@After
+	@Before
 	public void set(){
 		accionService.setSender(new MailSender());
 	}
 	
 	@Test
 	public void enviarMail(){
-		AccionPublicitaria ac1= new AccionPublicitaria("deidelson@mail.com", "Soy un test", "soy el texto", TipoAccion.particular,
+		AccionPublicitaria ac1= new AccionPublicitaria("deidelson@mail.com", "De una accion", "soy el texto", TipoAccion.particular,
 				2, "12", "23");
-		sender.enviarMensaje(ac1.getDestinatario(), ac1.getTitulo(), ac1.getTexto());
-		sender.enviarMensaje("danilo_eidelson@hotmail.com", "Soy un test", "soy el texto");
+		accionService.enviarMensaje(ac1);
 	}
 	
-	@Test
+	//@Test
 	public void enviarMailDesdeService(){
 		AccionPublicitaria ac1= new AccionPublicitaria("deidelson@mail.com", "Soy un test", "Enviado desde el service",
 				TipoAccion.particular, 2, "12", "23");

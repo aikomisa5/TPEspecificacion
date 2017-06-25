@@ -15,6 +15,8 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.JobKey;
 
+import com.EyVdeSW.TP.domainModel.AccionPublicitaria;
+
 import properties.Parametros;
 
 public class MailSender implements MessageSender {
@@ -85,6 +87,12 @@ public class MailSender implements MessageSender {
 		 }else{
 			 System.out.println("algo salio mal");
 		 }
+		
+	}
+
+	@Override
+	public void enviarMensaje(AccionPublicitaria accion) {
+		enviarMensaje(accion.getDestinatario(), accion.getTitulo(), accion.getTexto());
 		
 	}
 		
