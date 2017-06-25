@@ -1,9 +1,11 @@
 package com.EyVdeSW.TP.domainModel;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class Campania {
 
@@ -135,6 +137,11 @@ public class Campania {
 	
 	public UUID getIdCampania() {
 		return idCampania;
+	}
+	
+	public long getDuracion(){
+		long diff = fechaDeFin.getTime() - fechaDeInicio.getTime();
+	    return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);		
 	}
 
 	@Override

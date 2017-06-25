@@ -118,7 +118,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 		btnAsociarAcciones.addClickListener(e -> {
 			abrirAsociarAcciones(accionesAgregadasHastaElMomento);
 
-		});		
+		});
 
 		Button btnCrear = new Button("Crear Campaña");
 
@@ -379,11 +379,22 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 		String usernameMail = String.valueOf(getSession().getAttribute("user"));
 		username = usernameMail;
 		String args[] = event.getParameters().split("/");
-		if (args[0] != null) {
+		try {
 			idCampaña = args[0];
 			campaña = campañaService.getCampañaPorId(UUID.fromString(idCampaña));
-		}
+			cargarDatosEnFormulario();
+		} catch (IllegalArgumentException e) {}
+	}
 
+	private void cargarDatosEnFormulario() {
+		tfNombre.setValue(campaña.getNombre());
+		taDescripcion.setValue(campaña.getDescripcion());
+		tfNombreMensaje.setValue(campaña.getMensaje().getNombre());
+		taTextoMensaje.setValue(campaña.getMensaje().getTextoMensaje());
+		// TODO calcular la duracion de la campaña y en base a ello, elegir la
+		// duracion preseleccionada.
+		// duracionCampaña.setValue();
+		datePickerInicio.setValue(campaña.getFechaDeInicio());
 	}
 
 	private boolean tagYaAsociado(Tree arbol, String tagSelect) {
