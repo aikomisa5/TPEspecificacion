@@ -88,12 +88,16 @@ public class itemMisCampañas extends HorizontalLayout {
 			editar.setEnabled(false);
 			pagar.setEnabled(false);
 			cancelar.setEnabled(false);
+			borrar.setEnabled(false);
 			break;
 		case PLANIFICADA:
 			editar.setEnabled(false);
 			pagar.setEnabled(false);
+			borrar.setEnabled(false);
+			cancelar.setEnabled(true);
 			break;
 		case PRELIMINAR:
+			cancelar.setEnabled(false);
 			break;
 		case FINALIZADA:
 			editar.setEnabled(false);
