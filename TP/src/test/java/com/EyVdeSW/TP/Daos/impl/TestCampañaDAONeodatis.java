@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.junit.AfterClass;
@@ -91,7 +92,7 @@ public class TestCampañaDAONeodatis {
 		Usuario userValido = new Usuario("pepe", "unUsuario", "usuario@asd.com", "1234", Usuario.TipoUsuario.CLIENTE);
 		Campania c1 = new Campania(userValido, "unaCampaña", "Soy una descripcion");
 		campañaDAO.guardar(c1);
-		assertEquals(c1, campañaDAO.getCampañaPorId(c1.getIdCampania()));
+		assertEquals(c1, campañaDAO.getCampañaPorId(c1.getIdCampania()));		
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
