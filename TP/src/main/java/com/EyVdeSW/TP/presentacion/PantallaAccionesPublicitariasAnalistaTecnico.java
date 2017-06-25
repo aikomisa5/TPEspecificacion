@@ -38,7 +38,7 @@ public class PantallaAccionesPublicitariasAnalistaTecnico extends VerticalLayout
 		
 	        
 	       
-	    tagTree.updateTree();
+	    TagTree.updateTree(tagTree);
 	      
 	
 	
