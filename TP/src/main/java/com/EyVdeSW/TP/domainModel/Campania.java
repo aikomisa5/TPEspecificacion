@@ -133,6 +133,10 @@ public class Campania {
 		this.estado = estado;
 	}	
 	
+	public UUID getIdCampania() {
+		return idCampania;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(idCampania);

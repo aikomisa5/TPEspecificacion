@@ -1,6 +1,7 @@
 package com.EyVdeSW.TP.Daos;
 
 import java.util.Collection;
+import java.util.UUID;
 
 import com.EyVdeSW.TP.domainModel.Campania;
 import com.EyVdeSW.TP.domainModel.Usuario;
@@ -15,4 +16,5 @@ public interface CampañaDAO extends DAO<Campania>{
 	public Usuario getOwner(String nombreCampaña);
 	public Collection<Campania> getCampañasDe(Usuario user);
 	public Collection<Campania> getCampañasVigentes();
+	public Campania getCampañaPorId(UUID id);
 }

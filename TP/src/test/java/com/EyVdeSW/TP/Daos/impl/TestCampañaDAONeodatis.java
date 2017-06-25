@@ -87,6 +87,23 @@ public class TestCampañaDAONeodatis {
 	}
 
 	@Test
+	public void getCampañaPorId(){
+		Usuario userValido = new Usuario("pepe", "unUsuario", "usuario@asd.com", "1234", Usuario.TipoUsuario.CLIENTE);
+		Campania c1 = new Campania(userValido, "unaCampaña", "Soy una descripcion");
+		campañaDAO.guardar(c1);
+		assertEquals(c1, campañaDAO.getCampañaPorId(c1.getIdCampania()));
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void getCampañaPorIdException(){
+		Usuario userValido = new Usuario("pepe", "unUsuario", "usuario@asd.com", "1234", Usuario.TipoUsuario.CLIENTE);
+		Campania c1 = new Campania(userValido, "unaCampaña", "Soy una descripcion");
+		Campania c2 = new Campania(userValido, "unaCampaña", "Soy una descripcion");
+		campañaDAO.guardar(c1);
+		campañaDAO.getCampañaPorId(c2.getIdCampania());
+	}
+	
+	@Test
 	public void modificarSimple() {
 		Usuario userValido = new Usuario("pepe", "unUsuario", "usuario@asd.com", "1234", Usuario.TipoUsuario.CLIENTE);
 		Campania c1 = new Campania(userValido, "unaCampaña", "Soy una descripcion");

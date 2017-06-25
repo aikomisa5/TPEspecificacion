@@ -16,11 +16,11 @@ public class itemMisCampañas extends HorizontalLayout {
 	private Button cancelar;
 	private Button borrar;
 
-	public itemMisCampañas(Campania campaña) {
+	public itemMisCampañas(Campania campaña) {		
 		setWidth("700px");
 		this.campaña = campaña;
 		lblCampaña = new Label();
-		lblCampaña.setCaption("Nombre: " + campaña.getNombre() + "Descripción : " + campaña.getDescripcion());
+		lblCampaña.setCaption("Nombre: " + campaña.getNombre() + " Descripción: " + campaña.getDescripcion());
 		
 		
 		editar = new Button();

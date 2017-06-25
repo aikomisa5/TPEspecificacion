@@ -1,6 +1,7 @@
 package com.EyVdeSW.TP.Daos.impl;
 
 import java.util.Collection;
+import java.util.UUID;
 
 import org.neodatis.odb.Objects;
 import org.neodatis.odb.core.query.IQuery;
@@ -17,13 +18,11 @@ import com.EyVdeSW.TP.domainModel.Usuario;
 public class CampañaDAONeodatis extends DAONeodatis<Campania> implements CampañaDAO {
 
 	@Override
-	public boolean existe(String nombreCampaña)
-	{
+	public boolean existe(String nombreCampaña) {
 		boolean ret = false;
 		Objects<Campania> resultadoQuery = null;
 		odb = null;
-		try
-		{
+		try {
 			odb = bdConnector.getBDConnection();
 			resultadoQuery = odb.getObjects(new CriteriaQuery(Campania.class, Where.equal("nombre", nombreCampaña)));
 			ret = resultadoQuery.size() != 0;
@@ -124,6 +123,22 @@ public class CampañaDAONeodatis extends DAONeodatis<Campania> implements Campa�
 	@Override
 	public Collection<Campania> getCampañasVigentes() {
 		return consultar(new CriteriaQuery(Campania.class, Where.equal("estado", EstadoCampania.PLANIFICADA)));
+	}
+
+	@Override
+	public Campania getCampañaPorId(UUID id) {
+		Campania ret = null;
+		Objects<Campania> resultadoQuery = consultar(new SimpleNativeQuery() {
+			public boolean match(Campania campaña) {
+				return campaña.getIdCampania().equals(id);
+			}
+		});
+		
+		if (resultadoQuery.size() == 0)
+			throw new IllegalArgumentException("No existe una campaña con el id: " + id);
+		else
+			ret = (Campania) resultadoQuery.getFirst();
+		return ret;
 	}
 
 }
