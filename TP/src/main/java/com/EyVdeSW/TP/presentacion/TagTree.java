@@ -12,17 +12,17 @@ import com.vaadin.ui.Tree;
 @SuppressWarnings("serial")
 public class TagTree extends Tree{
 	
-	private TagService tagService = TagService.getTagService();
+	private static TagService tagService = TagService.getTagService();
 	
 	public TagTree (){
 		super("Tags");
 	}
 	
-	public void expandirArbol() {
-		this.getItemIds().forEach(item -> this.expandItem(item));
+	public static void expandirArbol(Tree arbol) {
+		arbol.getItemIds().forEach(item -> arbol.expandItem(item));
 	}
 
-	public void cargarTree() {
+	public static void cargarTreeCompleto(Tree arbol) {
 		HierarchicalContainer tagContainer = new HierarchicalContainer();
 
 		tagService.traerTodos().forEach(tag -> {
@@ -36,16 +36,16 @@ public class TagTree extends Tree{
 			tagContainer.setParent(item, tagPadre);
 		});
 
-		this.setContainerDataSource(tagContainer);
+		arbol.setContainerDataSource(tagContainer);
 	}
 	
-	public void updateTree() {
-		this.removeAllItems();
-		cargarTree();
-		expandirArbol();
+	public static void updateTree(Tree arbol) {
+		arbol.removeAllItems();
+		cargarTreeCompleto(arbol);
+		expandirArbol(arbol);
 	}
 	
-	public void cargarTreeConTagsAgregados(List<Tag>tags){
+	public static void cargarTreeConTagsAgregados(Tree arbol, List<Tag>tags){
 		HierarchicalContainer tagContainer = new HierarchicalContainer();
 		
 		tags.forEach(tag -> {
@@ -59,10 +59,10 @@ public class TagTree extends Tree{
 			tagContainer.setParent(item, tagPadre);
 		});
 
-		this.setContainerDataSource(tagContainer);
+		arbol.setContainerDataSource(tagContainer);
 	}
 	
-	public void cargarTreeConTagsDeCamapaña(Campania c){
+	public static void cargarTreeConTagsDeCamapaña(Tree arbol, Campania c){
 		HierarchicalContainer tagContainer = new HierarchicalContainer();
 		
 		c.getTagsAsociados().forEach(tag -> {
@@ -76,11 +76,42 @@ public class TagTree extends Tree{
 			tagContainer.setParent(item, tagPadre);
 		});
 
-		this.setContainerDataSource(tagContainer);
+		arbol.setContainerDataSource(tagContainer);
 	}
 	
-	public void vaciarArbol(){
-		this.removeAllItems();
+	public static void vaciarArbol(Tree arbol){
+		arbol.removeAllItems();
+	}
+	
+	public static void updateTree(Tree arbol, Tag tagSeleccionado, HierarchicalContainer tagContainer) {
+		cargarTree(arbol, tagSeleccionado, tagContainer);
+		expandirArbol(arbol);
+	}
+
+//	private static void expandirArbol(Tree arbol) {
+//		arbol.getItemIds().forEach(item -> arbol.expandItem(item));
+//	}
+
+	private static void cargarTree(Tree arbol, Tag tagSeleccionado, HierarchicalContainer tagContainer) {
+
+		tagContainer.addItem(tagSeleccionado);
+		tagService.traerHijosDe(tagSeleccionado).forEach(tag -> {
+			tagContainer.addItem(tag);
+			tagContainer.setChildrenAllowed(tag, false);
+		});
+
+		/*
+		 * tagService.traerTodos().forEach(tag -> { tagContainer.addItem(tag);
+		 * tagContainer.setChildrenAllowed(tag, false); });
+		 */
+
+		tagContainer.getItemIds().forEach(item -> {
+			Tag tagPadre = ((Tag) item).getPadre();
+			tagContainer.setChildrenAllowed(tagPadre, true);
+			tagContainer.setParent(item, tagPadre);
+		});
+
+		arbol.setContainerDataSource(tagContainer);
 	}
 	
 }

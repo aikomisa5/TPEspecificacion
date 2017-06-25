@@ -62,7 +62,7 @@ public class TestMailScheduler {
 	}
 
 	
-	
+	@After
 	public void borrarTodo(){
 		campañaDAO.traerTodos().forEach(c -> campañaDAO.borrar(c));
 	}
@@ -80,6 +80,22 @@ public class TestMailScheduler {
 			
 			 TimeUnit.SECONDS.sleep(300);
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//@Test
+	public void agregarAccionesDeCampaña(){
+		agregarDatos(instanciaCampañas());
+		List<Campania>campañasVigentes=(List<Campania>) campañaDAO.getCampañasVigentes();
+		Campania c = campañasVigentes.get(0);
+		assertNotEquals(c, null);
+		ms.encender();
+		ms.agregarAccionesDeCampaña(c);
+		try {
+			TimeUnit.SECONDS.sleep(300);//lo que necesite
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -137,9 +153,9 @@ public class TestMailScheduler {
 		
 		Usuario unico= new Usuario("misael", "britos", "misa@mail.com", "bases de datos", TipoUsuario.CLIENTE);
 		AccionPublicitaria ac1 = new AccionPublicitaria("deidelson@mail.com", "titulo1", "texto1", TipoAccion.particular,
-			1, "14", "47");
+			1, "15", "59");
 		AccionPublicitaria ac2 = new AccionPublicitaria("deidelson@mail.com", "titulo2", "texto2", TipoAccion.particular,
-				1, "14", "49");
+				1, "16", "1");
 		Tag t= new Tag("Deportes");
 		List<AccionPublicitaria>acciones = new ArrayList<>();
 		List<Tag>tags= new ArrayList<>();

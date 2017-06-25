@@ -31,6 +31,10 @@ public class AccionPublicitariaService {
 		sender.enviarMensaje(mensaje, encabezado,destinatario);
 	}
 	
+	public void enviarMensaje(AccionPublicitaria accion){
+		sender.enviarMensaje(accion);
+	}
+	
 	public void guardar(String destinatario,String titulo,String msg, String tipo, int periodicidad
 			, String horaInicio, String minutoInicio){
 		String destMinuscula = destinatario.toLowerCase();

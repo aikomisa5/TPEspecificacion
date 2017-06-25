@@ -45,7 +45,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 	private DuracionService duracionService = DuracionService.getDuracionService();
 	private TagService tagService = TagService.getTagService();
 	private UsuarioService usuarioService = UsuarioService.getUsuarioService();
-	private TagTree tagTree = new TagTree();
+	private Tree tagTree = new TagTree();
 	HierarchicalContainer tagContainer = new HierarchicalContainer();
 
 	private List<AccionPublicitaria> accionesPublicitarias = new ArrayList<>();
@@ -303,7 +303,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 		VerticalLayout subContent = new VerticalLayout();
 		sub.setContent(subContent);
 
-		tagTree.updateTree();
+		TagTree.updateTree(tagTree);
 		// Put some components in it
 		subContent.addComponent(tagTree);
 
@@ -331,7 +331,8 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 
 				Tag tag = tagService.getTagPorNombre(nombreTag);
 
-				updateTree(tagsAgregadosHastaElMomento, tag);
+				//XXX
+				TagTree.updateTree(tagsAgregadosHastaElMomento, tag, tagContainer);
 
 				// En este punto ya se sabe que el tag que se quiere asociar
 				// todavia no esta asociado
@@ -410,37 +411,6 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 		});
 
 		return estado;
-	}
-
-	private void updateTree(Tree arbol, Tag tagSeleccionado) {
-		cargarTree(arbol, tagSeleccionado);
-		expandirArbol(arbol);
-	}
-
-	private void expandirArbol(Tree arbol) {
-		arbol.getItemIds().forEach(item -> arbol.expandItem(item));
-	}
-
-	private void cargarTree(Tree arbol, Tag tagSeleccionado) {
-
-		tagContainer.addItem(tagSeleccionado);
-		tagService.traerHijosDe(tagSeleccionado).forEach(tag -> {
-			tagContainer.addItem(tag);
-			tagContainer.setChildrenAllowed(tag, false);
-		});
-
-		/*
-		 * tagService.traerTodos().forEach(tag -> { tagContainer.addItem(tag);
-		 * tagContainer.setChildrenAllowed(tag, false); });
-		 */
-
-		tagContainer.getItemIds().forEach(item -> {
-			Tag tagPadre = ((Tag) item).getPadre();
-			tagContainer.setChildrenAllowed(tagPadre, true);
-			tagContainer.setParent(item, tagPadre);
-		});
-
-		arbol.setContainerDataSource(tagContainer);
 	}
 
 }
