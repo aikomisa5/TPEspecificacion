@@ -18,4 +18,5 @@ public interface CampañaDAO extends DAO<Campania>{
 	public Collection<Campania> getCampañasVigentes();
 	public Campania getCampañaPorId(UUID id);
 	public void modificar(UUID idCampania, Campania campaña);
+	public void borrar(UUID idCampania);
 }

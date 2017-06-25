@@ -24,7 +24,7 @@ public class Campania {
 	private UUID idCampania;
 
 	public enum EstadoCampania {
-		PLANIFICADA, PRELIMINAR, CANCELADA;
+		PLANIFICADA, PRELIMINAR, CANCELADA, FINALIZADA;
 		
 		@Override
 		public String toString(){

@@ -158,4 +158,8 @@ public class CampañaService {
 	public void modificar(UUID idCampania, Campania campaña) {
 		campañaDAO.modificar(idCampania, campaña);		
 	}
+
+	public void borrar(UUID idCampania) {
+		campañaDAO.borrar(idCampania);		
+	}
 }

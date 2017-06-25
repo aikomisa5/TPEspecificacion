@@ -159,6 +159,8 @@ public class CampañaDAONeodatis extends DAONeodatis<Campania> implements Campa�
 			t.setNombre(campaña.getNombre());
 			t.setDescripcion(campaña.getDescripcion());
 			t.setFechaDeInicio(campaña.getFechaDeInicio());
+			t.setTagsAsociados(campaña.getTagsAsociados());
+			t.setEstado(campaña.getEstado());			
 
 			odb.store(t);
 		} catch (Exception e) {
@@ -167,6 +169,11 @@ public class CampañaDAONeodatis extends DAONeodatis<Campania> implements Campa�
 			if (odb != null)
 				odb.close();
 		}
+	}
+
+	@Override
+	public void borrar(UUID idCampania) {
+		super.borrar(this.getCampañaPorId(idCampania));		
 	}
 
 }

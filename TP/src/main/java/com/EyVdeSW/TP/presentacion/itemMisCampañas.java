@@ -42,12 +42,11 @@ public class itemMisCampañas extends HorizontalLayout {
 		pagar.setStyleName(ValoTheme.BUTTON_FRIENDLY);
 		pagar.addClickListener(e ->{
 			campaña.setEstado(EstadoCampania.PLANIFICADA);
-//			campañaService.modificar(campaña.getIdCampania(), campaña);
+			campañaService.modificar(campaña.getIdCampania(), campaña);
 			updateLblCampaña(campaña);
 			//TODO integrar a scheduler.
 			Notification.show("Campaña Planificada", Type.TRAY_NOTIFICATION);
-			editar.setEnabled(false);
-			pagar.setEnabled(false);
+			establecerVisibilidadBotones();
 		});
 		
 		
@@ -55,15 +54,56 @@ public class itemMisCampañas extends HorizontalLayout {
 		cancelar.setIcon(FontAwesome.HAND_STOP_O);
 		cancelar.setDescription("Cancelar esta campaña");
 		cancelar.setStyleName(ValoTheme.BUTTON_DANGER);
+		cancelar.addClickListener(e ->{
+			campaña.setEstado(EstadoCampania.CANCELADA);
+			campañaService.modificar(campaña.getIdCampania(), campaña);
+			updateLblCampaña(campaña);
+			//TODO integrar a scheduler.
+			Notification.show("Campaña Cancelada", Type.TRAY_NOTIFICATION);
+			establecerVisibilidadBotones();
+		});
+		
 		
 		borrar = new Button();
 		borrar.setIcon(FontAwesome.TRASH);
 		borrar.setDescription("Borrar esta campaña");
 		borrar.setStyleName(ValoTheme.BUTTON_DANGER);
+		borrar.addClickListener(e ->{
+			campañaService.borrar(campaña.getIdCampania());
+			//TODO integrar a scheduler. 
+			Notification.show("Campaña Borrada", Type.TRAY_NOTIFICATION);
+			this.removeAllComponents();
+		});
 		
 		lblCampaña.setWidth("100%");		
 		addComponents(lblCampaña, editar, pagar, cancelar, borrar);
 		setExpandRatio(lblCampaña, 1.0f);
+		
+		establecerVisibilidadBotones();
+	}
+
+	private void establecerVisibilidadBotones() {
+		switch (campaña.getEstado()){
+		case CANCELADA:
+			editar.setEnabled(false);
+			pagar.setEnabled(false);
+			cancelar.setEnabled(false);
+			break;
+		case PLANIFICADA:
+			editar.setEnabled(false);
+			pagar.setEnabled(false);
+			break;
+		case PRELIMINAR:
+			break;
+		case FINALIZADA:
+			editar.setEnabled(false);
+			pagar.setEnabled(false);
+			cancelar.setEnabled(false);
+			borrar.setEnabled(false);
+			break;
+		default:
+			break;
+		}
 	}
 
 	private void updateLblCampaña(Campania campaña) {
