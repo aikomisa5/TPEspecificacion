@@ -81,6 +81,22 @@ public class TestDuracionDAONeodatis {
 		
 	}
 	
+	@Test
+	public void getDuracionPorCantidadDeDias(){
+		List<Duracion> duraciones = getInstancia1();
+		guardarInstancia(duraciones);		
+		Duracion semana = duracionDAO.getDuracionPorCantidadDeDias(7);
+		assertTrue(semana.getDuracion() == 7);	
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void getDuracionPorCantidadDeDiasException(){
+		List<Duracion> duraciones = getInstancia1();
+		guardarInstancia(duraciones);		
+		duracionDAO.getDuracionPorCantidadDeDias(8);			
+	}
+	
+	
 	private List<Duracion> getInstancia1() {
 		List<Duracion> duraciones = new ArrayList<>();
 		duraciones.add(new Duracion("semana", 7));

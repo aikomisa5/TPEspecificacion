@@ -8,6 +8,7 @@ import org.neodatis.odb.OID;
 import org.neodatis.odb.Objects;
 import org.neodatis.odb.core.query.IQuery;
 import org.neodatis.odb.core.query.criteria.Where;
+import org.neodatis.odb.core.query.nq.SimpleNativeQuery;
 import org.neodatis.odb.impl.core.query.criteria.CriteriaQuery;
 
 import com.EyVdeSW.TP.Daos.DuracionDAO;
@@ -106,6 +107,21 @@ public class DuracionDAONeodatis  extends DAONeodatis<Duracion> implements Durac
 				odb.close();
 		}
 		
+	}
+
+	@Override
+	public Duracion getDuracionPorCantidadDeDias(long duracion) {
+		Duracion ret = null;
+		Objects<Duracion> resultadoQuery = consultar(new SimpleNativeQuery(){
+			public boolean match (Duracion d){
+				return d.getDuracion() == duracion;
+			}
+		});
+		if (resultadoQuery.size() !=  0)
+			ret = (Duracion) resultadoQuery.getFirst();
+		else
+			throw new IllegalArgumentException("No existe una duración con la cantidad de dias ingresada:(" + duracion + ") dias.");
+		return ret;
 	}
 
 	

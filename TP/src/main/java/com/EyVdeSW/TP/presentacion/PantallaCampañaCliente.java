@@ -16,6 +16,7 @@ import com.EyVdeSW.TP.services.CampañaService;
 import com.EyVdeSW.TP.services.DuracionService;
 import com.EyVdeSW.TP.services.TagService;
 import com.EyVdeSW.TP.services.UsuarioService;
+import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.HierarchicalContainer;
 import com.vaadin.event.ShortcutAction;
@@ -64,6 +65,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 	TextArea taTextoMensaje;
 	ComboBox duracionCampaña;
 	DateField datePickerInicio;
+	BeanItemContainer<Duracion> duraciones;
 
 	public PantallaCampañaCliente() {
 
@@ -82,7 +84,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 		tfNombreMensaje = new TextField("Nombre Mensaje");
 		taTextoMensaje = new TextArea("Texto del Mensaje");
 
-		BeanItemContainer<Duracion> duraciones = new BeanItemContainer<Duracion>(Duracion.class);
+		duraciones = new BeanItemContainer<Duracion>(Duracion.class);
 		duraciones.addAll(duracionService.traerDuraciones());
 		duracionCampaña = new ComboBox("Duración de Campaña", duraciones);
 		// User may not select a "null" item
@@ -91,7 +93,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 		// Calendario
 
 		// Create a DateField with the default style
-		DateField datePickerInicio = new DateField();
+		datePickerInicio = new DateField();
 		datePickerInicio.setCaption("Fecha de Inicio");
 
 		// Set the date to present
@@ -376,12 +378,14 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
+		campaña = null;
 		String usernameMail = String.valueOf(getSession().getAttribute("user"));
 		username = usernameMail;
 		String args[] = event.getParameters().split("/");
 		try {
 			idCampaña = args[0];
 			campaña = campañaService.getCampañaPorId(UUID.fromString(idCampaña));
+			if (campaña != null)
 			cargarDatosEnFormulario();
 		} catch (IllegalArgumentException e) {}
 	}
@@ -393,8 +397,11 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 		taTextoMensaje.setValue(campaña.getMensaje().getTextoMensaje());
 		// TODO calcular la duracion de la campaña y en base a ello, elegir la
 		// duracion preseleccionada.
-		// duracionCampaña.setValue();
+		Item duracion = duraciones.getItem(duracionService.getDuracionPorCantidadDeDias(campaña.getDuracion()));
+		duracionCampaña.setValue(duracion);		
 		datePickerInicio.setValue(campaña.getFechaDeInicio());
+		
+		System.out.println("Duracion de campaña: "+ campaña.getDuracion() + " dias.");
 	}
 
 	private boolean tagYaAsociado(Tree arbol, String tagSelect) {

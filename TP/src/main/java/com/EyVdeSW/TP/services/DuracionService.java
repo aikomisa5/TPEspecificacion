@@ -51,4 +51,8 @@ public class DuracionService {
 		}
 	}
 
+	public Duracion getDuracionPorCantidadDeDias(long duracion) { 
+		return duracionDAO.getDuracionPorCantidadDeDias(duracion);
+	}
+
 }
