@@ -95,23 +95,26 @@ public class MailScheduler {
 	}
 	
 	public void agregarAccionesDeCampañas(List<Campania>campañas){
-		try {
 			if(campañas.size() != 0 && campañas != null){
 				for(Campania c:campañas){
-					for(AccionPublicitaria ac:c.getAccionesPublicitarias()){
-						String fechaIncio=transformarFecha(c.getFechaDeInicio());
-						String fechaFin=transformarFecha(c.getFechaDeFin());
-						agregarAccion(fechaIncio, fechaFin, ac.getDestinatario(), ac.getTitulo(),
-								ac.getTexto(), ac.getHoraInicio(), ac.getMinutoInicio(), Integer.toString(ac.getPeriodicidad()));
+						agregarAccionesDeCampaña(c);
 					}
 				}
+	}
+
+	
+	public void agregarAccionesDeCampaña(Campania campaña){
+		if(campaña.getAccionesPublicitarias()!=null && campaña.getAccionesPublicitarias().size()!=0){
+			for(AccionPublicitaria ac:campaña.getAccionesPublicitarias()){
+				String fechaIncio=transformarFecha(campaña.getFechaDeInicio());
+				String fechaFin=transformarFecha(campaña.getFechaDeFin());
+				agregarAccion(fechaIncio, fechaFin, ac.getDestinatario(), ac.getTitulo(),
+						ac.getTexto(), ac.getHoraInicio(), ac.getMinutoInicio(), Integer.toString(ac.getPeriodicidad()));
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 	
-	public static String transformarFecha(Date fecha){
+	private static String transformarFecha(Date fecha){
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		String ret = formatter.format(fecha);
 		ret= ret+" 00:00:00.0";
