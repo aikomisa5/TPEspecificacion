@@ -45,12 +45,12 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 	private DuracionService duracionService = DuracionService.getDuracionService();
 	private TagService tagService = TagService.getTagService();
 	private UsuarioService usuarioService = UsuarioService.getUsuarioService();
-	private Tree tagTree = new TagTree();
-	HierarchicalContainer tagContainer = new HierarchicalContainer();
+	
+	
 
 	private List<AccionPublicitaria> accionesPublicitarias = new ArrayList<>();
-	List<Tag> tagsParaAsociar = new ArrayList<>();
-	boolean estado = false;
+	List<Tag> tagsParaAsociar = new ArrayList<>();	
+	HierarchicalContainer tagContainer = new HierarchicalContainer();
 
 	String username = "";
 	Date fechaInicio = new Date();
@@ -65,12 +65,14 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 	ComboBox duracionCampaña;
 	DateField datePickerInicio;
 	BeanItemContainer<Duracion> duraciones;
+	Tree accionesAgregadasHastaElMomento;
+	TagTree tagsAgregadosHastaElMomento;
 
 	public PantallaCampañaCliente() {
 
-		Tree accionesAgregadasHastaElMomento = new Tree("Acciones Agregadas Hasta El Momento");
+		accionesAgregadasHastaElMomento = new Tree("Acciones Agregadas Hasta El Momento");
 
-		Tree tagsAgregadosHastaElMomento = new Tree("Tags Agregados Hasta El Momento");
+		tagsAgregadosHastaElMomento = new TagTree("Tags Agregados Hasta El Momento");
 
 		Label titulo = new Label("Gestión de Campañas");
 		titulo.setStyleName(ValoTheme.LABEL_H1);
@@ -102,12 +104,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 
 		fechaInicio = datePickerInicio.getValue();
 
-		// Para el comboBox, al seleccionar tags para asociar a la campaña
-		BeanItemContainer<Tag> tags = new BeanItemContainer<Tag>(Tag.class);
-		tagService.traerTodos().forEach(tag -> tags.addBean(tag));
-
-		ComboBox comboBoxTag = new ComboBox("Tags", tags);
-
+		
 		// Asociar tags a la campaña
 		Button btnAsociarTags = new Button("Asociar Tags a la Campaña");
 		btnAsociarTags.addClickListener(e -> {
@@ -292,64 +289,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 	}
 
 	private void abrirAsociarTags(Tree tagsAgregadosHastaElMomento) {
-		SubMenuTagsAsociadosCampaña sub = new SubMenuTagsAsociadosCampaña();
-
-		// Add it to the root component
-		MyUI.getCurrent().addWindow(sub);
-
-		Button cerrar = new Button("Cerrar");
-		Button agregar = new Button("Agregar");
-
-		VerticalLayout subContent = new VerticalLayout();
-		sub.setContent(subContent);
-
-		TagTree.updateTree(tagTree);
-		// Put some components in it
-		subContent.addComponent(tagTree);
-
-		// subContent.addComponent(comboBoxTag);
-		subContent.addComponent(cerrar);
-		subContent.addComponent(agregar);
-		sub.setHeight("400px");
-		sub.setWidth("500px");
-		setMargin(true);
-
-		cerrar.addClickListener(event -> sub.close());
-
-		agregar.addClickListener(event -> {
-
-			if (tagTree.getValue() == null) {
-				Notification.show("No has seleccionado ningun tag!", Type.WARNING_MESSAGE);
-			}
-
-			else if (tagYaAsociado(tagsAgregadosHastaElMomento, tagTree.getValue().toString())) {
-				Notification.show("Ya asociaste ese tag!", Type.WARNING_MESSAGE);
-				estado = false;
-			} else {
-
-				String nombreTag = tagTree.getValue().toString();
-
-				Tag tag = tagService.getTagPorNombre(nombreTag);
-
-				//XXX
-				TagTree.updateTree(tagsAgregadosHastaElMomento, tag, tagContainer);
-
-				// En este punto ya se sabe que el tag que se quiere asociar
-				// todavia no esta asociado
-
-				List<Tag> hijos = (List<Tag>) tagService.traerHijosDe(tag);
-
-				tagsParaAsociar.add(tag);
-				for (Tag t : hijos) {
-					tagsParaAsociar.add(t);
-				}
-
-				Notification.show("Tags guardados", Type.TRAY_NOTIFICATION);
-				sub.close();
-
-			}
-
-		});
+		SubMenuTagsAsociadosCampaña sub = new SubMenuTagsAsociadosCampaña(tagsAgregadosHastaElMomento, tagService, tagsParaAsociar, tagContainer);
 	}
 
 	/*
@@ -402,15 +342,6 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 	}
 	
 
-	private boolean tagYaAsociado(Tree arbol, String tagSelect) {
-
-		arbol.getContainerDataSource().getItemIds().forEach(item -> {
-			Tag tag = ((Tag) item);
-			estado = estado || tagSelect.equals(tag.getNombre());
-
-		});
-
-		return estado;
-	}
+	
 
 }

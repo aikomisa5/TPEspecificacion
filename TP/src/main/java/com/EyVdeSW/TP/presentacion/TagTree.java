@@ -18,6 +18,10 @@ public class TagTree extends Tree{
 		super("Tags");
 	}
 	
+	public TagTree (String descripcion){
+		super(descripcion);
+	}
+	
 	public static void expandirArbol(Tree arbol) {
 		arbol.getItemIds().forEach(item -> arbol.expandItem(item));
 	}
