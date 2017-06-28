@@ -41,11 +41,7 @@ public class CampañaService {
 	public void guardar (Usuario usuario, String nombre, String descripcion, List<AccionPublicitaria> accionesPublicitarias, List<Tag> tagsAsociados, String tituloMensaje,
 			String cuerpoMensaje ,Date fechaDeInicio, Duracion duracion){
 		
-		Calendar c = Calendar.getInstance();
-		c.setTime(fechaDeInicio);
-		c.add(Calendar.DATE,duracion.getDuracion());
-		
-		Date fechaDeFin = c.getTime();
+		Date fechaDeFin = calcularFechaDeFin(fechaDeInicio, duracion);
 		
 		nombre=nombre.toLowerCase();
 		
@@ -55,7 +51,7 @@ public class CampañaService {
 					fechaDeInicio, fechaDeFin));
 		}
 	}
-	
+
 	public void borrar (String nombreCampaña){
 		String nombreMinuscula = nombreCampaña.toLowerCase();
 		if (campañaDAO.existe(nombreMinuscula)){
@@ -161,5 +157,14 @@ public class CampañaService {
 
 	public void borrar(UUID idCampania) {
 		campañaDAO.borrar(idCampania);		
+	}	
+	
+	public static Date calcularFechaDeFin(Date fechaDeInicio, Duracion duracion) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(fechaDeInicio);
+		c.add(Calendar.DATE,duracion.getDuracion());
+		
+		Date fechaDeFin = c.getTime();
+		return fechaDeFin;
 	}
 }

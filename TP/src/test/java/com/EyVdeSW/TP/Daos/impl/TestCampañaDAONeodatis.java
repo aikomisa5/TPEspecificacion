@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -211,6 +212,7 @@ public class TestCampañaDAONeodatis {
 		assertTrue(campañasVigentes.contains(campañas.get(0)));
 		assertTrue(campañasVigentes.contains(campañas.get(1)));
 		assertTrue(campañasVigentes.contains(campañas.get(3)));
+		System.out.println(Campania.convertirDateAString(new Date()));
 	}
 
 

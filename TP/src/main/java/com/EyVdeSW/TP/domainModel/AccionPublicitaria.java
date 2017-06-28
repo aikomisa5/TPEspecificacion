@@ -142,6 +142,13 @@ public class AccionPublicitaria
 		return true;
 	}
 	
+	
+	@Override
+	public String toString() {
+		return "destinatario: " + destinatario + ", titulo: " + titulo;
+	}
+
+
 	public enum TipoAccion{
 		general,
 		particular

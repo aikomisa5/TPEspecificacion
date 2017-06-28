@@ -109,7 +109,7 @@ public class SubMenuAccionesPublicitariasPersonalizadas extends Window {
 							TipoAccion.particular, periodicidad, horaInicio, minutoInicio);
 
 					accionesParaAsociar.add(accion);
-					accionesAgregadasHastaElMomento.addItem(accion.getTitulo());
+					accionesAgregadasHastaElMomento.addItem(accion);
 					Notification.show("Accion guardada", Type.TRAY_NOTIFICATION);
 
 					// SE BORRA UNA VEZ CREADO LA CAMPAÑA
