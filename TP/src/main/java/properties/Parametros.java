@@ -11,7 +11,11 @@ public class Parametros {
 	public static final String PARAM_FILE = "C:\\TP\\TP.properties";
 	
 	//legacy code, ahora asigno las properties directamente
-	public static final String dbTestPath = "ubicacion.bd.test";	
+	public static final String dbTestPath = "ubicacion.bd.test";
+	public static final String ubicacionBd = "ubicacion.bd";
+	public static final String emailUser = "email.user";
+	public static final String emailPass = "email.pass";
+	public static final String sendGridApiKey = "sendgrid.api.key";
 	
 	public static void SetearParametros() {		
 		p.setProperty("ubicacion.bd.test", "C:\\TP\\bdTest");
