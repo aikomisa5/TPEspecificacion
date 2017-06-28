@@ -17,6 +17,7 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
+import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
 
 import com.EyVdeSW.TP.Daos.CampañaDAO;
@@ -111,6 +112,21 @@ public class MailScheduler {
 				agregarAccion(fechaIncio, fechaFin, ac.getDestinatario(), ac.getTitulo(),
 						ac.getTexto(), ac.getHoraInicio(), ac.getMinutoInicio(), Integer.toString(ac.getPeriodicidad()));
 			}
+		}
+	}
+	
+	public void quitarAccionesDeCampaña(Campania campaña){
+		if(campaña.getAccionesPublicitarias()!=null && campaña.getAccionesPublicitarias().size()!=0){
+			
+		}
+	}
+	
+	public void quitarAccion(String claveCampaña,String claveAccion){
+		try {
+			sc.unscheduleJob(TriggerKey.triggerKey(claveCampaña+claveAccion));
+		} catch (SchedulerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
