@@ -17,17 +17,16 @@ public class Campania {
 	private String descripcion;
 	private Date fechaDeInicio;
 	private Date fechaDeFin;
-	
-	private EstadoCampania estado;
 
+	private EstadoCampania estado;
 
 	private UUID idCampania;
 
 	public enum EstadoCampania {
 		PLANIFICADA, PRELIMINAR, CANCELADA, FINALIZADA;
-		
+
 		@Override
-		public String toString(){
+		public String toString() {
 			return this.name().toLowerCase();
 		}
 	}
@@ -47,10 +46,11 @@ public class Campania {
 		idCampania = UUID.randomUUID();
 	}
 
-	public Campania(Usuario usuario, String nombre, String descripcion, List<AccionPublicitaria> accionesPublicitarias, List<Tag> tagsAsociados, Mensaje mensaje,
-			Date fechaDeInicio, Date fechaDeFin) {
+	public Campania(Usuario usuario, String nombre, String descripcion, List<AccionPublicitaria> accionesPublicitarias,
+			List<Tag> tagsAsociados, Mensaje mensaje, Date fechaDeInicio, Date fechaDeFin) {
 		if (usuario.getTipoUsuario() != Usuario.TipoUsuario.CLIENTE)
-			throw new IllegalArgumentException(usuario.toString() + " no es del tipo Cliente. " + "Tipo recibido: "+ usuario.getTipoUsuario().name());
+			throw new IllegalArgumentException(usuario.toString() + " no es del tipo Cliente. " + "Tipo recibido: "
+					+ usuario.getTipoUsuario().name());
 		else
 			this.usuario = usuario;
 		this.accionesPublicitarias = accionesPublicitarias;
@@ -63,19 +63,19 @@ public class Campania {
 		estado = EstadoCampania.PRELIMINAR;
 		idCampania = UUID.randomUUID();
 	}
-	
+
 	public void addAccionPublicitaria(AccionPublicitaria accion) {
 		accionesPublicitarias.add(accion);
 	}
-	
-	public void addTag(Tag tag){
+
+	public void addTag(Tag tag) {
 		tagsAsociados.add(tag);
 	}
 
 	public Usuario getUsuario() {
 		return usuario;
 	}
-	
+
 	public List<AccionPublicitaria> getAccionesPublicitarias() {
 		return accionesPublicitarias;
 	}
@@ -138,15 +138,15 @@ public class Campania {
 
 	public void setEstado(EstadoCampania estado) {
 		this.estado = estado;
-	}	
-	
+	}
+
 	public UUID getIdCampania() {
 		return idCampania;
 	}
-	
-	public long getDuracion(){
+
+	public long getDuracion() {
 		long diff = fechaDeFin.getTime() - fechaDeInicio.getTime();
-	    return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);		
+		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 	}
 
 	@Override
@@ -174,6 +174,15 @@ public class Campania {
 	@Override
 	public String toString() {
 		return nombre;
+	}
+
+	public static String convertirDateAString(Date date) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH);
+		int day = c.get(Calendar.DAY_OF_MONTH);		
+		return year+"-"+month+"-"+day;
 	}
 
 }
