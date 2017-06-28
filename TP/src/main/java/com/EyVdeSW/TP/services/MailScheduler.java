@@ -35,7 +35,6 @@ public class MailScheduler {
 		try {
 			sc=StdSchedulerFactory.getDefaultScheduler();
 		} catch (SchedulerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -64,11 +63,10 @@ public class MailScheduler {
 	}
 	
 	public void agregarAccion(String fechaInicio, String fechaFin, String destinatario, String encabezado, String mensaje, String hora,
-			String minuto, String perioricidad){
+			String minuto, String perioricidad, String idCampaña, String idAccion){
 	
 		try {
 			String horan="0 "+minuto+" "+hora;
-			//horan=horan+" 1/1 * ? *";
 			horan=horan+" 1/"+perioricidad;
 			horan=horan+" * ? *";
 			JobDetail j1=JobBuilder.newJob(MailSender.class)
@@ -80,7 +78,7 @@ public class MailScheduler {
 			Date startDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(fechaInicio);
 			Date endDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(fechaFin);
 			
-			String nombreUnico=UUID.randomUUID().toString();
+			String nombreUnico=idCampaña+idAccion;
 			
 			Trigger t = TriggerBuilder.newTrigger().withIdentity(nombreUnico)
 					.startAt(startDate)
@@ -89,7 +87,6 @@ public class MailScheduler {
 					.build();
 			sc.scheduleJob(j1, t);
 		} catch (SchedulerException | ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -110,22 +107,25 @@ public class MailScheduler {
 				String fechaIncio=transformarFecha(campaña.getFechaDeInicio());
 				String fechaFin=transformarFecha(campaña.getFechaDeFin());
 				agregarAccion(fechaIncio, fechaFin, ac.getDestinatario(), ac.getTitulo(),
-						ac.getTexto(), ac.getHoraInicio(), ac.getMinutoInicio(), Integer.toString(ac.getPeriodicidad()));
+						ac.getTexto(), ac.getHoraInicio(), ac.getMinutoInicio(), Integer.toString(ac.getPeriodicidad()),
+						campaña.getIdCampania().toString(), ac.getIdAccion().toString());
 			}
 		}
 	}
 	
-	public void quitarAccionesDeCampaña(Campania campaña){
+	public void cancelarCampaña(Campania campaña){
 		if(campaña.getAccionesPublicitarias()!=null && campaña.getAccionesPublicitarias().size()!=0){
-			
+			campaña.getAccionesPublicitarias().forEach(accion -> {
+				quitarJobDePlanificacion(campaña.getIdCampania().toString(),accion.getIdAccion().toString());
+			});
+			System.out.println("La campaña se cancelo correctamente");
 		}
 	}
 	
-	public void quitarAccion(String claveCampaña,String claveAccion){
+	public void quitarJobDePlanificacion(String claveCampaña,String claveAccion){
 		try {
 			sc.unscheduleJob(TriggerKey.triggerKey(claveCampaña+claveAccion));
 		} catch (SchedulerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -163,7 +163,6 @@ public class MailScheduler {
 //			ms.agregarAccion(startDateStr, endDateStr, "deidelson@mail.com", 
 //						"Prueba del service", "exito", "14","43","1");
 //		} catch (Exception e) {
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 //		Date fecha = new Date(20170603);

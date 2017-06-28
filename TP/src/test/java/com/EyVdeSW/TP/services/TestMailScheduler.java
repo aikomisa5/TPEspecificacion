@@ -75,7 +75,7 @@ public class TestMailScheduler {
         
 		try {
 			ms.agregarAccion(startDateStr, endDateStr, "deidelson@mail.com", 
-						"Prueba del service", "exito", "12","54", "1");
+						"Prueba del service", "exito", "12","54", "1","dasd","dasd");
 			//Cambiame de acuerdo al horario
 			
 			 TimeUnit.SECONDS.sleep(300);
@@ -101,7 +101,7 @@ public class TestMailScheduler {
 		}
 	}
 	
-	@Test
+	//@Test
 	public void agregarAccionesDeCampañas(){
 		agregarDatos(instanciaCampañas2());
 		assertEquals(campañaDAO.getCampañasDe(new Usuario("misael", "britos", "misa@mail.com", "bases de datos", TipoUsuario.CLIENTE))
@@ -118,6 +118,36 @@ public class TestMailScheduler {
 		}
 
 		borrarTodo();
+	}
+	
+	@Test
+	public void agregarAccionesDeCampañas2(){
+		String horaInicio="14";
+		ArrayList<Campania>instancia=instanciaCampaña("deidelson@mail.com","2017-06-28", "2017-06-29", horaInicio, minutosInicio(37,3));
+		agregarDatos(instancia);
+		List<Campania>campañasVigentes=(List<Campania>) campañaDAO.getCampañasVigentes();
+		assertEquals(campañasVigentes.size(), 1);
+		ms.encender();
+		ms.agregarAccionesDeCampañas(campañasVigentes);
+		try {
+			TimeUnit.SECONDS.sleep(300);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//@Test
+	public void cancelarCampaña() throws InterruptedException{
+		String horaInicio="14";
+		ArrayList<Campania>instancia=instanciaCampaña("deidelson@mail.com","2017-06-28", "2017-06-29", horaInicio, minutosInicio(19,2));
+		agregarDatos(instancia);
+		List<Campania>campañasVigentes=(List<Campania>) campañaDAO.getCampañasVigentes();
+		assertEquals(campañasVigentes.size(), 1);
+		ms.encender();
+		ms.agregarAccionesDeCampañas(campañasVigentes);
+		ms.cancelarCampaña(campañasVigentes.get(0));
+		TimeUnit.SECONDS.sleep(300);
 	}
 	
 	//@Test
@@ -198,6 +228,46 @@ public class TestMailScheduler {
 		Campania c = new Campania(unico, "sarasa", "dasdas", acciones, tags, m, startDate, endDate);
 		c.setEstado(EstadoCampania.PLANIFICADA);
 		ret.add(c);
+		return ret;
+	}
+	
+	public ArrayList<Campania>instanciaCampaña(String destinatario,String startDateStr,  String endDateStr, String horaInicio,  ArrayList<String>minutosInicio){
+		ArrayList<Campania>ret= new ArrayList<>();
+		
+        Date startDate=null;
+        Date endDate=null;
+		try {
+			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(startDateStr);
+			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(endDateStr);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Usuario unico= new Usuario("misael", "britos", "misa@mail.com", "bases de datos", TipoUsuario.CLIENTE);
+		List<AccionPublicitaria>acciones = new ArrayList<>();
+		
+		for(int i =0; i< minutosInicio.size(); i++){
+			acciones.add(new AccionPublicitaria(destinatario, "titulo "+Integer.toString(i), "texto "+Integer.toString(i), TipoAccion.particular,
+			1, horaInicio, minutosInicio.get(i)));
+		}
+		
+		
+		Tag t= new Tag("Deportes");
+		List<Tag>tags= new ArrayList<>();
+		tags.add(t);
+		Mensaje m = new Mensaje("titulo", "texto");
+		Campania c = new Campania(unico, "sarasa", "dasdas", acciones, tags, m, startDate, endDate);
+		c.setEstado(EstadoCampania.PLANIFICADA);
+		ret.add(c);
+		return ret;
+	}
+	
+	public ArrayList<String>minutosInicio(int desde, int cantidad){
+		ArrayList<String>ret=new ArrayList<>();
+		for(int i=0; i<cantidad; i++){
+			ret.add(Integer.toString(desde+i));
+		}
 		return ret;
 	}
 

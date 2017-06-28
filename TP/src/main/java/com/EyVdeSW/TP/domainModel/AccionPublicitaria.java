@@ -153,4 +153,9 @@ public class AccionPublicitaria
 		general,
 		particular
 	}
+	
+	public UUID getIdAccion() {
+		return this.idAccion;
+	}
+	
 }
