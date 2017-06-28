@@ -103,7 +103,7 @@ public class TestMailScheduler {
 	
 	@Test
 	public void agregarAccionesDeCampañas(){
-		agregarDatos(instanciaCampañas());
+		agregarDatos(instanciaCampañas2());
 		assertEquals(campañaDAO.getCampañasDe(new Usuario("misael", "britos", "misa@mail.com", "bases de datos", TipoUsuario.CLIENTE))
 				.size(), 1);
 		List<Campania>campañasVigentes=(List<Campania>) campañaDAO.getCampañasVigentes();
@@ -139,8 +139,8 @@ public class TestMailScheduler {
 	
 	public ArrayList<Campania> instanciaCampañas(){
 		ArrayList<Campania>ret= new ArrayList<>();
-		String startDateStr = "2017-06-25 00:00:00.0";
-        String endDateStr = "2017-06-26 00:00:00.0";
+		String startDateStr = "2017-06-27 00:00:00.0";
+        String endDateStr = "2017-06-28 00:00:00.0";
         Date startDate=null;
         Date endDate=null;
 		try {
@@ -153,9 +153,41 @@ public class TestMailScheduler {
 		
 		Usuario unico= new Usuario("misael", "britos", "misa@mail.com", "bases de datos", TipoUsuario.CLIENTE);
 		AccionPublicitaria ac1 = new AccionPublicitaria("deidelson@mail.com", "titulo1", "texto1", TipoAccion.particular,
-			1, "15", "59");
+			1, "11", "20");
 		AccionPublicitaria ac2 = new AccionPublicitaria("deidelson@mail.com", "titulo2", "texto2", TipoAccion.particular,
-				1, "16", "1");
+				1, "11", "22");
+		Tag t= new Tag("Deportes");
+		List<AccionPublicitaria>acciones = new ArrayList<>();
+		List<Tag>tags= new ArrayList<>();
+		acciones.add(ac1);
+		acciones.add(ac2);
+		tags.add(t);
+		Mensaje m = new Mensaje("titulo", "texto");
+		Campania c = new Campania(unico, "sarasa", "dasdas", acciones, tags, m, startDate, endDate);
+		c.setEstado(EstadoCampania.PLANIFICADA);
+		ret.add(c);
+		return ret;
+	}
+	
+	public ArrayList<Campania> instanciaCampañas2(){
+		ArrayList<Campania>ret= new ArrayList<>();
+		String startDateStr = "2017-06-27";
+        String endDateStr = "2017-06-28";
+        Date startDate=null;
+        Date endDate=null;
+		try {
+			startDate = new SimpleDateFormat("yyyy-MM-dd").parse(startDateStr);
+			endDate = new SimpleDateFormat("yyyy-MM-dd").parse(endDateStr);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Usuario unico= new Usuario("misael", "britos", "misa@mail.com", "bases de datos", TipoUsuario.CLIENTE);
+		AccionPublicitaria ac1 = new AccionPublicitaria("deidelson@mail.com", "titulo1", "texto1", TipoAccion.particular,
+			1, "11", "20");
+		AccionPublicitaria ac2 = new AccionPublicitaria("deidelson@mail.com", "titulo2", "texto2", TipoAccion.particular,
+				1, "11", "22");
 		Tag t= new Tag("Deportes");
 		List<AccionPublicitaria>acciones = new ArrayList<>();
 		List<Tag>tags= new ArrayList<>();

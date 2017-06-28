@@ -17,6 +17,7 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
+import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
 
 import com.EyVdeSW.TP.Daos.CampañaDAO;
@@ -114,12 +115,42 @@ public class MailScheduler {
 		}
 	}
 	
-	private static String transformarFecha(Date fecha){
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		String ret = formatter.format(fecha);
-		ret= ret+" 00:00:00.0";
-		return ret;
+	public void quitarAccionesDeCampaña(Campania campaña){
+		if(campaña.getAccionesPublicitarias()!=null && campaña.getAccionesPublicitarias().size()!=0){
+			
+		}
 	}
+	
+	public void quitarAccion(String claveCampaña,String claveAccion){
+		try {
+			sc.unscheduleJob(TriggerKey.triggerKey(claveCampaña+claveAccion));
+		} catch (SchedulerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+//	private static String transformarFecha(Date fecha){
+//		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//		String ret = formatter.format(fecha);
+//		ret= ret+" 00:00:00.0";
+//		return ret;
+//	}
+	
+	public static String transformarFecha(Date fecha){
+	    Calendar cal = Calendar.getInstance();
+	    cal.setTime(fecha);
+	    int year = cal.get(Calendar.YEAR);
+	    int month = cal.get(Calendar.MONTH)+1;
+	    int day = cal.get(Calendar.DAY_OF_MONTH);
+	    String mes= Integer.toString(month);
+	    if(mes.length()<2)
+	    	mes = "0"+Integer.toString(month);
+	    String ret = Integer.toString(year)+"-"+mes+"-"+Integer.toString(day)+" 00:00:00.0";
+	    return ret;
+	}
+	
+	
 
 	//TODO delete
 	public static void main(String[] args) {
@@ -135,8 +166,13 @@ public class MailScheduler {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-	
-		
+//		Date fecha = new Date(20170603);
+//		Calendar cal = Calendar.getInstance();
+//		cal.setTime(fecha);
+//		int mesActual = cal.get(Calendar.MONTH)+1;
+//		System.out.println(Integer.toString(mesActual));
+//		
+		Date d = new Date (20170603);
 		
 		
 		
