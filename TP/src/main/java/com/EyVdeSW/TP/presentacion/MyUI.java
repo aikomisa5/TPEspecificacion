@@ -53,10 +53,7 @@ public class MyUI extends UI
 		navigator.addView(PantallaTagsAnalistaTecnico.NAME, new PantallaTagsAnalistaTecnico());	
 		navigator.addView(PantallaRegistro.NAME, new PantallaRegistro());
 		navigator.addView(PantallaCampañaCliente.NAME, new PantallaCampañaCliente());
-		navigator.addView(PantallaMisCampañas.NAME, new PantallaMisCampañas());
-		
-		navigator.addView(PantallaAccionesPublicitariasAnalistaTecnico.NAME, new PantallaAccionesPublicitariasAnalistaTecnico());
-		navigator.addView(PantallaAsignadorDeRolesAnalistaTecnico.NAME, new PantallaAsignadorDeRolesAnalistaTecnico());	
+		navigator.addView(PantallaMisCampañas.NAME, new PantallaMisCampañas());	
 	
         getNavigator().addView(PantallaLogin.NAME, PantallaLogin.class);
 
