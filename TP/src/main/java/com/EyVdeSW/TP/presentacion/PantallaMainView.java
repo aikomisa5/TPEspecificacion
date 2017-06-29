@@ -1,16 +1,21 @@
 package com.EyVdeSW.TP.presentacion;
 
+import java.io.File;
+
 import com.EyVdeSW.TP.domainModel.Usuario;
 import com.EyVdeSW.TP.services.UsuarioService;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.FileResource;
+import com.vaadin.server.VaadinService;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 @SuppressWarnings("serial")
-public class PantallaMainView extends CustomComponent implements View {
+public class PantallaMainView extends VerticalLayout implements View {
 
 	public static final String NAME = "";
 
@@ -20,10 +25,23 @@ public class PantallaMainView extends CustomComponent implements View {
 	
 	public PantallaMainView() {
 		
-		
-		setCompositionRoot(new VerticalLayout(text));
+		String basepath = VaadinService.getCurrent()
+                .getBaseDirectory().getAbsolutePath();
 
-		text.setStyleName(ValoTheme.LABEL_H3);
+		// Image as a file resource
+		FileResource resource = new FileResource(new File(basepath +
+		                      "/WEB-INF/images/fondo.jpg"));
+		
+		// Show the image in the application
+		Image image = new Image("", resource);
+	
+				
+		VerticalLayout subContent = new VerticalLayout();
+		subContent.addComponent(text);
+		subContent.addComponent(image);
+		addComponent(subContent);
+
+		text.setStyleName(ValoTheme.LABEL_COLORED);
 		
 
 	}

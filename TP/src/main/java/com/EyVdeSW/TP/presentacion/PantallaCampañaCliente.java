@@ -73,7 +73,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 		tagsAgregadosHastaElMomento = new TagTree("Tags Agregados Hasta El Momento");
 
 		Label titulo = new Label("Gestión de Campañas");
-		titulo.setStyleName(ValoTheme.LABEL_H1);
+		titulo.setStyleName(ValoTheme.LABEL_COLORED);
 		HorizontalLayout hlTitulo = new HorizontalLayout(titulo);
 		addComponent(hlTitulo);
 		setComponentAlignment(hlTitulo, Alignment.MIDDLE_CENTER);
