@@ -10,10 +10,12 @@ import com.EyVdeSW.TP.services.TagService;
 import com.vaadin.data.util.HierarchicalContainer;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Tree;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.ui.Notification.Type;
@@ -53,7 +55,12 @@ public class SubMenuTagsAsociadosCampaña extends Window {
 		agregar.setClickShortcut(KeyCode.ENTER);
 
 		HorizontalLayout subContent = new HorizontalLayout();
-		this.setContent(subContent);
+		VerticalLayout main = new VerticalLayout(subContent);
+		VerticalLayout root = new VerticalLayout(main);
+		main.setWidth(subContent.getWidth(),subContent.getWidthUnits());
+		root.setWidth((subContent.getWidth()*1.1f),subContent.getWidthUnits());
+		root.setComponentAlignment(main, Alignment.TOP_CENTER);
+		this.setContent(root);
 
 		// Agregamos los componentes
 		subContent.addComponent(tagsDisponiblesTree);
