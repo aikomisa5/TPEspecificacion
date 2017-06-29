@@ -51,13 +51,6 @@ public class PantallaMainView extends CustomComponent implements View {
 			
 			}
 		
-		else if (usuario.getTipoUsuario().toString().equals("ANALISTACOMERCIAL")){
-			// And show the username
-			text.setValue("Hello " + username);
-			((MyUI) getUI()).setMenuAnalistaComercial();
-			((MyUI) getUI()).showMenu();
-			
-			}
 		
 	}
 

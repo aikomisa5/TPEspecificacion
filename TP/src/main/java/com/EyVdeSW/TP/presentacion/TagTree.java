@@ -66,7 +66,7 @@ public class TagTree extends Tree{
 		arbol.setContainerDataSource(tagContainer);
 	}
 	
-	public static void cargarTreeConTagsDeCamapaña(Tree arbol, Campania c){
+	public static void cargarTreeConTagsDeCampaña(Tree arbol, Campania c){
 		HierarchicalContainer tagContainer = new HierarchicalContainer();
 		
 		c.getTagsAsociados().forEach(tag -> {

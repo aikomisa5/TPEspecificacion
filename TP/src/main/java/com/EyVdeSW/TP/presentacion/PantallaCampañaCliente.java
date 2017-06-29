@@ -46,7 +46,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 	private TagService tagService = TagService.getTagService();
 	private UsuarioService usuarioService = UsuarioService.getUsuarioService();
 
-	private List<AccionPublicitaria> accionesPublicitarias = new ArrayList<>();
+	private List<AccionPublicitaria> accionesPublicitariasParaAsociar = new ArrayList<>();
 	List<Tag> tagsParaAsociar = new ArrayList<>();
 	HierarchicalContainer tagContainer = new HierarchicalContainer();
 
@@ -163,7 +163,17 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 
 		else if (taTextoMensaje.getValue().toString() == "") {
 			Notification.show("El texto del mensaje está vacío!", Type.WARNING_MESSAGE);
-		} else {
+		}
+		
+		else if (duracionCampaña.getValue() == null){
+			Notification.show("La duración se encuentra vacía!", Type.WARNING_MESSAGE);
+		}
+		
+		else if (tagsParaAsociar.size() == 0){
+			Notification.show("No asociaste ningún tag a la campaña!", Type.WARNING_MESSAGE);
+		}
+		
+		else {
 
 			Usuario usuario = usuarioService.getUsuarioPorMail(username);
 			String nombre = tfNombre.getValue();
@@ -173,7 +183,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 			fechaInicio = datePickerInicio.getValue();
 			Duracion duracion = duracionService.getDuracionPorDescripcion(duracionCampaña.getValue().toString());
 			if (campaña != null){				
-				campaña.setAccionesPublicitarias(accionesPublicitarias);
+				campaña.setAccionesPublicitarias(accionesPublicitariasParaAsociar);
 				campaña.setDescripcion(descripcion);
 				campaña.setFechaDeInicio(fechaInicio);
 				campaña.setFechaDeFin(CampañaService.calcularFechaDeFin(fechaInicio, duracion));
@@ -185,13 +195,13 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 				campañaService.modificar(campaña.getIdCampania(), campaña);
 			}
 			else{
-			campañaService.guardar(usuario, nombre, descripcion, accionesPublicitarias, tagsParaAsociar, tituloMensaje,
+			campañaService.guardar(usuario, nombre, descripcion, accionesPublicitariasParaAsociar, tagsParaAsociar, tituloMensaje,
 					cuerpoMensaje, fechaInicio, duracion);
 			}
 
 			Notification.show("Campaña Guardado", Type.TRAY_NOTIFICATION);
 			limpiarCampos(tfNombre, taDescripcion, tfNombreMensaje, taTextoMensaje, duracionCampaña);
-			limpiarListas(tagsParaAsociar, accionesPublicitarias, accionesAgregadasHastaElMomento,
+			limpiarListas(tagsParaAsociar, accionesPublicitariasParaAsociar, accionesAgregadasHastaElMomento,
 					tagsAgregadosHastaElMomento);
 
 		}
@@ -200,7 +210,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 
 	private void abrirAsociarAcciones(Tree accionesAgregadasHastaElMomento) {
 		SubMenuAccionesPublicitariasPersonalizadas sub = new SubMenuAccionesPublicitariasPersonalizadas(
-				accionesAgregadasHastaElMomento, accionesPublicitarias);
+				accionesAgregadasHastaElMomento, accionesPublicitariasParaAsociar);
 	}
 
 	private void abrirAsociarTags(Tree tagsAgregadosHastaElMomento) {
@@ -237,7 +247,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 	public void enter(ViewChangeEvent event) {
 
 		limpiarCampos(tfNombre, taDescripcion, tfNombreMensaje, taTextoMensaje, duracionCampaña);
-		limpiarListas(tagsParaAsociar, accionesPublicitarias, accionesAgregadasHastaElMomento,
+		limpiarListas(tagsParaAsociar, accionesPublicitariasParaAsociar, accionesAgregadasHastaElMomento,
 				tagsAgregadosHastaElMomento);
 		
 		campaña = null;
@@ -263,9 +273,9 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 		datePickerInicio.setValue(campaña.getFechaDeInicio());
 		System.out.println("Duracion de campaña: " + campaña.getDuracion() + " dias.");
 		tagsParaAsociar.addAll(campaña.getTagsAsociados());
-		accionesPublicitarias.addAll(campaña.getAccionesPublicitarias());
-		TagTree.cargarTreeConTagsDeCamapaña(tagsAgregadosHastaElMomento, campaña);
-		accionesAgregadasHastaElMomento.addItems(accionesPublicitarias);
+		accionesPublicitariasParaAsociar.addAll(campaña.getAccionesPublicitarias());
+		TagTree.cargarTreeConTagsDeCampaña(tagsAgregadosHastaElMomento, campaña);
+		accionesAgregadasHastaElMomento.addItems(accionesPublicitariasParaAsociar);
 		
 	}
 

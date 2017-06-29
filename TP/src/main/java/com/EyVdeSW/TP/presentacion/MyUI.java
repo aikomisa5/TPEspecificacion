@@ -44,12 +44,11 @@ public class MyUI extends UI
 		
 		
 		
-		getPage().setTitle("TP Especificaciónes y verificación de Software");
+		getPage().setTitle("TP Especificaciones y Verificación de Software");
 		// Creamos el navegador
 			navigator = new Navigator(this, content);
 		// Y creamos y registramos las views (pantallas)
 			
-		//	navigator.addView(PantallaEdicionCampaña.NAME, new PantallaEdicionCampaña());
 		//	navigator.addView(PantallaMisCampañas.NAME, new PantallaMisCampañas());
 			navigator.addView(PantallaDuracionAnalistaTecnico.NAME, new PantallaDuracionAnalistaTecnico());
 		navigator.addView(PantallaTagsAnalistaTecnico.NAME, new PantallaTagsAnalistaTecnico());	
@@ -59,11 +58,6 @@ public class MyUI extends UI
 		
 		navigator.addView(PantallaAccionesPublicitariasAnalistaTecnico.NAME, new PantallaAccionesPublicitariasAnalistaTecnico());
 		navigator.addView(PantallaAsignadorDeRolesAnalistaTecnico.NAME, new PantallaAsignadorDeRolesAnalistaTecnico());
-		navigator.addView(PantallaEstadisticasAnalistaComercial.NAME, new PantallaEstadisticasAnalistaComercial());
-		navigator.addView(PantallaReporteAccionesPersonalizadasAnalistaComercial.NAME, new PantallaReporteAccionesPersonalizadasAnalistaComercial());
-		navigator.addView(PantallaReporteDeVentasAnalistaComercial.NAME, new PantallaReporteDeVentasAnalistaComercial());
-		navigator.addView(PantallaTarifariosAnalistaComercial.NAME, new PantallaTarifariosAnalistaComercial());
-
 		
 		//navigator.addView("", new PantallaMain());	
 		
@@ -139,12 +133,6 @@ public class MyUI extends UI
 		menu.removeAllComponents();
 		menu.addComponent(new DefaultMenuCliente());
 	}
-	
-	public void setMenuAnalistaComercial(){
-		menu.removeAllComponents();
-		menu.addComponent(new DefaultMenuAnalistaComercial());
-	}
-	
 	
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
 	@VaadinServletConfiguration(ui = MyUI.class, productionMode = false)

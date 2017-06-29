@@ -14,6 +14,7 @@ import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Notification.Type;
+import com.vaadin.ui.themes.ValoTheme;
 
 public class SubMenuAccionesPublicitariasPersonalizadas extends Window {
 
@@ -22,17 +23,16 @@ public class SubMenuAccionesPublicitariasPersonalizadas extends Window {
 		super("Asociar acciones publicitarias personalizadas"); // Set window
 																// caption
 		center();
-
-		// Disable the close button
-		setClosable(false);
+		this.setModal(true);
+		this.setDraggable(false);
 
 		// Add it to the root component
 		MyUI.getCurrent().addWindow(this);
+	
+		Button agregarAccion = new Button("Agregar");
+		agregarAccion.setStyleName(ValoTheme.BUTTON_PRIMARY);
 
-		Button cerrar = new Button("Cerrar");
-		Button asociar = new Button("Agregar");
-
-		TextField tfDestinatario = new TextField("destinatario");
+		TextField tfDestinatario = new TextField("Destinatario");
 		tfDestinatario.setInputPrompt("Ej: joe@email.com)");
 		tfDestinatario.setRequired(true);
 		tfDestinatario.addValidator(new EmailValidator("El mail debe ser válido"));
@@ -62,9 +62,8 @@ public class SubMenuAccionesPublicitariasPersonalizadas extends Window {
 		VerticalLayout subContent = new VerticalLayout();
 		setContent(subContent);
 
-		// Put some components in it
-
-		// subContent.addComponent(comboBoxTag);
+		// Agregamos componentes
+		
 		subContent.addComponent(tfDestinatario);
 		subContent.addComponent(tfTitulo);
 		subContent.addComponent(taTexto);
@@ -73,14 +72,13 @@ public class SubMenuAccionesPublicitariasPersonalizadas extends Window {
 		subContent.addComponent(hora);
 		subContent.addComponent(minuto);
 
-		subContent.addComponent(cerrar);
-		subContent.addComponent(asociar);
-		setHeight("400px");
-		setWidth("500px");
+		subContent.addComponent(agregarAccion);
+		subContent.setMargin(true);
+		subContent.setSpacing(true);
+		this.setHeight("450px");
+		this.setWidth("700px");
 
-		cerrar.addClickListener(event -> this.close());
-
-		asociar.addClickListener(event -> {
+		agregarAccion.addClickListener(event -> {
 
 			if (tfDestinatario.getValue() == "") {
 				Notification.show("El destinatario está vacío!", Type.WARNING_MESSAGE);
@@ -96,12 +94,16 @@ public class SubMenuAccionesPublicitariasPersonalizadas extends Window {
 
 			else if (comboBoxPeriodicidad.getValue() == null) {
 				Notification.show("La periodicidad está vacía!", Type.WARNING_MESSAGE);
-			} else if (hora.getValue() == null) {
+			} 
+			
+			else if (hora.getValue() == null) {
 				Notification.show("La hora está vacía!", Type.WARNING_MESSAGE);
-			} else if (minuto.getValue() == null) {
+			} 
+			
+			else if (minuto.getValue() == null) {
 				Notification.show("Los minutos estan vacíos!", Type.WARNING_MESSAGE);
 			}
-			// TODO verificar si la accion ya existe
+		
 			else {
 
 				String destinatario = tfDestinatario.getValue();
@@ -117,9 +119,6 @@ public class SubMenuAccionesPublicitariasPersonalizadas extends Window {
 				accionesParaAsociar.add(accion);
 				accionesAgregadasHastaElMomento.addItem(accion);
 				Notification.show("Accion guardada", Type.TRAY_NOTIFICATION);
-
-				// SE BORRA UNA VEZ CREADO LA CAMPAÑA
-				// accionesPublicitarias.clear();
 
 				this.close();
 			}

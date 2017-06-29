@@ -22,14 +22,16 @@ import com.vaadin.ui.Notification.Type;
 public class SubMenuTagsAsociadosCampaña extends Window {
 	private Tree tagsDisponiblesTree;
 	private Tree tagsSeleccionadosTree;
-	boolean estado;
 
 	public SubMenuTagsAsociadosCampaña(Tree tagsAgregadosHastaElMomento, TagService tagService,
 			List<Tag> tagsParaAsociar, HierarchicalContainer tagContainer) {
+		
 		super("Asociar tags a la campaña"); // Set window caption
+		
 		center();
 		this.setModal(true);
 		this.setDraggable(false);
+
 
 		tagsDisponiblesTree = new TagTree("Tags disponibles");
 		tagsSeleccionadosTree = new TagTree("Tags seleccionados");
@@ -40,6 +42,28 @@ public class SubMenuTagsAsociadosCampaña extends Window {
 		tagsSeleccionados.addAll(tagsParaAsociar);
 
 		updateArbolesDeSeleccion(tagsSeleccionados, tagsDisponibles);
+			
+
+		// Add it to the root component
+		MyUI.getCurrent().addWindow(this);
+
+		Button agregar = new Button("Guardar cambios");
+		agregar.setIcon(FontAwesome.CHECK);
+		agregar.setStyleName(ValoTheme.BUTTON_PRIMARY);
+		agregar.setClickShortcut(KeyCode.ENTER);
+
+		HorizontalLayout subContent = new HorizontalLayout();
+		this.setContent(subContent);
+
+		// Agregamos los componentes
+		subContent.addComponent(tagsDisponiblesTree);
+		subContent.addComponent(tagsSeleccionadosTree);
+
+		subContent.addComponent(agregar);
+		this.setHeight("450px");
+		this.setWidth("700px");
+		subContent.setMargin(true);
+		subContent.setSpacing(true);
 
 		tagsDisponiblesTree.addItemClickListener(click -> {
 			Tag t = tagService.getTagPorNombre(click.getItemId().toString());
@@ -65,28 +89,7 @@ public class SubMenuTagsAsociadosCampaña extends Window {
 			updateArbolesDeSeleccion(tagsSeleccionados, tagsDisponibles);
 		});
 
-		estado = false;
-
-		// Add it to the root component
-		MyUI.getCurrent().addWindow(this);
-
-		Button agregar = new Button("Guardar cambios");
-		agregar.setIcon(FontAwesome.CHECK);
-		agregar.setStyleName(ValoTheme.BUTTON_PRIMARY);
-		agregar.setClickShortcut(KeyCode.ENTER);
-
-		HorizontalLayout subContent = new HorizontalLayout();
-		this.setContent(subContent);
-
-		// Put some components in it
-		subContent.addComponent(tagsDisponiblesTree);
-		subContent.addComponent(tagsSeleccionadosTree);
-
-		// subContent.addComponent(comboBoxTag);
-		subContent.addComponent(agregar);
-		this.setHeight("450px");
-		this.setWidth("700px");
-		subContent.setMargin(true);
+		
 
 		agregar.addClickListener(event -> {
 
