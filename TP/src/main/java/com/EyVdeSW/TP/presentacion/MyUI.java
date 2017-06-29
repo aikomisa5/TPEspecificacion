@@ -35,72 +35,62 @@ public class MyUI extends UI
 		final VerticalLayout rootLayout = new VerticalLayout();		
 		setContent(rootLayout);
 		menu = new HorizontalLayout();
-		//menu.addComponent(new DefaultMenuAnalistaTecnico());
 		
 		VerticalLayout content = new VerticalLayout();
 		rootLayout.addComponent(menu);
 		rootLayout.addComponent(content);
 		menu.setVisible(false);
 		
-		
-		
 		getPage().setTitle("TP Especificaciones y Verificación de Software");
+		
 		// Creamos el navegador
 			navigator = new Navigator(this, content);
+			
 		// Y creamos y registramos las views (pantallas)
 			
-		//	navigator.addView(PantallaMisCampañas.NAME, new PantallaMisCampañas());
-			navigator.addView(PantallaDuracionAnalistaTecnico.NAME, new PantallaDuracionAnalistaTecnico());
+		navigator.addView(PantallaMisCampañas.NAME, new PantallaMisCampañas());
+		navigator.addView(PantallaDuracionAnalistaTecnico.NAME, new PantallaDuracionAnalistaTecnico());
 		navigator.addView(PantallaTagsAnalistaTecnico.NAME, new PantallaTagsAnalistaTecnico());	
 		navigator.addView(PantallaRegistro.NAME, new PantallaRegistro());
 		navigator.addView(PantallaCampañaCliente.NAME, new PantallaCampañaCliente());
 		navigator.addView(PantallaMisCampañas.NAME, new PantallaMisCampañas());
 		
 		navigator.addView(PantallaAccionesPublicitariasAnalistaTecnico.NAME, new PantallaAccionesPublicitariasAnalistaTecnico());
-		navigator.addView(PantallaAsignadorDeRolesAnalistaTecnico.NAME, new PantallaAsignadorDeRolesAnalistaTecnico());
-		
-		//navigator.addView("", new PantallaMain());	
-		
-		 // The initial log view where the user can login to the application
-        //
-        getNavigator().addView(PantallaLogin.NAME, PantallaLogin.class);//
+		navigator.addView(PantallaAsignadorDeRolesAnalistaTecnico.NAME, new PantallaAsignadorDeRolesAnalistaTecnico());	
+	
+        getNavigator().addView(PantallaLogin.NAME, PantallaLogin.class);
 
-        //
-        // Add the main view of the application
-        //
-        getNavigator().addView(PantallaMainView.NAME,
-                PantallaMainView.class);
+        getNavigator().addView(PantallaMainView.NAME, PantallaMainView.class);
 
-        //
-        // We use a view change handler to ensure the user is always redirected
-        // to the login view if the user is not logged in.
-        //
         
+        //Utilizamos un ViewChangeListener para asegurarnos de que el usuario siempre
+        //es redireccionado a la pantalla de login en caso de que no esté logueado aún
         
         getNavigator().addViewChangeListener(new ViewChangeListener() {
 
             @Override
             public boolean beforeViewChange(ViewChangeEvent event) {
 
-                // Check if a user has logged in
+                // Chequear si un usuario se ha logueado
                 boolean isLoggedIn = getSession().getAttribute("user") != null;
                 boolean isLoginView = event.getNewView() instanceof PantallaLogin;
                 boolean isRegistroView = event.getNewView() instanceof PantallaRegistro;
 
                 if (!isLoggedIn && !isLoginView && !isRegistroView) {
-                    // Redirect to login view always if a user has not yet
-                    // logged in
+                	//Redireccionar a la pantalla de login si el usuario
+                	//no se logueo todavia
+                   
                     navigator.navigateTo(PantallaLogin.NAME);
                     return false;
 
                 } else if (isLoggedIn && isLoginView) {
-                    // If someone tries to access to login view while logged in,
-                    // then cancel
+                	//Si alguien intenta acceder a la pantalla de login
+                	//mientras este logueado, entonces cancelar
                     return false;
                 }
                 
                 else if (!isLoggedIn && isRegistroView) {
-                	//navigator.navigateTo(PantallaRegistro.NAME);
+                	//Si no se logueo y está en la pantalla de registro..
                 	return true;
                 }
 

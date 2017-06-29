@@ -164,7 +164,9 @@ public class PantallaRegistro extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
+		limpiarCampos(tfNombreUsuario, tfNombreReal, tfMail, password, verificacionPassword);
 		tfNombreUsuario.focus();
+		
 				
 	}
 	

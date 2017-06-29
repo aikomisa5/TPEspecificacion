@@ -64,15 +64,6 @@ public class PantallaLogin extends CustomComponent implements View,
 	    loginButton = new Button("Ingresar", this);
 	    registroButton = new Button("Ir a Registrarse", this);
 	
-	    // Add both to a panel
-	    /*
-	    VerticalLayout fields = new VerticalLayout(user, password);
-	    fields.setCaption("Please login to access the application. (test@test.com/passw0rd)");
-	    fields.setSpacing(true);
-	    fields.setMargin(new MarginInfo(true, true, true, false));
-	    fields.setSizeUndefined();
-	    */
-	    
 	    FormLayout fields = new FormLayout(userMail, password);
 	    fields.setCaption("Por favor, ingrese sus datos para acceder a la aplicación");
 		fields.setSpacing(true);
@@ -91,14 +82,14 @@ public class PantallaLogin extends CustomComponent implements View,
 	    viewLayout.setComponentAlignment(botones, Alignment.MIDDLE_CENTER);    
 	    setCompositionRoot(viewLayout);
 	    
-	    registroButton.addClickListener(event -> // Java 8
+	    registroButton.addClickListener(event -> 
 		getUI().getNavigator().navigateTo(PantallaRegistro.NAME));
 	    
 	}
 
 @Override
 public void enter(ViewChangeEvent event) {
-    // focus the username field when user arrives to the login view
+    // focus en userMail
 	((MyUI) getUI()).hideMenu();
     userMail.focus();
 }

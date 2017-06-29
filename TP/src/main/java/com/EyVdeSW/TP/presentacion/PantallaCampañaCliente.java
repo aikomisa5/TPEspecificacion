@@ -73,7 +73,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 		tagsAgregadosHastaElMomento = new TagTree("Tags Agregados Hasta El Momento");
 
 		Label titulo = new Label("Gestión de Campañas");
-		titulo.setStyleName(ValoTheme.LABEL_COLORED);
+		titulo.setStyleName(ValoTheme.LABEL_H1);
 		HorizontalLayout hlTitulo = new HorizontalLayout(titulo);
 		addComponent(hlTitulo);
 		setComponentAlignment(hlTitulo, Alignment.MIDDLE_CENTER);
@@ -217,15 +217,6 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 		SubMenuTagsAsociadosCampaña sub = new SubMenuTagsAsociadosCampaña(tagsAgregadosHastaElMomento, tagService,
 				tagsParaAsociar, tagContainer);
 	}
-
-	/*
-	 * private void limpiarCampos(TextField textFieldTag, BeanItemContainer<Tag>
-	 * tags, ComboBox comboBoxTag) { textFieldTag.clear();
-	 * comboBoxTag.removeAllItems();
-	 * System.out.println("Cantidad de elementos: " +
-	 * tagService.traerTodos().size()); tagService.traerTodos().forEach(tag ->
-	 * tags.addBean(tag)); comboBoxTag.setContainerDataSource(tags); }
-	 */
 
 	private void limpiarCampos(TextField textFieldNombre, TextArea textAreaDescripcion,
 			TextField textFieldNombreMensaje, TextArea textAreaTextoMensaje, ComboBox duracionCampaña) {

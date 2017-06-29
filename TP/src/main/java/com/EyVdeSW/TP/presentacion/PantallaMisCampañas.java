@@ -33,7 +33,7 @@ public class PantallaMisCampañas extends VerticalLayout implements View {
 		
 
 		Label titulo = new Label("Mis Campañas");
-		titulo.setStyleName(ValoTheme.LABEL_COLORED);
+		titulo.setStyleName(ValoTheme.LABEL_H1);
 		
 		
 		
