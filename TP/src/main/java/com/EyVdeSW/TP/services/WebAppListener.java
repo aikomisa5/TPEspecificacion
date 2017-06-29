@@ -2,6 +2,7 @@ package com.EyVdeSW.TP.services;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.ServletContextEvent;
@@ -15,6 +16,7 @@ import com.EyVdeSW.TP.Daos.DuracionDAO;
 import com.EyVdeSW.TP.Daos.UsuarioDAO;
 import com.EyVdeSW.TP.Daos.impl.DuracionDAONeodatis;
 import com.EyVdeSW.TP.Daos.impl.UsuarioDAONeodatis;
+import com.EyVdeSW.TP.domainModel.Campania;
 import com.EyVdeSW.TP.domainModel.Duracion;
 import com.EyVdeSW.TP.domainModel.Usuario;
 
@@ -133,6 +135,20 @@ public class WebAppListener implements ServletContextListener
 	public static String getProperty(String key)
 	{
 		return properties.getProperty(key);
+	}
+	
+	public static void iniciarScheduler(){
+		MailScheduler ms = MailScheduler.getMailScheduler();
+		ms.setSendender(new MailSenderSendGrid());
+		ms.encender();
+		CampañaService cService=CampañaService.getCampañaService();
+		List<Campania>activas=cService.getCampañasVigentes();
+		ms.agregarAccionesDeCampañas(activas);
+	}
+	
+	public static void apagarScheduler(){
+		MailScheduler ms = MailScheduler.getMailScheduler();
+		ms.apagar();
 	}
 
 }

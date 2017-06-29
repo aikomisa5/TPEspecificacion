@@ -40,6 +40,7 @@ public class TestMailScheduler {
 		campañaDAO = new CampañaDAONeodatis();
 		campañaDAO.setBdConnector(new NeodatisLocalTestConnector());
 		dbFilePath = Parametros.getProperty(Parametros.dbTestPath);
+		ms.setSendender(new MailSenderSendGrid());
 		
 		File f = new File(dbFilePath);
 		if (f.exists())
@@ -122,8 +123,8 @@ public class TestMailScheduler {
 	
 	@Test
 	public void agregarAccionesDeCampañas2(){
-		String horaInicio="14";
-		ArrayList<Campania>instancia=instanciaCampaña("deidelson@mail.com","2017-06-28", "2017-06-29", horaInicio, minutosInicio(37,3));
+		String horaInicio="22";
+		ArrayList<Campania>instancia=instanciaCampaña("deidelson@mail.com","2017-06-28", "2017-06-29", horaInicio, minutosInicio(00,2));
 		agregarDatos(instancia);
 		List<Campania>campañasVigentes=(List<Campania>) campañaDAO.getCampañasVigentes();
 		assertEquals(campañasVigentes.size(), 1);

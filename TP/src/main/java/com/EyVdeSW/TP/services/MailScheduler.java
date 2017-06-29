@@ -29,6 +29,7 @@ public class MailScheduler {
 	private static MailScheduler mailScheduler;
 	private CampañaDAO campañaDAO;
 	private Scheduler sc;
+	private MessageSender sender;
 	
 	private MailScheduler(){
 		campañaDAO= new CampañaDAONeodatis();
@@ -37,6 +38,10 @@ public class MailScheduler {
 		} catch (SchedulerException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void setSendender(MessageSender s){
+		this.sender=s;
 	}
 	
 	public static MailScheduler getMailScheduler(){
@@ -69,7 +74,7 @@ public class MailScheduler {
 			String horan="0 "+minuto+" "+hora;
 			horan=horan+" 1/"+perioricidad;
 			horan=horan+" * ? *";
-			JobDetail j1=JobBuilder.newJob(MailSender.class)
+			JobDetail j1=JobBuilder.newJob(sender.getClass())
 					.usingJobData("destinatario",destinatario)
 					.usingJobData("encabezado",encabezado)
 					.usingJobData("mensaje", mensaje)

@@ -32,7 +32,7 @@ public class MailSenderSendGrid implements MessageSender {
 	@Override
 	public void enviarMensaje(String destinatario, String encabezado, String mensaje) {		
 		Email from = new Email("noResponder@Megafono.com");
-	    String subject = "Sending with SendGrid is Fun";
+	    String subject = encabezado;
 	    Email to = new Email(destinatario);
 	    Content content = new Content("text/plain", mensaje);
 	    Mail mail = new Mail(from, subject, to, content);
@@ -47,6 +47,7 @@ public class MailSenderSendGrid implements MessageSender {
 	      System.out.println(response.getStatusCode());
 	      System.out.println(response.getBody());
 	      System.out.println(response.getHeaders());
+	      System.out.println("Exito..");
 	    } catch (IOException ex) {
 	      ex.printStackTrace();
 	    }		
