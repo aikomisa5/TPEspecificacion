@@ -43,6 +43,7 @@ public class WebAppListener implements ServletContextListener
 	public void contextDestroyed(ServletContextEvent sce)
 	{
 		bajarServerNeodatis();
+		apagarScheduler();
 	}
 
 	private void bajarServerNeodatis()
