@@ -1,5 +1,7 @@
 package com.EyVdeSW.TP.presentacion;
 
+import java.util.Collection;
+
 import com.EyVdeSW.TP.domainModel.Tag;
 import com.EyVdeSW.TP.services.TagService;
 import com.vaadin.data.util.BeanItemContainer;
@@ -39,12 +41,16 @@ public class PantallaTagsAnalistaTecnico extends VerticalLayout implements View 
 		Tree arbol = new Tree("Tags");
 		cargarTree(arbol);
 		expandirArbol(arbol);
+		
+	
 
 		TextField tfNombre = new TextField("Nombre");
+		TextField tfNombreNuevo = new TextField("Nombre nuevo");
 
 		BeanItemContainer<Tag> tags = new BeanItemContainer<Tag>(Tag.class);
 		tagService.traerTodos().forEach(tag -> tags.addBean(tag));
 		ComboBox comboBoxTag = new ComboBox("Tag Padre", tags);
+		ComboBox comboBoxTagNuevo = new ComboBox("Nuevo Padre", tags);
 
 		Button btnAgregar = new Button("Agregar");
 
@@ -93,13 +99,23 @@ public class PantallaTagsAnalistaTecnico extends VerticalLayout implements View 
 			}
 			tfNombre.focus();
 		});
+		
+		arbol.addItemClickListener(click -> {
+			Tag t = tagService.getTagPorNombre(click.getItemId().toString());
+			tfNombre.setValue(t.getNombre());
+			comboBoxTag.setValue(t.getPadre());
+		});
 
 		HorizontalLayout hlBotones = new HorizontalLayout(btnAgregar, btnEditar, btnBorrar);
 		hlBotones.setSpacing(true);
 
 		FormLayout flFormTags = new FormLayout(tfNombre, comboBoxTag);
+		FormLayout  flFormTagsEdicion = new FormLayout(tfNombreNuevo, comboBoxTagNuevo);
 		flFormTags.setSpacing(true);
-		VerticalLayout vlFormTags = new VerticalLayout(flFormTags, hlBotones);
+		flFormTagsEdicion.setSpacing(true);
+		HorizontalLayout forms= new HorizontalLayout(flFormTags, flFormTagsEdicion);
+		forms.setSpacing(true);
+		VerticalLayout vlFormTags = new VerticalLayout(forms, hlBotones);
 		vlFormTags.setSpacing(true);
 
 		VerticalLayout vlArbol = new VerticalLayout(arbol);
