@@ -49,7 +49,7 @@ public class TagTree extends Tree{
 		expandirArbol(arbol);
 	}
 	
-	public static void cargarTreeConTagsAgregados(Tree arbol, List<Tag>tags){
+	public static void cargarTreeConTags(Tree arbol, List<Tag>tags){
 		HierarchicalContainer tagContainer = new HierarchicalContainer();
 		
 		tags.forEach(tag -> {

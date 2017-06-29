@@ -1,100 +1,111 @@
 package com.EyVdeSW.TP.presentacion;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.EyVdeSW.TP.domainModel.Tag;
 import com.EyVdeSW.TP.services.TagService;
 import com.vaadin.data.util.HierarchicalContainer;
+import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Tree;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.ui.Notification.Type;
 
 // Define a sub-window by inheritance
 public class SubMenuTagsAsociadosCampaña extends Window {
-	private Tree tagTree;
+	private Tree tagsDisponiblesTree;
+	private Tree tagsSeleccionadosTree;
 	boolean estado;
-	
-	
-    public SubMenuTagsAsociadosCampaña(Tree tagsAgregadosHastaElMomento, TagService tagService, List<Tag> tagsParaAsociar, HierarchicalContainer tagContainer) {
-    	super("Asociar tags a la campaña"); // Set window caption
-        center();
-        // Disable the close button
-        setClosable(false);
-        
-        tagTree = new TagTree();
-    	estado = false;       	
-        
+
+	public SubMenuTagsAsociadosCampaña(Tree tagsAgregadosHastaElMomento, TagService tagService,
+			List<Tag> tagsParaAsociar, HierarchicalContainer tagContainer) {
+		super("Asociar tags a la campaña"); // Set window caption
+		center();
+		this.setModal(true);
+		this.setDraggable(false);
+
+		tagsDisponiblesTree = new TagTree("Tags disponibles");
+		tagsSeleccionadosTree = new TagTree("Tags seleccionados");
+		List<Tag> tagsSeleccionados = new ArrayList<>();
+		List<Tag> tagsDisponibles = tagService.traerTodos().stream().collect(Collectors.toList());
+
+		tagsDisponibles.removeAll(tagsParaAsociar);
+		tagsSeleccionados.addAll(tagsParaAsociar);
+
+		updateArbolesDeSeleccion(tagsSeleccionados, tagsDisponibles);
+
+		tagsDisponiblesTree.addItemClickListener(click -> {
+			Tag t = tagService.getTagPorNombre(click.getItemId().toString());
+			Collection<Tag> arbolDeTagsSeleccionados = tagService.traerHijosDe(t);
+			arbolDeTagsSeleccionados.forEach(tag -> {
+				if (!tagsSeleccionados.contains(tag)) {
+					tagsSeleccionados.add(tag);
+				}
+			});
+			tagsDisponibles.removeAll(arbolDeTagsSeleccionados);
+			updateArbolesDeSeleccion(tagsSeleccionados, tagsDisponibles);
+		});
+
+		tagsSeleccionadosTree.addItemClickListener(click -> {
+			Tag t = tagService.getTagPorNombre(click.getItemId().toString());
+			Collection<Tag> arbolDeTagsSeleccionados = tagService.traerHijosDe(t);
+			arbolDeTagsSeleccionados.forEach(tag -> {
+				if (!tagsDisponibles.contains(tag)) {
+					tagsDisponibles.add(tag);
+				}
+			});
+			tagsSeleccionados.removeAll(arbolDeTagsSeleccionados);
+			updateArbolesDeSeleccion(tagsSeleccionados, tagsDisponibles);
+		});
+
+		estado = false;
 
 		// Add it to the root component
 		MyUI.getCurrent().addWindow(this);
 
-		Button cerrar = new Button("Cerrar");
-		Button agregar = new Button("Agregar");
+		Button agregar = new Button("Guardar cambios");
+		agregar.setIcon(FontAwesome.CHECK);
+		agregar.setStyleName(ValoTheme.BUTTON_PRIMARY);
+		agregar.setClickShortcut(KeyCode.ENTER);
 
-		VerticalLayout subContent = new VerticalLayout();
+		HorizontalLayout subContent = new HorizontalLayout();
 		this.setContent(subContent);
 
-		TagTree.updateTree(tagTree);
 		// Put some components in it
-		subContent.addComponent(tagTree);
+		subContent.addComponent(tagsDisponiblesTree);
+		subContent.addComponent(tagsSeleccionadosTree);
 
 		// subContent.addComponent(comboBoxTag);
-		subContent.addComponent(cerrar);
 		subContent.addComponent(agregar);
-		this.setHeight("400px");
-		this.setWidth("500px");
+		this.setHeight("450px");
+		this.setWidth("700px");
 		subContent.setMargin(true);
-
-		cerrar.addClickListener(event -> this.close());
 
 		agregar.addClickListener(event -> {
 
-			if (tagTree.getValue() == null) {
-				Notification.show("No has seleccionado ningun tag!", Type.WARNING_MESSAGE);
-			}
-
-			else if (tagYaAsociado(tagsAgregadosHastaElMomento, tagTree.getValue().toString())) {
-				Notification.show("Ya asociaste ese tag!", Type.WARNING_MESSAGE);
-				estado = false;
-			} else {
-
-				String nombreTag = tagTree.getValue().toString();
-
-				Tag tag = tagService.getTagPorNombre(nombreTag);
-
-				//XXX
-				TagTree.updateTree(tagsAgregadosHastaElMomento, tag, tagContainer);
-
-				// En este punto ya se sabe que el tag que se quiere asociar
-				// todavia no esta asociado
-
-				List<Tag> hijos = (List<Tag>) tagService.traerHijosDe(tag);
-
-				tagsParaAsociar.add(tag);
-				for (Tag t : hijos) {
-					tagsParaAsociar.add(t);
-				}
-
-				Notification.show("Tags guardados", Type.TRAY_NOTIFICATION);
-				this.close();
-
-			}
-
-		});
-        
-    }
-    
-    private boolean tagYaAsociado(Tree arbol, String tagSelect) {
-
-		arbol.getContainerDataSource().getItemIds().forEach(item -> {
-			Tag tag = ((Tag) item);
-			estado = estado || tagSelect.equals(tag.getNombre());
+			TagTree.cargarTreeConTags(tagsAgregadosHastaElMomento, tagsSeleccionados);
+			TagTree.expandirArbol(tagsAgregadosHastaElMomento);
+			tagsParaAsociar.clear();
+			tagsParaAsociar.addAll(tagsSeleccionados);
+			Notification.show("Tags guardados", Type.TRAY_NOTIFICATION);
+			this.close();
 
 		});
 
-		return estado;
 	}
+
+	private void updateArbolesDeSeleccion(List<Tag> tagsSeleccionados, List<Tag> tagsDisponibles) {
+		TagTree.cargarTreeConTags(tagsDisponiblesTree, tagsDisponibles);
+		TagTree.expandirArbol(tagsDisponiblesTree);
+		TagTree.cargarTreeConTags(tagsSeleccionadosTree, tagsSeleccionados);
+		TagTree.expandirArbol(tagsSeleccionadosTree);
+	}
+
 }
