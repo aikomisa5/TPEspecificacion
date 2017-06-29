@@ -190,7 +190,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 			}
 
 			Notification.show("Campaña Guardado", Type.TRAY_NOTIFICATION);
-			limpiarCampos(tfNombre, taDescripcion, tfNombreMensaje, taTextoMensaje);
+			limpiarCampos(tfNombre, taDescripcion, tfNombreMensaje, taTextoMensaje, duracionCampaña);
 			limpiarListas(tagsParaAsociar, accionesPublicitarias, accionesAgregadasHastaElMomento,
 					tagsAgregadosHastaElMomento);
 
@@ -218,11 +218,12 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 	 */
 
 	private void limpiarCampos(TextField textFieldNombre, TextArea textAreaDescripcion,
-			TextField textFieldNombreMensaje, TextArea textAreaTextoMensaje) {
+			TextField textFieldNombreMensaje, TextArea textAreaTextoMensaje, ComboBox duracionCampaña) {
 		textFieldNombre.clear();
 		textAreaDescripcion.clear();
 		textFieldNombreMensaje.clear();
 		textAreaTextoMensaje.clear();
+		duracionCampaña.select(duracionCampaña.getNullSelectionItemId());
 	}
 
 	private void limpiarListas(List<Tag> tags, List<AccionPublicitaria> acciones, Tree arbolTags, Tree arbolAcciones) {
@@ -235,7 +236,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 
-		limpiarCampos(tfNombre, taDescripcion, tfNombreMensaje, taTextoMensaje);
+		limpiarCampos(tfNombre, taDescripcion, tfNombreMensaje, taTextoMensaje, duracionCampaña);
 		limpiarListas(tagsParaAsociar, accionesPublicitarias, accionesAgregadasHastaElMomento,
 				tagsAgregadosHastaElMomento);
 		
@@ -247,7 +248,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 			idCampaña = args[0];
 			campaña = campañaService.getCampañaPorId(UUID.fromString(idCampaña));
 			if (campaña != null)
-				cargarDatosEnFormulario();				
+				cargarDatosEnFormulario();			
 		} catch (IllegalArgumentException e) {
 		}
 	}
