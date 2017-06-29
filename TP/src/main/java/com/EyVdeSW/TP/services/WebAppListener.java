@@ -138,7 +138,7 @@ public class WebAppListener implements ServletContextListener
 	}
 	
 	public static void iniciarScheduler(){
-		MailScheduler ms = MailScheduler.getMailScheduler();
+		AccionPublicitariaScheduler ms = AccionPublicitariaScheduler.getMailScheduler();
 		ms.setSendender(new MailSenderSendGrid());
 		ms.encender();
 		CampañaService cService=CampañaService.getCampañaService();
@@ -147,7 +147,7 @@ public class WebAppListener implements ServletContextListener
 	}
 	
 	public static void apagarScheduler(){
-		MailScheduler ms = MailScheduler.getMailScheduler();
+		AccionPublicitariaScheduler ms = AccionPublicitariaScheduler.getMailScheduler();
 		ms.apagar();
 	}
 

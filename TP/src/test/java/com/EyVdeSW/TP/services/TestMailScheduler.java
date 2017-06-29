@@ -31,7 +31,7 @@ import com.EyVdeSW.TP.domainModel.Usuario.TipoUsuario;
 import properties.Parametros;
 
 public class TestMailScheduler {
-	static MailScheduler ms=MailScheduler.getMailScheduler();
+	static AccionPublicitariaScheduler ms=AccionPublicitariaScheduler.getMailScheduler();
 	static CampañaDAONeodatis campañaDAO; 
 	private static String dbFilePath;
 
@@ -123,8 +123,8 @@ public class TestMailScheduler {
 	
 	@Test
 	public void agregarAccionesDeCampañas2(){
-		String horaInicio="22";
-		ArrayList<Campania>instancia=instanciaCampaña("deidelson@mail.com","2017-06-28", "2017-06-29", horaInicio, minutosInicio(00,2));
+		String horaInicio="23";
+		ArrayList<Campania>instancia=instanciaCampaña("deidelson93@gmail.com","2017-06-28", "2017-06-29", horaInicio, minutosInicio(20,1));
 		agregarDatos(instancia);
 		List<Campania>campañasVigentes=(List<Campania>) campañaDAO.getCampañasVigentes();
 		assertEquals(campañasVigentes.size(), 1);
@@ -217,7 +217,7 @@ public class TestMailScheduler {
 		Usuario unico= new Usuario("misael", "britos", "misa@mail.com", "bases de datos", TipoUsuario.CLIENTE);
 		AccionPublicitaria ac1 = new AccionPublicitaria("deidelson@mail.com", "titulo1", "texto1", TipoAccion.particular,
 			1, "11", "20");
-		AccionPublicitaria ac2 = new AccionPublicitaria("deidelson@mail.com", "titulo2", "texto2", TipoAccion.particular,
+		AccionPublicitaria ac2 = new AccionPublicitaria("deidelson93@gmail.com", "titulo2", "texto2", TipoAccion.particular,
 				1, "11", "22");
 		Tag t= new Tag("Deportes");
 		List<AccionPublicitaria>acciones = new ArrayList<>();

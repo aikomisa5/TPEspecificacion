@@ -2,6 +2,7 @@ package com.EyVdeSW.TP.presentacion;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.EyVdeSW.TP.services.WebAppListener;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
@@ -30,7 +31,7 @@ public class MyUI extends UI
 	@Override
 	protected void init(VaadinRequest vaadinRequest)
 	{
-		
+		WebAppListener.iniciarScheduler();
 		final VerticalLayout rootLayout = new VerticalLayout();		
 		setContent(rootLayout);
 		menu = new HorizontalLayout();

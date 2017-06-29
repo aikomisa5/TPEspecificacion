@@ -3,6 +3,7 @@ package com.EyVdeSW.TP.presentacion;
 import com.EyVdeSW.TP.domainModel.Campania;
 import com.EyVdeSW.TP.domainModel.Campania.EstadoCampania;
 import com.EyVdeSW.TP.services.CampañaService;
+import com.EyVdeSW.TP.services.AccionPublicitariaScheduler;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
@@ -20,6 +21,7 @@ public class itemMisCampañas extends HorizontalLayout {
 	private Button cancelar;
 	private Button borrar;
 	private CampañaService campañaService = CampañaService.getCampañaService();
+	private AccionPublicitariaScheduler ms = AccionPublicitariaScheduler.getMailScheduler();
 
 	public itemMisCampañas(Campania campaña) {		
 		setWidth("700px");
@@ -43,6 +45,7 @@ public class itemMisCampañas extends HorizontalLayout {
 		pagar.addClickListener(e ->{
 			campaña.setEstado(EstadoCampania.PLANIFICADA);
 			campañaService.modificar(campaña.getIdCampania(), campaña);
+			ms.agregarAccionesDeCampaña(campaña);
 			updateLblCampaña(campaña);
 			//TODO integrar a scheduler.
 			Notification.show("Campaña Planificada", Type.TRAY_NOTIFICATION);
@@ -57,6 +60,7 @@ public class itemMisCampañas extends HorizontalLayout {
 		cancelar.addClickListener(e ->{
 			campaña.setEstado(EstadoCampania.CANCELADA);
 			campañaService.modificar(campaña.getIdCampania(), campaña);
+			ms.cancelarCampaña(campaña);
 			updateLblCampaña(campaña);
 			//TODO integrar a scheduler.
 			Notification.show("Campaña Cancelada", Type.TRAY_NOTIFICATION);

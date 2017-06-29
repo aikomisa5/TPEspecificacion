@@ -25,14 +25,12 @@ import com.EyVdeSW.TP.Daos.impl.CampañaDAONeodatis;
 import com.EyVdeSW.TP.domainModel.AccionPublicitaria;
 import com.EyVdeSW.TP.domainModel.Campania;
 
-public class MailScheduler {
-	private static MailScheduler mailScheduler;
-	private CampañaDAO campañaDAO;
+public class AccionPublicitariaScheduler {
+	private static AccionPublicitariaScheduler mailScheduler;
 	private Scheduler sc;
 	private MessageSender sender;
 	
-	private MailScheduler(){
-		campañaDAO= new CampañaDAONeodatis();
+	private AccionPublicitariaScheduler(){
 		try {
 			sc=StdSchedulerFactory.getDefaultScheduler();
 		} catch (SchedulerException e) {
@@ -44,9 +42,9 @@ public class MailScheduler {
 		this.sender=s;
 	}
 	
-	public static MailScheduler getMailScheduler(){
+	public static AccionPublicitariaScheduler getMailScheduler(){
 		if(mailScheduler==null){
-			mailScheduler= new MailScheduler();
+			mailScheduler= new AccionPublicitariaScheduler();
 		}
 		return mailScheduler;
 	}
