@@ -51,6 +51,28 @@ public class TagService {
 		}
 		return ret;
 	}
+	
+	public boolean modificar(String nombreOriginal, String nombreNuevo, String nombrePadreNuevo){
+		boolean ret = true;
+		if (!tagDAO.existe(nombreOriginal) || (tagDAO.existe(nombreNuevo)&&!nombreNuevo.equals(nombreOriginal))
+				|| nombreNuevo==null || nombreNuevo.equals(nombrePadreNuevo)) {
+			System.out.println("entre aca :( "+nombreOriginal+" "+nombrePadreNuevo);
+			ret = false;
+		}else{
+			Tag tagModificado = tagDAO.getTagPorNombre(nombreOriginal);
+			tagModificado.setNombre(nombreNuevo);
+			if(nombrePadreNuevo !=""){
+				Tag nuevoPadre = tagDAO.getTagPorNombre(nombrePadreNuevo);
+				tagModificado.setPadre(nuevoPadre);
+			}
+			else
+				tagModificado.setPadre(null);
+			
+			tagDAO.modificar(nombreOriginal, tagModificado);
+		}
+		return ret;
+	}
+
 
 	public Collection<Tag> traerTodos() {
 		return tagDAO.traerTodos();

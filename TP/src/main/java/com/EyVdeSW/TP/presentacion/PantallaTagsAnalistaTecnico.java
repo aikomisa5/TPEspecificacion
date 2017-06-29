@@ -72,10 +72,13 @@ public class PantallaTagsAnalistaTecnico extends VerticalLayout implements View 
 		Button btnEditar = new Button("Editar");
 
 		btnEditar.addClickListener(e -> {
-			if (tfNombre.getValue() == "" || comboBoxTag.getValue() == null) {
+			if (tfNombre.getValue() == "" || tfNombreNuevo.getValue()==null ) {
 				Notification.show("Los campos estan vacios!", Type.WARNING_MESSAGE);
 			} else {
-				boolean resultado = tagService.modificar(comboBoxTag.getValue().toString(), tfNombre.getValue());
+				String nuevoPadre="";
+				if(comboBoxTagNuevo.getValue()!=null)
+					nuevoPadre=comboBoxTagNuevo.getValue().toString();
+				boolean resultado = tagService.modificar(tfNombre.getValue(), tfNombreNuevo.getValue(), nuevoPadre);
 				if (resultado) {
 					Notification.show("Tag editado", Type.TRAY_NOTIFICATION);
 					limpiarCampos(tfNombre, tags, comboBoxTag);
@@ -103,6 +106,7 @@ public class PantallaTagsAnalistaTecnico extends VerticalLayout implements View 
 		arbol.addItemClickListener(click -> {
 			Tag t = tagService.getTagPorNombre(click.getItemId().toString());
 			tfNombre.setValue(t.getNombre());
+			tfNombreNuevo.setValue(t.getNombre());
 			comboBoxTag.setValue(t.getPadre());
 		});
 
