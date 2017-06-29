@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.w3c.dom.ls.LSException;
 
 import com.EyVdeSW.TP.Daos.CampañaDAO;
 import com.EyVdeSW.TP.Daos.impl.CampañaDAONeodatis;
@@ -35,7 +34,6 @@ public class CampañaService {
 	
 	public void guardar(Campania campaña){
 		campañaDAO.guardar(campaña);
-		
 	}
 	
 	public void guardar (Usuario usuario, String nombre, String descripcion, List<AccionPublicitaria> accionesPublicitarias, List<Tag> tagsAsociados, String tituloMensaje,
@@ -65,8 +63,7 @@ public class CampañaService {
 		boolean ret = true;
 		if (campañaDAO.existe(nombreModificacion) || !campañaDAO.existe(nombreCampañaOriginal)) {
 			ret = false;
-		}else
-		{
+		}else{
 			String modificacionMinuscula = nombreModificacion.toLowerCase();
 			String descripcionMinuscula = descripcionCampañaMod.toLowerCase();
 			
@@ -88,10 +85,7 @@ public class CampañaService {
 		nombreCampaña=nombreCampaña.toLowerCase();
 		if (!campañaDAO.existe(nombreCampaña)) {
 			ret = false;
-		}else
-		{
-			
-			
+		}else{
 			Campania orig = campañaDAO.getCampañaPorNombre(nombreCampaña);
 			Campania modi = campañaDAO.getCampañaPorNombre(nombreCampaña);
 			
@@ -119,24 +113,17 @@ public class CampañaService {
 		return ret;
 	}
 	
-	//XXX Esta sin usar, sirve o no?
 	public boolean verificadorTagYaAsociado(String nombreCampaña, String nombreTag){
-		
 		boolean estadoFinal = false;
-		//XXX Que opinan de este condicional?
 		if (campañaDAO.existe(nombreCampaña)) {
-		
 			Campania campaña = campañaDAO.getCampañaPorNombre(nombreCampaña);
 			List<Tag> tags = campaña.getTagsAsociados();
 		
 			for (Tag t : tags){
 				estadoFinal = t.getNombre().equals(nombreTag);
 			}
-				
 		}
-		
 		return estadoFinal;
-	
 	}
 	
 	public List<Campania> getCampañasVigentes(){
@@ -167,4 +154,5 @@ public class CampañaService {
 		Date fechaDeFin = c.getTime();
 		return fechaDeFin;
 	}
+	
 }

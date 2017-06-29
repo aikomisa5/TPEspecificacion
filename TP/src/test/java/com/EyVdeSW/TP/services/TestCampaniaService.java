@@ -1,6 +1,5 @@
 package com.EyVdeSW.TP.services;
 
-import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -10,7 +10,6 @@ import org.neodatis.odb.impl.core.query.criteria.CriteriaQuery;
 
 import com.EyVdeSW.TP.Daos.AccionPublicitariaDAO;
 import com.EyVdeSW.TP.domainModel.AccionPublicitaria;
-import com.EyVdeSW.TP.domainModel.Campania;
 
 public class AccionPublicitariaDAONeodatis extends DAONeodatis<AccionPublicitaria> implements AccionPublicitariaDAO {
 

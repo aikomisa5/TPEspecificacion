@@ -109,10 +109,12 @@ public class DuracionDAONeodatis  extends DAONeodatis<Duracion> implements Durac
 		
 	}
 
+	@SuppressWarnings("serial")
 	@Override
 	public Duracion getDuracionPorCantidadDeDias(long duracion) {
 		Duracion ret = null;
 		Objects<Duracion> resultadoQuery = consultar(new SimpleNativeQuery(){
+			@SuppressWarnings("unused")
 			public boolean match (Duracion d){
 				return d.getDuracion() == duracion;
 			}

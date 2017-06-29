@@ -14,8 +14,6 @@ import org.junit.Test;
 
 import com.EyVdeSW.TP.domainModel.AccionPublicitaria;
 import com.EyVdeSW.TP.domainModel.AccionPublicitaria.TipoAccion;
-import com.EyVdeSW.TP.domainModel.Usuario;
-import com.EyVdeSW.TP.domainModel.Campania.EstadoCampania;
 
 import properties.Parametros;
 

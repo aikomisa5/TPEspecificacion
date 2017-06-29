@@ -17,7 +17,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.EyVdeSW.TP.Daos.impl.CampañaDAONeodatis;
-import com.EyVdeSW.TP.Daos.impl.DuracionDAONeodatis;
 import com.EyVdeSW.TP.Daos.impl.NeodatisLocalTestConnector;
 import com.EyVdeSW.TP.domainModel.AccionPublicitaria;
 import com.EyVdeSW.TP.domainModel.Campania;

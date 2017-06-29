@@ -4,14 +4,12 @@ import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.quartz.JobKey;
 
 public class JobToDelete implements Job{
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		//esta key es para las exceptions 
-		JobKey key = context.getJobDetail().getKey();
 		 JobDataMap dataMap = context.getJobDetail().getJobDataMap();
 		 if(dataMap.size() != 0){
 			 String texto1 = dataMap.getString("texto1");

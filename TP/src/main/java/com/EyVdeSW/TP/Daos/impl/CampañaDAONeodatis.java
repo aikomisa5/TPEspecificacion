@@ -102,6 +102,7 @@ public class CampañaDAONeodatis extends DAONeodatis<Campania> implements Campa�
 		return ret;
 	}
 
+	@SuppressWarnings({ "serial", "unchecked" })
 	@Override
 	public Collection<Campania> getCampañasDe(Usuario user) {
 		Collection<Campania> ret = null;
@@ -110,6 +111,7 @@ public class CampañaDAONeodatis extends DAONeodatis<Campania> implements Campa�
 
 		if (usuarioDAO.existeUsuarioPorNombreUsuario(user.getNombreUsuario())) {
 			ret = consultar(new SimpleNativeQuery() {
+				@SuppressWarnings("unused")
 				public boolean match(Campania campaña) {
 					return campaña.getUsuario().equals(user);
 				}
@@ -128,7 +130,9 @@ public class CampañaDAONeodatis extends DAONeodatis<Campania> implements Campa�
 	@Override
 	public Campania getCampañaPorId(UUID id) {
 		Campania ret = null;
+		@SuppressWarnings("serial")
 		Objects<Campania> resultadoQuery = consultar(new SimpleNativeQuery() {
+			@SuppressWarnings("unused")
 			public boolean match(Campania campaña) {
 				return campaña.getIdCampania().equals(id);
 			}
@@ -146,7 +150,9 @@ public class CampañaDAONeodatis extends DAONeodatis<Campania> implements Campa�
 		odb = null;
 		try {
 			odb = bdConnector.getBDConnection();
+			@SuppressWarnings("serial")
 			IQuery query = new SimpleNativeQuery(){
+				@SuppressWarnings("unused")
 				public boolean match(Campania campania){
 					return campania.getIdCampania().equals(idCampania);
 				}

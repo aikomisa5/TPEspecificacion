@@ -110,6 +110,7 @@ public class TestTarifarioService {
 		EasyMock.verify(tarifarioDAO);
 	}
 	
+	@SuppressWarnings("unused")
 	@Test
 	public void modificarExisteModificacion() {
 		Date fechaOriginal = new Date(20170206);

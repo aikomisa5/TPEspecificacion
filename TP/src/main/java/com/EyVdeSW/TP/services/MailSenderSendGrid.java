@@ -1,20 +1,10 @@
 package com.EyVdeSW.TP.services;
 
 import java.io.IOException;
-import java.util.Properties;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
-import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.quartz.JobKey;
 
 import com.EyVdeSW.TP.domainModel.AccionPublicitaria;
 import com.sendgrid.Content;
@@ -55,7 +45,6 @@ public class MailSenderSendGrid implements MessageSender {
 	
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		JobKey key = context.getJobDetail().getKey();
 		 JobDataMap dataMap = context.getJobDetail().getJobDataMap();
 		 if(dataMap.size() != 0){
 			 String destinatario = dataMap.getString("destinatario");

@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 
 import com.EyVdeSW.TP.domainModel.AccionPublicitaria;
-import com.EyVdeSW.TP.domainModel.Campania;
 
 public interface AccionPublicitariaDAO extends DAO<AccionPublicitaria>{
 	

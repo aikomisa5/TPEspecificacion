@@ -86,13 +86,6 @@ public class AccionPublicitariaService {
 	public void modificarMasivo(List<AccionPublicitaria>acciones, String tituloNuevo, String msgNuevo){
 		accionDAO.modificarMasivo(acciones, tituloNuevo, msgNuevo);
 	}
-
-	//XXX ver si es necesario! (Depende de si usamos combo)
-	private boolean valorValido(String valor){
-		boolean ret=false;
-		for(TipoAccion tipo:TipoAccion.values()){
-			ret = ret || tipo.name().equals(valor);
-		}
-		return ret;
-	}
+	
+	
 }

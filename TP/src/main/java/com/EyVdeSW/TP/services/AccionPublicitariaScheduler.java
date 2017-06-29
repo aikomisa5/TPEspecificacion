@@ -1,15 +1,11 @@
 package com.EyVdeSW.TP.services;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.UUID;
 
-import org.junit.Test;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -20,8 +16,6 @@ import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
 
-import com.EyVdeSW.TP.Daos.CampañaDAO;
-import com.EyVdeSW.TP.Daos.impl.CampañaDAONeodatis;
 import com.EyVdeSW.TP.domainModel.AccionPublicitaria;
 import com.EyVdeSW.TP.domainModel.Campania;
 
@@ -92,7 +86,6 @@ public class AccionPublicitariaScheduler {
 		} catch (SchedulerException | ParseException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public void agregarAccionesDeCampañas(List<Campania>campañas){
@@ -103,7 +96,6 @@ public class AccionPublicitariaScheduler {
 				}
 	}
 
-	
 	public void agregarAccionesDeCampaña(Campania campaña){
 		if(campaña.getAccionesPublicitarias()!=null && campaña.getAccionesPublicitarias().size()!=0){
 			for(AccionPublicitaria ac:campaña.getAccionesPublicitarias()){
@@ -133,13 +125,6 @@ public class AccionPublicitariaScheduler {
 		}
 	}
 	
-//	private static String transformarFecha(Date fecha){
-//		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-//		String ret = formatter.format(fecha);
-//		ret= ret+" 00:00:00.0";
-//		return ret;
-//	}
-	
 	public static String transformarFecha(Date fecha){
 	    Calendar cal = Calendar.getInstance();
 	    cal.setTime(fecha);
@@ -153,30 +138,5 @@ public class AccionPublicitariaScheduler {
 	    return ret;
 	}
 	
-	
 
-	//TODO delete
-	public static void main(String[] args) {
-//		MailScheduler ms=MailScheduler.getMailScheduler();
-//		ms.encender();
-//		String startDateStr = "2017-06-23 00:00:00.0";
-//        String endDateStr = "2017-06-24 00:00:00.0";
-//        
-//		try {
-//			ms.agregarAccion(startDateStr, endDateStr, "deidelson@mail.com", 
-//						"Prueba del service", "exito", "14","43","1");
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		Date fecha = new Date(20170603);
-//		Calendar cal = Calendar.getInstance();
-//		cal.setTime(fecha);
-//		int mesActual = cal.get(Calendar.MONTH)+1;
-//		System.out.println(Integer.toString(mesActual));
-//		
-		Date d = new Date (20170603);
-		
-		
-		
-	}
 }

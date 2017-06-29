@@ -6,9 +6,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -63,11 +60,13 @@ public class TestCampañaDAONeodatis {
 				Usuario.TipoUsuario.ANALISTATECNICO);
 		new Campania(userInvalido, "unNombre", "unaDescripcion");
 	}
+	
 	//TODO fechaDeInicio<FechaDeFin
 	//@Test(expected = IllegalArgumentException.class)	
 	public void crearCampañaUserException3() {
 		Usuario userInvalido = new Usuario("pepe", "unUsuario", "usuario@asd.com", "1234",
 				Usuario.TipoUsuario.CLIENTE);
+		@SuppressWarnings("unused")
 		Campania c = new Campania(userInvalido, "unNombre", "unaDescripcion");		
 	}
 	

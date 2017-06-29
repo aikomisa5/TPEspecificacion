@@ -9,8 +9,6 @@ import org.neodatis.odb.core.query.criteria.Where;
 import org.neodatis.odb.impl.core.query.criteria.CriteriaQuery;
 
 import com.EyVdeSW.TP.Daos.TarifarioDAO;
-import com.EyVdeSW.TP.domainModel.Campania;
-import com.EyVdeSW.TP.domainModel.Tag;
 import com.EyVdeSW.TP.domainModel.Tarifario;
 import com.EyVdeSW.TP.domainModel.Tarifario.TipoTarifario;
 
