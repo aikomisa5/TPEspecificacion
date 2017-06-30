@@ -23,6 +23,7 @@ public class PantallaDuracionAnalistaTecnico extends VerticalLayout implements V
 	protected static final String NAME = "pantallaDuracionAnalistaTecnico";
 
 	private DuracionService duracionService = DuracionService.getDuracionService();
+	private String seleccionada=null;
 	
 	
 
@@ -66,7 +67,7 @@ public class PantallaDuracionAnalistaTecnico extends VerticalLayout implements V
 			}else{
 				if(duracionService.existe(tfDescripcion.getValue())){
 					duracionService.borrar(tfDescripcion.getValue());
-					Notification.show("El nombre esta vacío!", Type.WARNING_MESSAGE);
+					Notification.show("Se borró correctamente", Type.TRAY_NOTIFICATION);
 					limpiarActualizar(arbolDuraciones, tfDescripcion, tfCantidadDias, duraciones);
 				}else{
 					Notification.show("No existe dicha duracion", Type.WARNING_MESSAGE);
@@ -76,12 +77,25 @@ public class PantallaDuracionAnalistaTecnico extends VerticalLayout implements V
 		});
 		
 		Button editar = new Button("Editar");
+		editar.addClickListener(event -> {
+			if(tfDescripcion.getValue()==null){
+				Notification.show("El nombre esta vacío!", Type.WARNING_MESSAGE);
+			}else if(seleccionada==null){
+				Notification.show("No esta seleccionada ninguna duracion", Type.WARNING_MESSAGE);
+			}else{
+				Duracion modificada = new Duracion(tfDescripcion.getValue(), Integer.parseInt(tfCantidadDias.getValue()));
+				duracionService.modificar(seleccionada, modificada);
+				Notification.show("Se modificó correctamente", Type.TRAY_NOTIFICATION);
+				limpiarActualizar(arbolDuraciones, tfDescripcion, tfCantidadDias, duraciones);
+			}
+		});
 		
 		
 		arbolDuraciones.addItemClickListener(event ->{
 			Duracion duracion = duracionService.getDuracionPorDescripcion(event.getItemId().toString());
 			tfDescripcion.setValue(duracion.getDescripcion());
 			tfCantidadDias.setValue(Integer.toString(duracion.getDuracion()));
+			seleccionada=duracion.getDescripcion();
 		});
 		
 		HorizontalLayout hl = new HorizontalLayout(arbolDuraciones,tfDescripcion, tfCantidadDias);
@@ -113,7 +127,7 @@ public class PantallaDuracionAnalistaTecnico extends VerticalLayout implements V
 			duraciones.addBean(duracion);
 		});
 		tree.setContainerDataSource(duraciones);
-		
+		seleccionada=null;
 	}
 
 }
