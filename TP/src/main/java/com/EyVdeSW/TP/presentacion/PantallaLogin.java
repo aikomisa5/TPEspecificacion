@@ -1,9 +1,9 @@
 package com.EyVdeSW.TP.presentacion;
 
-import com.EyVdeSW.TP.domainModel.Usuario;
 import com.EyVdeSW.TP.services.UsuarioService;
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.data.validator.EmailValidator;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.MarginInfo;
@@ -19,7 +19,6 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.themes.Reindeer;
 import com.vaadin.ui.themes.ValoTheme;
 
 @SuppressWarnings("serial")
@@ -62,7 +61,8 @@ public class PantallaLogin extends CustomComponent implements View,
 	
 	    // Create login button
 	    loginButton = new Button("Ingresar", this);
-	    registroButton = new Button("Ir a Registrarse", this);
+	    loginButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+	    registroButton = new Button("Ir a Registrarse");
 	
 	    FormLayout fields = new FormLayout(userMail, password);
 	    fields.setCaption("Por favor, ingrese sus datos para acceder a la aplicación");

@@ -1,7 +1,5 @@
 package com.EyVdeSW.TP.presentacion;
 
-import java.util.Collection;
-
 import com.EyVdeSW.TP.domainModel.Tag;
 import com.EyVdeSW.TP.services.TagService;
 import com.vaadin.data.util.BeanItemContainer;

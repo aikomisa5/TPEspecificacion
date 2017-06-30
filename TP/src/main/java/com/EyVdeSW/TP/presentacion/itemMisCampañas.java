@@ -7,12 +7,9 @@ import com.EyVdeSW.TP.services.AccionPublicitariaScheduler;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
-import com.vaadin.ui.PopupView;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -58,6 +55,7 @@ public class itemMisCampañas extends HorizontalLayout {
 			campañaService.modificar(campaña.getIdCampania(), campaña);
 			ms.agregarAccionesDeCampaña(campaña);
 			updateDatosCampaña(campaña);
+			// TODO integrar a scheduler.
 			Notification.show("Campaña Planificada", Type.TRAY_NOTIFICATION);
 			establecerVisibilidadBotones();
 		});
@@ -70,7 +68,8 @@ public class itemMisCampañas extends HorizontalLayout {
 			campaña.setEstado(EstadoCampania.CANCELADA);
 			campañaService.modificar(campaña.getIdCampania(), campaña);
 			ms.cancelarCampaña(campaña);
-			updateDatosCampaña(campaña);			
+			updateDatosCampaña(campaña);
+			// TODO integrar a scheduler.
 			Notification.show("Campaña Cancelada", Type.TRAY_NOTIFICATION);
 			establecerVisibilidadBotones();
 		});
@@ -81,6 +80,7 @@ public class itemMisCampañas extends HorizontalLayout {
 		borrar.setStyleName(ValoTheme.BUTTON_DANGER);
 		borrar.addClickListener(e -> {
 			campañaService.borrar(campaña.getIdCampania());
+			// TODO integrar a scheduler.
 			Notification.show("Campaña Borrada", Type.TRAY_NOTIFICATION);
 			this.removeAllComponents();
 		});
