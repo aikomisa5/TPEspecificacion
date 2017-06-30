@@ -5,19 +5,16 @@ import java.util.List;
 import com.EyVdeSW.TP.domainModel.AccionPublicitaria;
 import com.EyVdeSW.TP.domainModel.AccionPublicitaria.TipoAccion;
 import com.vaadin.data.validator.EmailValidator;
-import com.vaadin.data.validator.NullValidator;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.Orientation;
 import com.vaadin.shared.ui.slider.SliderOrientation;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.Tree;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Notification.Type;
@@ -25,6 +22,11 @@ import com.vaadin.ui.Slider;
 import com.vaadin.ui.themes.ValoTheme;
 
 public class SubMenuAccionesPublicitariasPersonalizadas extends Window {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public SubMenuAccionesPublicitariasPersonalizadas(VerticalLayout layoutAccionesDeCampaña,
 			List<AccionPublicitaria> accionesParaAsociar, itemAccionesDeCampaña itemAccion) {
@@ -35,7 +37,7 @@ public class SubMenuAccionesPublicitariasPersonalizadas extends Window {
 		this.setDraggable(false);
 
 		// Add it to the root component
-		MyUI.getCurrent().addWindow(this);
+		UI.getCurrent().addWindow(this);
 
 		Button agregarAccion = new Button("Guardar acción");
 		agregarAccion.setIcon(FontAwesome.CHECK);

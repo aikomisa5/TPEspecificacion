@@ -4,14 +4,17 @@ import java.util.List;
 
 import com.EyVdeSW.TP.domainModel.Campania;
 import com.EyVdeSW.TP.domainModel.Tag;
-import com.EyVdeSW.TP.services.CampañaService;
 import com.EyVdeSW.TP.services.TagService;
 import com.vaadin.data.util.HierarchicalContainer;
 import com.vaadin.ui.Tree;
 
-@SuppressWarnings("serial")
+
 public class TagTree extends Tree{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static TagService tagService = TagService.getTagService();
 	
 	public TagTree (){

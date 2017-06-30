@@ -19,8 +19,13 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.ValoTheme;
 
-@SuppressWarnings("serial")
+
 public class PantallaDuracionAnalistaTecnico extends VerticalLayout implements View {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	protected static final String NAME = "pantallaDuracionAnalistaTecnico";
 
 	private DuracionService duracionService = DuracionService.getDuracionService();

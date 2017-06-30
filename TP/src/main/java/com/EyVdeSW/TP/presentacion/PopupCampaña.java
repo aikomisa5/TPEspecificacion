@@ -6,9 +6,12 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.PopupView;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.themes.ValoTheme;
 
 public class PopupCampaña extends PopupView {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String descripcionBreve;
 	private VerticalLayout mainLayout;
 	private Label nombre = new Label();

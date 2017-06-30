@@ -21,9 +21,14 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-@SuppressWarnings("serial")
+
 public class PantallaLogin extends CustomComponent implements View,
     Button.ClickListener {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public static final String NAME = "login";
 	
@@ -99,7 +104,12 @@ public void enter(ViewChangeEvent event) {
 private static final class PasswordValidator extends
         AbstractValidator<String> {
 
-    public PasswordValidator() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public PasswordValidator() {
         super("La contraseña ingresada no es valida");
     }
 

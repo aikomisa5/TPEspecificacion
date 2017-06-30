@@ -20,9 +20,14 @@ import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.Reindeer;
 import com.vaadin.ui.themes.ValoTheme;
 
-@SuppressWarnings("serial")
+
 public class PantallaRegistro extends VerticalLayout implements View {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	protected static final String NAME = "pantallaRegistro";
 	
 	private UsuarioService usuarioService = UsuarioService.getUsuarioService();
@@ -172,6 +177,11 @@ public class PantallaRegistro extends VerticalLayout implements View {
 	
 	private static final class PasswordValidator extends
     AbstractValidator<String> {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 
 		public PasswordValidator() {
 			super("La contraseña ingresada no es valida, debe poseer 8 caracteres y al menos un numero");

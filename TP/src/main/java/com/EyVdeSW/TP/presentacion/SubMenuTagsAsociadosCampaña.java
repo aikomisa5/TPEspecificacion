@@ -15,6 +15,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Tree;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
@@ -22,6 +23,10 @@ import com.vaadin.ui.Notification.Type;
 
 // Define a sub-window by inheritance
 public class SubMenuTagsAsociadosCampaña extends Window {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Tree tagsDisponiblesTree;
 	private Tree tagsSeleccionadosTree;
 
@@ -47,7 +52,7 @@ public class SubMenuTagsAsociadosCampaña extends Window {
 			
 
 		// Add it to the root component
-		MyUI.getCurrent().addWindow(this);
+		UI.getCurrent().addWindow(this);
 
 		Button agregar = new Button("Guardar cambios");
 		agregar.setIcon(FontAwesome.CHECK);

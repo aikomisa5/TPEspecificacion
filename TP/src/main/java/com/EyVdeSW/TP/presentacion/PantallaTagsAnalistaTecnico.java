@@ -21,8 +21,13 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.ValoTheme;
 
-@SuppressWarnings("serial")
+
 public class PantallaTagsAnalistaTecnico extends VerticalLayout implements View {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	protected static final String NAME = "pantallaTagsAnalistaTecnico";
 
 	private TagService tagService = TagService.getTagService();

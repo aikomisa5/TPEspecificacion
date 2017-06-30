@@ -3,9 +3,7 @@ package com.EyVdeSW.TP.presentacion;
 import java.util.List;
 
 import com.EyVdeSW.TP.domainModel.AccionPublicitaria;
-import com.EyVdeSW.TP.services.AccionPublicitariaService;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -13,6 +11,10 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 public class itemAccionesDeCampaña extends HorizontalLayout {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Button borrarAccion;
 	private Button editarAccion;
 	private Label descripcionBreve;

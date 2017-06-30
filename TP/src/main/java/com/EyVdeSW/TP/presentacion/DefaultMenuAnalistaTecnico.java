@@ -6,8 +6,12 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 
-@SuppressWarnings("serial")
+
 public class DefaultMenuAnalistaTecnico extends HorizontalLayout implements View {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Label text = new Label();
 	private Button logout = new Button("Logout");
 	private Button tags = new Button("Tags");

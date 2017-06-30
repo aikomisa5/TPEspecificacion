@@ -22,10 +22,14 @@ import com.vaadin.ui.VerticalLayout;
  * intended to be overridden to add component to the user interface and
  * initialize non-component functionality.
  */
-@SuppressWarnings("serial")
+
 @Theme("valo")
 public class MyUI extends UI
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Navigator navigator;
 	private HorizontalLayout menu;
 	@Override
@@ -65,7 +69,12 @@ public class MyUI extends UI
         
         getNavigator().addViewChangeListener(new ViewChangeListener() {
 
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public boolean beforeViewChange(ViewChangeEvent event) {
 
                 // Chequear si un usuario se ha logueado
@@ -125,5 +134,10 @@ public class MyUI extends UI
 	@VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
 	public static class MyUIServlet extends VaadinServlet
 	{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 	}
 }

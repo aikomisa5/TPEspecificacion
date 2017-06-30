@@ -13,8 +13,12 @@ import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-@SuppressWarnings("serial")
+
 public class itemMisCampañas extends HorizontalLayout {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Campania campaña;
 	private PopupCampaña popupCampaña;
 	private Button verDetalles;

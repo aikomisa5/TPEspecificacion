@@ -1,15 +1,11 @@
 package com.EyVdeSW.TP.presentacion;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import org.omg.CORBA.portable.ValueOutputStream;
-
 import com.EyVdeSW.TP.domainModel.AccionPublicitaria;
-import com.EyVdeSW.TP.domainModel.AccionPublicitaria.TipoAccion;
 import com.EyVdeSW.TP.domainModel.Campania;
 import com.EyVdeSW.TP.domainModel.Duracion;
 import com.EyVdeSW.TP.domainModel.Tag;
@@ -35,12 +31,16 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Notification.Type;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.themes.ValoTheme;
 
-@SuppressWarnings("serial")
+
 public class PantallaCampañaCliente extends VerticalLayout implements View {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	protected static final String NAME = "pantallaCampañasCliente";
 
@@ -221,12 +221,12 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 	}
 
 	private void abrirAsociarAcciones() {
-		SubMenuAccionesPublicitariasPersonalizadas sub = new SubMenuAccionesPublicitariasPersonalizadas(
+		new SubMenuAccionesPublicitariasPersonalizadas(
 				layoutAccionesDeCampaña, accionesPublicitariasParaAsociar, null);
 	}
 
 	private void abrirAsociarTags(Tree tagsAgregadosHastaElMomento) {
-		SubMenuTagsAsociadosCampaña sub = new SubMenuTagsAsociadosCampaña(tagsAgregadosHastaElMomento, tagService,
+		new SubMenuTagsAsociadosCampaña(tagsAgregadosHastaElMomento, tagService,
 				tagsParaAsociar, tagContainer);
 	}
 
