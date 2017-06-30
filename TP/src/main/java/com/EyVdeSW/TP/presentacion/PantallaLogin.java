@@ -61,6 +61,7 @@ public class PantallaLogin extends CustomComponent implements View,
 	
 	    // Create login button
 	    loginButton = new Button("Ingresar", this);
+	    //Para que funcione también con la tecla ENTER
 	    loginButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 	    registroButton = new Button("Ir a Registrarse");
 	
