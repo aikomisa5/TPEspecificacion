@@ -12,30 +12,25 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class itemAccionesDeCampaña extends HorizontalLayout{
+public class itemAccionesDeCampaña extends HorizontalLayout {
 	private Button borrarAccion;
-	private Label destinatario;
-	private Label titulo;
-	private	AccionPublicitariaService accionService = AccionPublicitariaService.getAccionPublicitariaService(); 
-	
-	public itemAccionesDeCampaña(AccionPublicitaria accion, List<AccionPublicitaria> accionesPublicitariasParaAsociar) {		
-		
+	private Label descripcionBreve;	
+	private AccionPublicitariaService accionService = AccionPublicitariaService.getAccionPublicitariaService();
+
+	public itemAccionesDeCampaña(AccionPublicitaria accion, List<AccionPublicitaria> accionesPublicitariasParaAsociar) {
+		this.setMargin(false);		
 		borrarAccion = new Button();
 		borrarAccion.setIcon(FontAwesome.TRASH);
-		borrarAccion.setStyleName(ValoTheme.BUTTON_DANGER +" "+ValoTheme.BUTTON_QUIET);
+		borrarAccion.setStyleName(ValoTheme.BUTTON_DANGER + " " + ValoTheme.BUTTON_QUIET + " " + ValoTheme.BUTTON_TINY);
 		borrarAccion.addClickListener(click -> {
 			accionesPublicitariasParaAsociar.remove(accion);
 			this.removeAllComponents();
-			});
-		
-		
-		destinatario = new Label();
-		destinatario.setCaption("To: " + accion.getDestinatario());
-		titulo = new Label();
-		titulo.setCaption("Header: " +accion.getTitulo());
-		titulo.setStyleName(ValoTheme.LABEL_SMALL);
-		VerticalLayout vlDescripcion = new VerticalLayout(destinatario,titulo);		
-		addComponents(borrarAccion,vlDescripcion);		
+		});
+
+		descripcionBreve = new Label();		
+		descripcionBreve.setStyleName(ValoTheme.LABEL_NO_MARGIN);
+		descripcionBreve.setCaption("To: " + accion.getDestinatario() + " Header: " + accion.getTitulo());		
+		addComponents(borrarAccion, descripcionBreve);
 		setWidth("95%");
 	}
 }

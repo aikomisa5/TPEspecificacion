@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.omg.CORBA.portable.ValueOutputStream;
+
 import com.EyVdeSW.TP.domainModel.AccionPublicitaria;
 import com.EyVdeSW.TP.domainModel.AccionPublicitaria.TipoAccion;
 import com.EyVdeSW.TP.domainModel.Campania;
@@ -64,21 +66,25 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 	ComboBox duracionCampaña;
 	DateField datePickerInicio;
 	BeanItemContainer<Duracion> duraciones;
-	Panel panelAccionesDeCampaña;
-	Panel paneltagsAgregadosHastaElMomento;
+	//Panel panelAccionesDeCampaña;
+	VerticalLayout layoutTagsAgregadosHastaElMomento;
 	VerticalLayout layoutAccionesDeCampaña;
 	// Tree accionesAgregadasHastaElMomento;
 	TagTree tagsAgregadosHastaElMomento;
 
 	public PantallaCampañaCliente() {
 
-		// accionesAgregadasHastaElMomento = new Tree("Acciones Agregadas Hasta
-		// El Momento");
 		layoutAccionesDeCampaña = new VerticalLayout();
-		panelAccionesDeCampaña = new Panel("Acciones Publicitarias", layoutAccionesDeCampaña);
-
-		tagsAgregadosHastaElMomento = new TagTree();
-		paneltagsAgregadosHastaElMomento = new Panel("Tags Agregados Hasta El Momento", new VerticalLayout(tagsAgregadosHastaElMomento));
+		layoutAccionesDeCampaña.setStyleName(ValoTheme.FORMLAYOUT_LIGHT + " " + ValoTheme.LAYOUT_CARD);
+		layoutAccionesDeCampaña.setCaption("Acciones Publicitarias");	
+		layoutAccionesDeCampaña.setSpacing(false);
+		tagsAgregadosHastaElMomento = new TagTree();	
+		tagsAgregadosHastaElMomento.setCaption(null);
+		
+		layoutTagsAgregadosHastaElMomento =new VerticalLayout(tagsAgregadosHastaElMomento);
+		layoutTagsAgregadosHastaElMomento.setStyleName(ValoTheme.FORMLAYOUT_LIGHT + " " + ValoTheme.LAYOUT_CARD);
+		layoutTagsAgregadosHastaElMomento.setCaption("Tags agregados hasta el momento");	
+		layoutTagsAgregadosHastaElMomento.setSpacing(false);
 		
 
 		Label titulo = new Label("Gestión de Campañas");
@@ -138,7 +144,8 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 				duracionCampaña, datePickerInicio);
 		flFormCampos.setSpacing(true);		
 
-		HorizontalLayout hlAccionesYTags = new HorizontalLayout(panelAccionesDeCampaña, paneltagsAgregadosHastaElMomento);
+//		HorizontalLayout hlAccionesYTags = new HorizontalLayout(panelAccionesDeCampaña, paneltagsAgregadosHastaElMomento);
+		HorizontalLayout hlAccionesYTags = new HorizontalLayout(layoutAccionesDeCampaña, layoutTagsAgregadosHastaElMomento);
 		hlAccionesYTags.setSpacing(true);
 		FormLayout flAccionesYTags = new FormLayout(hlAccionesYTags);		
 		
@@ -147,7 +154,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 
 		VerticalLayout vlPrincipal = new VerticalLayout(hlForm, hlBotones);
 		vlPrincipal.setSpacing(true);
-		vlPrincipal.setWidth("80%");
+		vlPrincipal.setWidth("95%");
 		addComponent(vlPrincipal);
 		setComponentAlignment(vlPrincipal, Alignment.TOP_CENTER);
 		setMargin(true);
@@ -206,11 +213,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 
 			Notification.show("Campaña Guardado", Type.TRAY_NOTIFICATION);
 			limpiarCampos(tfNombre, taDescripcion, tfNombreMensaje, taTextoMensaje, duracionCampaña);
-			// TODO agregar el layout
-			// limpiarListas(tagsParaAsociar, accionesPublicitariasParaAsociar,
-			// layoutAccionesDeCampaña,
-			// tagsAgregadosHastaElMomento);
-			limpiarListas(tagsParaAsociar, accionesPublicitariasParaAsociar, layoutAccionesDeCampaña,
+						limpiarListas(tagsParaAsociar, accionesPublicitariasParaAsociar, layoutAccionesDeCampaña,
 					tagsAgregadosHastaElMomento);
 
 		}
