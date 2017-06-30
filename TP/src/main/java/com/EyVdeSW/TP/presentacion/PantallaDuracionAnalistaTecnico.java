@@ -3,12 +3,14 @@ package com.EyVdeSW.TP.presentacion;
 import com.EyVdeSW.TP.domainModel.Duracion;
 import com.EyVdeSW.TP.services.DuracionService;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
@@ -44,6 +46,8 @@ public class PantallaDuracionAnalistaTecnico extends VerticalLayout implements V
 		TextField tfDescripcion = new TextField("Descripcion");
 		TextField tfCantidadDias= new TextField("Cantidad dias");
 		Button guardar = new Button("Guardar");
+		guardar.setStyleName(ValoTheme.BUTTON_PRIMARY);
+		guardar.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 		guardar.addClickListener( event -> {
 			if(tfDescripcion.getValue() == null || tfCantidadDias.getValue() == null){
 				Notification.show("El nombre esta vacío!", Type.WARNING_MESSAGE);
@@ -61,6 +65,7 @@ public class PantallaDuracionAnalistaTecnico extends VerticalLayout implements V
 		
 		
 		Button eliminar = new Button("Eliminar");
+		eliminar.setStyleName(ValoTheme.BUTTON_DANGER);
 		eliminar.addClickListener(event -> {
 			if(tfDescripcion.getValue() == null){
 				Notification.show("El nombre esta vacío!", Type.WARNING_MESSAGE);
@@ -98,18 +103,26 @@ public class PantallaDuracionAnalistaTecnico extends VerticalLayout implements V
 			seleccionada=duracion.getDescripcion();
 		});
 		
-		HorizontalLayout hl = new HorizontalLayout(arbolDuraciones,tfDescripcion, tfCantidadDias);
 		
-		HorizontalLayout hl1 = new HorizontalLayout(guardar, editar, eliminar);
-		hl.setSpacing(true);
-		hl1.setSpacing(true);
-		VerticalLayout vl = new VerticalLayout(hl, hl1);
-		vl.setSpacing(true);
-	
-		
-		this.addComponent(vl);
-		setComponentAlignment(vl, Alignment.TOP_CENTER);
-		this.setSpacing(true);
+		HorizontalLayout hlBotones = new HorizontalLayout(guardar, editar, eliminar);
+		hlBotones.setSpacing(true);
+
+		FormLayout flFormDescripcion = new FormLayout(tfDescripcion);
+		FormLayout  flFormCantidadDias = new FormLayout(tfCantidadDias);
+		flFormDescripcion.setSpacing(true);
+		flFormCantidadDias.setSpacing(true);
+		HorizontalLayout forms= new HorizontalLayout(flFormDescripcion, flFormCantidadDias);
+		forms.setSpacing(true);
+		VerticalLayout vlFormDuraciones = new VerticalLayout(forms, hlBotones);
+		vlFormDuraciones.setSpacing(true);
+
+		VerticalLayout vlArbolDuraciones = new VerticalLayout(arbolDuraciones);
+		HorizontalLayout hlPrincipal = new HorizontalLayout(vlArbolDuraciones, vlFormDuraciones);
+		hlPrincipal.setSpacing(true);
+		hlPrincipal.setWidth("80%");
+		addComponent(hlPrincipal);
+		setComponentAlignment(hlPrincipal, Alignment.TOP_CENTER);
+		setMargin(true);
 		// TODO binding a grid.
 	}
 
