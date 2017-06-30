@@ -26,7 +26,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 public class SubMenuAccionesPublicitariasPersonalizadas extends Window {
 
-	public SubMenuAccionesPublicitariasPersonalizadas(Tree accionesAgregadasHastaElMomento,
+	public SubMenuAccionesPublicitariasPersonalizadas(VerticalLayout layoutAccionesDeCampaña,
 			List<AccionPublicitaria> accionesParaAsociar) {
 		super("Asociar acciones publicitarias personalizadas"); // Set window
 																// caption
@@ -109,7 +109,7 @@ public class SubMenuAccionesPublicitariasPersonalizadas extends Window {
 						TipoAccion.particular, periodicidad, horaInicio, minutoInicio);
 
 				accionesParaAsociar.add(accion);
-				accionesAgregadasHastaElMomento.addItem(accion);
+				layoutAccionesDeCampaña.addComponent(new itemAccionesDeCampaña(accion, accionesParaAsociar));
 				Notification.show("Accion guardada", Type.TRAY_NOTIFICATION);
 
 				this.close();

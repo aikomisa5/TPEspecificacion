@@ -33,6 +33,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Notification.Type;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -63,14 +64,22 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 	ComboBox duracionCampaña;
 	DateField datePickerInicio;
 	BeanItemContainer<Duracion> duraciones;
-	Tree accionesAgregadasHastaElMomento;
+	Panel panelAccionesDeCampaña;
+	Panel paneltagsAgregadosHastaElMomento;
+	VerticalLayout layoutAccionesDeCampaña;
+	// Tree accionesAgregadasHastaElMomento;
 	TagTree tagsAgregadosHastaElMomento;
 
 	public PantallaCampañaCliente() {
 
-		accionesAgregadasHastaElMomento = new Tree("Acciones Agregadas Hasta El Momento");
+		// accionesAgregadasHastaElMomento = new Tree("Acciones Agregadas Hasta
+		// El Momento");
+		layoutAccionesDeCampaña = new VerticalLayout();
+		panelAccionesDeCampaña = new Panel("Acciones Publicitarias", layoutAccionesDeCampaña);
 
-		tagsAgregadosHastaElMomento = new TagTree("Tags Agregados Hasta El Momento");
+		tagsAgregadosHastaElMomento = new TagTree();
+		paneltagsAgregadosHastaElMomento = new Panel("Tags Agregados Hasta El Momento", new VerticalLayout(tagsAgregadosHastaElMomento));
+		
 
 		Label titulo = new Label("Gestión de Campañas");
 		titulo.setStyleName(ValoTheme.LABEL_H1);
@@ -111,7 +120,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 		// Asociar acciones a la campaña
 		Button btnAsociarAcciones = new Button("Asociar Acciones a la Campaña");
 		btnAsociarAcciones.addClickListener(e -> {
-			abrirAsociarAcciones(accionesAgregadasHastaElMomento);
+			abrirAsociarAcciones();
 		});
 
 		Button btnCrear = new Button("Guardar Campaña");
@@ -119,7 +128,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 		btnCrear.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		btnCrear.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 		btnCrear.addClickListener(e -> {
-			guardarCampaña(accionesAgregadasHastaElMomento, tagsAgregadosHastaElMomento, datePickerInicio);
+			guardarCampaña();
 		});
 
 		HorizontalLayout hlBotones = new HorizontalLayout(btnCrear, btnAsociarTags, btnAsociarAcciones);
@@ -127,28 +136,25 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 
 		FormLayout flFormCampos = new FormLayout(tfNombre, taDescripcion, tfNombreMensaje, taTextoMensaje,
 				duracionCampaña, datePickerInicio);
-		flFormCampos.setSpacing(true);
+		flFormCampos.setSpacing(true);		
 
-		VerticalLayout vlFormTags = new VerticalLayout(flFormCampos, hlBotones);
-		vlFormTags.setSpacing(true);
+		HorizontalLayout hlAccionesYTags = new HorizontalLayout(panelAccionesDeCampaña, paneltagsAgregadosHastaElMomento);
+		hlAccionesYTags.setSpacing(true);
+		FormLayout flAccionesYTags = new FormLayout(hlAccionesYTags);		
+		
+		HorizontalLayout hlForm = new HorizontalLayout(flFormCampos, flAccionesYTags);
+		hlForm.setSpacing(true);		
 
-		FormLayout flFormArboles = new FormLayout(accionesAgregadasHastaElMomento, tagsAgregadosHastaElMomento);
-		flFormArboles.setSpacing(true);
-
-		VerticalLayout vlFormArboles = new VerticalLayout(flFormArboles);
-		vlFormArboles.setSpacing(true);
-
-		HorizontalLayout hlPrincipal = new HorizontalLayout(vlFormTags, vlFormArboles);
-		hlPrincipal.setSpacing(true);
-		hlPrincipal.setWidth("80%");
-		addComponent(hlPrincipal);
-		setComponentAlignment(hlPrincipal, Alignment.TOP_CENTER);
+		VerticalLayout vlPrincipal = new VerticalLayout(hlForm, hlBotones);
+		vlPrincipal.setSpacing(true);
+		vlPrincipal.setWidth("80%");
+		addComponent(vlPrincipal);
+		setComponentAlignment(vlPrincipal, Alignment.TOP_CENTER);
 		setMargin(true);
 
 	}
 
-	private void guardarCampaña(Tree accionesAgregadasHastaElMomento, Tree tagsAgregadosHastaElMomento,
-			DateField datePickerInicio) {
+	private void guardarCampaña() {
 		if (tfNombre.getValue() == "") {
 			Notification.show("El nombre está vacío!", Type.WARNING_MESSAGE);
 		}
@@ -164,15 +170,15 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 		else if (taTextoMensaje.getValue().toString() == "") {
 			Notification.show("El texto del mensaje está vacío!", Type.WARNING_MESSAGE);
 		}
-		
-		else if (duracionCampaña.getValue() == null){
+
+		else if (duracionCampaña.getValue() == null) {
 			Notification.show("La duración se encuentra vacía!", Type.WARNING_MESSAGE);
 		}
-		
-		else if (tagsParaAsociar.size() == 0){
+
+		else if (tagsParaAsociar.size() == 0) {
 			Notification.show("No asociaste ningún tag a la campaña!", Type.WARNING_MESSAGE);
 		}
-		
+
 		else {
 
 			Usuario usuario = usuarioService.getUsuarioPorMail(username);
@@ -182,7 +188,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 			String cuerpoMensaje = taTextoMensaje.getValue().toString();
 			fechaInicio = datePickerInicio.getValue();
 			Duracion duracion = duracionService.getDuracionPorDescripcion(duracionCampaña.getValue().toString());
-			if (campaña != null){				
+			if (campaña != null) {
 				campaña.setAccionesPublicitarias(accionesPublicitariasParaAsociar);
 				campaña.setDescripcion(descripcion);
 				campaña.setFechaDeInicio(fechaInicio);
@@ -191,26 +197,29 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 				campaña.getMensaje().setTextoMensaje(cuerpoMensaje);
 				campaña.setNombre(nombre);
 				campaña.setTagsAsociados(tagsParaAsociar);
-				
+
 				campañaService.modificar(campaña.getIdCampania(), campaña);
-			}
-			else{
-			campañaService.guardar(usuario, nombre, descripcion, accionesPublicitariasParaAsociar, tagsParaAsociar, tituloMensaje,
-					cuerpoMensaje, fechaInicio, duracion);
+			} else {
+				campañaService.guardar(usuario, nombre, descripcion, accionesPublicitariasParaAsociar, tagsParaAsociar,
+						tituloMensaje, cuerpoMensaje, fechaInicio, duracion);
 			}
 
 			Notification.show("Campaña Guardado", Type.TRAY_NOTIFICATION);
 			limpiarCampos(tfNombre, taDescripcion, tfNombreMensaje, taTextoMensaje, duracionCampaña);
-			limpiarListas(tagsParaAsociar, accionesPublicitariasParaAsociar, accionesAgregadasHastaElMomento,
+			// TODO agregar el layout
+			// limpiarListas(tagsParaAsociar, accionesPublicitariasParaAsociar,
+			// layoutAccionesDeCampaña,
+			// tagsAgregadosHastaElMomento);
+			limpiarListas(tagsParaAsociar, accionesPublicitariasParaAsociar, layoutAccionesDeCampaña,
 					tagsAgregadosHastaElMomento);
 
 		}
 		tfNombre.focus();
 	}
 
-	private void abrirAsociarAcciones(Tree accionesAgregadasHastaElMomento) {
+	private void abrirAsociarAcciones() {
 		SubMenuAccionesPublicitariasPersonalizadas sub = new SubMenuAccionesPublicitariasPersonalizadas(
-				accionesAgregadasHastaElMomento, accionesPublicitariasParaAsociar);
+				layoutAccionesDeCampaña, accionesPublicitariasParaAsociar);
 	}
 
 	private void abrirAsociarTags(Tree tagsAgregadosHastaElMomento) {
@@ -227,20 +236,21 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 		duracionCampaña.select(duracionCampaña.getNullSelectionItemId());
 	}
 
-	private void limpiarListas(List<Tag> tags, List<AccionPublicitaria> acciones, Tree arbolTags, Tree arbolAcciones) {
+	private void limpiarListas(List<Tag> tags, List<AccionPublicitaria> acciones,
+			VerticalLayout layoutAccionesDeCampaña, Tree arbolTags) {
 		tags.clear();
 		acciones.clear();
 		arbolTags.removeAllItems();
-		arbolAcciones.removeAllItems();
+		layoutAccionesDeCampaña.removeAllComponents();
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
 
 		limpiarCampos(tfNombre, taDescripcion, tfNombreMensaje, taTextoMensaje, duracionCampaña);
-		limpiarListas(tagsParaAsociar, accionesPublicitariasParaAsociar, accionesAgregadasHastaElMomento,
+		limpiarListas(tagsParaAsociar, accionesPublicitariasParaAsociar, layoutAccionesDeCampaña,
 				tagsAgregadosHastaElMomento);
-		
+
 		campaña = null;
 		String usernameMail = String.valueOf(getSession().getAttribute("user"));
 		username = usernameMail;
@@ -249,7 +259,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 			idCampaña = args[0];
 			campaña = campañaService.getCampañaPorId(UUID.fromString(idCampaña));
 			if (campaña != null)
-				cargarDatosEnFormulario();			
+				cargarDatosEnFormulario();
 		} catch (IllegalArgumentException e) {
 		}
 	}
@@ -266,8 +276,11 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 		tagsParaAsociar.addAll(campaña.getTagsAsociados());
 		accionesPublicitariasParaAsociar.addAll(campaña.getAccionesPublicitarias());
 		TagTree.cargarTreeConTagsDeCampaña(tagsAgregadosHastaElMomento, campaña);
-		accionesAgregadasHastaElMomento.addItems(accionesPublicitariasParaAsociar);
-		
+		TagTree.expandirArbol(tagsAgregadosHastaElMomento);
+		accionesPublicitariasParaAsociar.forEach(accion -> {
+			layoutAccionesDeCampaña.addComponent(new itemAccionesDeCampaña(accion, accionesPublicitariasParaAsociar));
+		});
+
 	}
 
 }

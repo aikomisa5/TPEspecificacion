@@ -71,8 +71,7 @@ public class WebAppListener implements ServletContextListener
 	}
 
 	private void añadirDuraciones() {
-		DuracionDAO duracionDAO = new DuracionDAONeodatis();
-			duracionDAO.borrarDuraciones();
+		DuracionDAO duracionDAO = new DuracionDAONeodatis();			
 			duracionDAO.guardar(new Duracion("semana", 7));
 			duracionDAO.guardar(new Duracion("mes", 28));
 			duracionDAO.guardar(new Duracion("bimestre", 56));

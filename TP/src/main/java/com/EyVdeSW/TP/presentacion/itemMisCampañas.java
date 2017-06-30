@@ -58,7 +58,6 @@ public class itemMisCampañas extends HorizontalLayout {
 			campañaService.modificar(campaña.getIdCampania(), campaña);
 			ms.agregarAccionesDeCampaña(campaña);
 			updateDatosCampaña(campaña);
-			// TODO integrar a scheduler.
 			Notification.show("Campaña Planificada", Type.TRAY_NOTIFICATION);
 			establecerVisibilidadBotones();
 		});
@@ -71,8 +70,7 @@ public class itemMisCampañas extends HorizontalLayout {
 			campaña.setEstado(EstadoCampania.CANCELADA);
 			campañaService.modificar(campaña.getIdCampania(), campaña);
 			ms.cancelarCampaña(campaña);
-			updateDatosCampaña(campaña);
-			// TODO integrar a scheduler.
+			updateDatosCampaña(campaña);			
 			Notification.show("Campaña Cancelada", Type.TRAY_NOTIFICATION);
 			establecerVisibilidadBotones();
 		});
@@ -83,7 +81,6 @@ public class itemMisCampañas extends HorizontalLayout {
 		borrar.setStyleName(ValoTheme.BUTTON_DANGER);
 		borrar.addClickListener(e -> {
 			campañaService.borrar(campaña.getIdCampania());
-			// TODO integrar a scheduler.
 			Notification.show("Campaña Borrada", Type.TRAY_NOTIFICATION);
 			this.removeAllComponents();
 		});
