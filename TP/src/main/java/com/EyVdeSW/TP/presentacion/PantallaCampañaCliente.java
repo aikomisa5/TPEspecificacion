@@ -249,6 +249,10 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
+		
+		duraciones = new BeanItemContainer<Duracion>(Duracion.class);
+		duraciones.addAll(duracionService.traerDuraciones());
+		duracionCampaña.setContainerDataSource(duraciones);
 
 		limpiarCampos(tfNombre, taDescripcion, tfNombreMensaje, taTextoMensaje, duracionCampaña);
 		limpiarListas(tagsParaAsociar, accionesPublicitariasParaAsociar, layoutAccionesDeCampaña,
