@@ -27,7 +27,7 @@ import com.vaadin.ui.themes.ValoTheme;
 public class SubMenuAccionesPublicitariasPersonalizadas extends Window {
 
 	public SubMenuAccionesPublicitariasPersonalizadas(VerticalLayout layoutAccionesDeCampaña,
-			List<AccionPublicitaria> accionesParaAsociar) {
+			List<AccionPublicitaria> accionesParaAsociar, itemAccionesDeCampaña itemAccion) {
 		super("Asociar acciones publicitarias personalizadas"); // Set window
 																// caption
 		center();
@@ -37,7 +37,7 @@ public class SubMenuAccionesPublicitariasPersonalizadas extends Window {
 		// Add it to the root component
 		MyUI.getCurrent().addWindow(this);
 
-		Button agregarAccion = new Button("Agregar acción");		
+		Button agregarAccion = new Button("Guardar acción");
 		agregarAccion.setIcon(FontAwesome.CHECK);
 		agregarAccion.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		agregarAccion.setClickShortcut(KeyCode.ENTER);
@@ -47,27 +47,27 @@ public class SubMenuAccionesPublicitariasPersonalizadas extends Window {
 		tfDestinatario.setRequired(true);
 		tfDestinatario.addValidator(new EmailValidator("El mail debe ser válido"));
 		tfDestinatario.setInvalidAllowed(false);
-		
+
 		TextField tfTitulo = new TextField("Encabezado");
 		tfTitulo.setRequired(true);
 
 		TextArea taTexto = new TextArea("Mensaje");
 		taTexto.setRequired(true);
-		
-		VerticalLayout formulario = new VerticalLayout(tfDestinatario,tfTitulo,taTexto);
+
+		VerticalLayout formulario = new VerticalLayout(tfDestinatario, tfTitulo, taTexto);
 		formulario.setSpacing(true);
 
 		Slider sliderPeriodicidad = crearSlider(1, 7, "Periodicidad", "dias");
 		Slider sliderHora = crearSlider(0, 23, "Hora de inicio", "horas");
 		Slider sliderMinuto = crearSlider(0, 59, "Minuto de inicio", "minutos");
-		VerticalLayout sliders = new VerticalLayout(sliderPeriodicidad,sliderHora,sliderMinuto);
-		
+		VerticalLayout sliders = new VerticalLayout(sliderPeriodicidad, sliderHora, sliderMinuto);
+
 		HorizontalLayout subContent = new HorizontalLayout();
-		subContent.setDefaultComponentAlignment(Alignment.TOP_CENTER);		
+		subContent.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 		VerticalLayout main = new VerticalLayout(subContent);
 		VerticalLayout root = new VerticalLayout(main);
-		main.setWidth(subContent.getWidth(),subContent.getWidthUnits());
-		root.setWidth((subContent.getWidth()*1.1f),subContent.getWidthUnits());
+		main.setWidth(subContent.getWidth(), subContent.getWidthUnits());
+		root.setWidth((subContent.getWidth() * 1.1f), subContent.getWidthUnits());
 		root.setComponentAlignment(main, Alignment.TOP_CENTER);
 		this.setContent(root);
 
@@ -80,7 +80,17 @@ public class SubMenuAccionesPublicitariasPersonalizadas extends Window {
 		subContent.setSpacing(true);
 		subContent.setExpandRatio(formulario, 1.0f);
 		this.setHeight("450px");
-		this.setWidth("700px");		
+		this.setWidth("700px");
+		
+		if(itemAccion!= null){
+			AccionPublicitaria accion = itemAccion.getAccion();
+			tfDestinatario.setValue(accion.getDestinatario());
+			tfTitulo.setValue(accion.getTitulo());
+			taTexto.setValue(accion.getTexto());
+			sliderPeriodicidad.setValue((double)accion.getPeriodicidad());
+			sliderMinuto.setValue(Double.parseDouble(accion.getMinutoInicio()));
+			sliderHora.setValue(Double.parseDouble(accion.getHoraInicio()));			
+		}
 
 		agregarAccion.addClickListener(event -> {
 
@@ -94,7 +104,7 @@ public class SubMenuAccionesPublicitariasPersonalizadas extends Window {
 
 			else if (taTexto.getValue().toString() == "") {
 				Notification.show("El texto está vacío!", Type.WARNING_MESSAGE);
-			}		
+			}
 
 			else {
 
@@ -105,11 +115,20 @@ public class SubMenuAccionesPublicitariasPersonalizadas extends Window {
 				String horaInicio = Integer.toString(sliderHora.getValue().intValue());
 				String minutoInicio = Integer.toString(sliderMinuto.getValue().intValue());
 
-				AccionPublicitaria accion = new AccionPublicitaria(destinatario, tituloAccion, texto,
-						TipoAccion.particular, periodicidad, horaInicio, minutoInicio);
-
-				accionesParaAsociar.add(accion);
-				layoutAccionesDeCampaña.addComponent(new itemAccionesDeCampaña(accion, accionesParaAsociar));
+				if (itemAccion != null) {
+						AccionPublicitaria accion = itemAccion.getAccion();
+						accion.setDestinatario(destinatario);
+						accion.setTitulo(tituloAccion);
+						accion.setPeriodicidad(periodicidad);
+						accion.setHoraInicio(horaInicio);
+						accion.setMinutoInicio(minutoInicio);
+						itemAccion.updateItem(accion);						
+				} else {
+					AccionPublicitaria accion = new AccionPublicitaria(destinatario, tituloAccion, texto,
+							TipoAccion.particular, periodicidad, horaInicio, minutoInicio);
+					accionesParaAsociar.add(accion);
+					layoutAccionesDeCampaña.addComponent(new itemAccionesDeCampaña(accion, accionesParaAsociar, layoutAccionesDeCampaña));
+				}
 				Notification.show("Accion guardada", Type.TRAY_NOTIFICATION);
 
 				this.close();
@@ -119,7 +138,7 @@ public class SubMenuAccionesPublicitariasPersonalizadas extends Window {
 	}
 
 	private Slider crearSlider(int limiteInferior, int limiteSuperior, String descripcion, String unidad) {
-		Slider slider= new Slider(limiteInferior, limiteSuperior);
+		Slider slider = new Slider(limiteInferior, limiteSuperior);
 		slider.setOrientation(SliderOrientation.HORIZONTAL);
 		slider.setCaption(descripcion + " " + slider.getValue().intValue() + " " + unidad);
 		slider.addValueChangeListener(e -> {

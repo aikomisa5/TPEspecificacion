@@ -222,7 +222,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 
 	private void abrirAsociarAcciones() {
 		SubMenuAccionesPublicitariasPersonalizadas sub = new SubMenuAccionesPublicitariasPersonalizadas(
-				layoutAccionesDeCampaña, accionesPublicitariasParaAsociar);
+				layoutAccionesDeCampaña, accionesPublicitariasParaAsociar, null);
 	}
 
 	private void abrirAsociarTags(Tree tagsAgregadosHastaElMomento) {
@@ -281,7 +281,7 @@ public class PantallaCampañaCliente extends VerticalLayout implements View {
 		TagTree.cargarTreeConTagsDeCampaña(tagsAgregadosHastaElMomento, campaña);
 		TagTree.expandirArbol(tagsAgregadosHastaElMomento);
 		accionesPublicitariasParaAsociar.forEach(accion -> {
-			layoutAccionesDeCampaña.addComponent(new itemAccionesDeCampaña(accion, accionesPublicitariasParaAsociar));
+			layoutAccionesDeCampaña.addComponent(new itemAccionesDeCampaña(accion, accionesPublicitariasParaAsociar, layoutAccionesDeCampaña));
 		});
 
 	}
