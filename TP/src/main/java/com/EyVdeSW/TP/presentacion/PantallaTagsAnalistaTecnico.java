@@ -28,6 +28,7 @@ public class PantallaTagsAnalistaTecnico extends VerticalLayout implements View 
 	protected static final String NAME = "pantallaTagsAnalistaTecnico";
 
 	private TagService tagService = TagService.getTagService();
+	private String seleccionado=null;
 
 	Button logout = new Button("Logout");
 
@@ -45,12 +46,10 @@ public class PantallaTagsAnalistaTecnico extends VerticalLayout implements View 
 	
 
 		TextField tfNombre = new TextField("Nombre");
-		TextField tfNombreNuevo = new TextField("Nombre nuevo");
 
 		BeanItemContainer<Tag> tags = new BeanItemContainer<Tag>(Tag.class);
 		tagService.traerTodos().forEach(tag -> tags.addBean(tag));
 		ComboBox comboBoxTag = new ComboBox("Tag Padre", tags);
-		ComboBox comboBoxTagNuevo = new ComboBox("Nuevo Padre", tags);
 
 		Button btnAgregar = new Button("Agregar");
 
@@ -63,7 +62,7 @@ public class PantallaTagsAnalistaTecnico extends VerticalLayout implements View 
 				String tagPadre = comboBoxTag.getValue() == null ? null : comboBoxTag.getValue().toString();
 				tagService.guardar(tfNombre.getValue(), tagPadre);
 				Notification.show("Tag Guardado", Type.TRAY_NOTIFICATION);
-				limpiarCampos(tfNombre, tags, comboBoxTag, tfNombreNuevo, comboBoxTagNuevo);
+				limpiarCampos(tfNombre, tags, comboBoxTag);
 				updateTree(arbol);
 			}
 			tfNombre.focus();
@@ -72,19 +71,22 @@ public class PantallaTagsAnalistaTecnico extends VerticalLayout implements View 
 		Button btnEditar = new Button("Editar");
 
 		btnEditar.addClickListener(e -> {
-			if (tfNombre.getValue() == "" || tfNombreNuevo.getValue()==null ) {
+			if (tfNombre.getValue() == "") {
 				Notification.show("Los campos estan vacios!", Type.WARNING_MESSAGE);
-			} else {
+			}else if(seleccionado==null){ 
+				Notification.show("No se seleccionó ningún tag", Type.WARNING_MESSAGE);
+			}else {
 				String nuevoPadre="";
-				if(comboBoxTagNuevo.getValue()!=null)
-					nuevoPadre=comboBoxTagNuevo.getValue().toString();
-				boolean resultado = tagService.modificar(tfNombre.getValue(), tfNombreNuevo.getValue(), nuevoPadre);
+				if(comboBoxTag.getValue()!=null){
+					nuevoPadre=comboBoxTag.getValue().toString();
+				}
+				boolean resultado = tagService.modificar(seleccionado, tfNombre.getValue(), nuevoPadre);
 				if (resultado) {
 					Notification.show("Tag editado", Type.TRAY_NOTIFICATION);
-					limpiarCampos(tfNombre, tags, comboBoxTag, tfNombreNuevo, comboBoxTagNuevo);
+					limpiarCampos(tfNombre, tags, comboBoxTag);
 					updateTree(arbol);
 				} else {
-					Notification.show("El nuevo nombre del tag ya existe", Type.WARNING_MESSAGE);
+					Notification.show("Se ingresó incorrectamente algún campo", Type.WARNING_MESSAGE);
 				}
 			}
 			tfNombre.focus();
@@ -97,7 +99,7 @@ public class PantallaTagsAnalistaTecnico extends VerticalLayout implements View 
 			if (tfNombre.getValue() != null) {
 				tagService.borrar(tfNombre.getValue());
 				Notification.show("Tag Borrado", Type.TRAY_NOTIFICATION);
-				limpiarCampos(tfNombre, tags, comboBoxTag, tfNombreNuevo, comboBoxTagNuevo);
+				limpiarCampos(tfNombre, tags, comboBoxTag);
 				updateTree(arbol);
 			}
 			tfNombre.focus();
@@ -106,19 +108,16 @@ public class PantallaTagsAnalistaTecnico extends VerticalLayout implements View 
 		arbol.addItemClickListener(click -> {
 			Tag t = tagService.getTagPorNombre(click.getItemId().toString());
 			tfNombre.setValue(t.getNombre());
-			tfNombreNuevo.setValue(t.getNombre());
 			comboBoxTag.setValue(t.getPadre());
-			comboBoxTagNuevo.setValue(t.getPadre());
+			seleccionado=t.getNombre();
 		});
 
 		HorizontalLayout hlBotones = new HorizontalLayout(btnAgregar, btnEditar, btnBorrar);
 		hlBotones.setSpacing(true);
 
 		FormLayout flFormTags = new FormLayout(tfNombre, comboBoxTag);
-		FormLayout  flFormTagsEdicion = new FormLayout(tfNombreNuevo, comboBoxTagNuevo);
 		flFormTags.setSpacing(true);
-		flFormTagsEdicion.setSpacing(true);
-		HorizontalLayout forms= new HorizontalLayout(flFormTags, flFormTagsEdicion);
+		HorizontalLayout forms= new HorizontalLayout(flFormTags);
 		forms.setSpacing(true);
 		VerticalLayout vlFormTags = new VerticalLayout(forms, hlBotones);
 		vlFormTags.setSpacing(true);
@@ -144,16 +143,13 @@ public class PantallaTagsAnalistaTecnico extends VerticalLayout implements View 
 		expandirArbol(arbol);
 	}
 
-	private void limpiarCampos(TextField tfNombre, BeanItemContainer<Tag> tags, ComboBox comboBoxTag, TextField tf2, 
-			ComboBox cb2) {
+	private void limpiarCampos(TextField tfNombre, BeanItemContainer<Tag> tags, ComboBox comboBoxTag) {
 		tfNombre.clear();
-		tf2.clear();
 		comboBoxTag.removeAllItems();
-		cb2.removeAllItems();
 		System.out.println("Cantidad de elementos: " + tagService.traerTodos().size());
 		tagService.traerTodos().forEach(tag -> tags.addBean(tag));
 		comboBoxTag.setContainerDataSource(tags);
-		cb2.setContainerDataSource(tags);
+		seleccionado=null;
 	}
 
 	@Override
