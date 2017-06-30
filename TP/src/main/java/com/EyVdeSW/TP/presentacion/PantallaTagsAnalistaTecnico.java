@@ -30,8 +30,6 @@ public class PantallaTagsAnalistaTecnico extends VerticalLayout implements View 
 	private TagService tagService = TagService.getTagService();
 	private String seleccionado=null;
 
-	Button logout = new Button("Logout");
-
 	public PantallaTagsAnalistaTecnico() {
 		Label titulo = new Label("Gestión de Tags");
 		titulo.setStyleName(ValoTheme.LABEL_H1);
@@ -130,10 +128,6 @@ public class PantallaTagsAnalistaTecnico extends VerticalLayout implements View 
 		setComponentAlignment(hlPrincipal, Alignment.TOP_CENTER);
 		setMargin(true);
 
-		// Para volver al main principal
-		addComponent(logout);
-		logout.addClickListener(event -> // Java 8
-		getUI().getNavigator().navigateTo(""));
 
 	}
 
@@ -154,7 +148,7 @@ public class PantallaTagsAnalistaTecnico extends VerticalLayout implements View 
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
