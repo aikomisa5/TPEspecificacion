@@ -123,12 +123,11 @@ public class PantallaDuracionAnalistaTecnico extends VerticalLayout implements V
 		addComponent(hlPrincipal);
 		setComponentAlignment(hlPrincipal, Alignment.TOP_CENTER);
 		setMargin(true);
-		// TODO binding a grid.
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
+		
 
 	}
 	
